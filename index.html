@@ -89,16 +89,19 @@
       height: 100%;
       border-radius: 50%;
       border: 10px solid #5e35b1;
+
+      /* YENİ – HER DİLİM CANLI VE FARKLI RENK */
       background: conic-gradient(
-        #ffe6ff 0deg   45deg,
-        #e0f7fa 45deg  90deg,
-        #fff3e0 90deg  135deg,
-        #fce4ec 135deg 180deg,
-        #e3f2fd 180deg 225deg,
-        #e8f5e9 225deg 270deg,
-        #ffebee 270deg 315deg,
-        #ede7f6 315deg 360deg
+        #FF6B6B 0deg   45deg,    /* Kırmızı - Dilim 1 */
+        #4ECDC4 45deg  90deg,    /* Turkuaz - Dilim 2 */
+        #FFD93D 90deg  135deg,   /* Sarı - Dilim 3 */
+        #6C5CE7 135deg 180deg,   /* Mor - Dilim 4 */
+        #1DD1A1 180deg 225deg,   /* Yeşil - Dilim 5 */
+        #FF9F43 225deg 270deg,   /* Turuncu - Dilim 6 */
+        #54A0FF 270deg 315deg,   /* Mavi - Dilim 7 */
+        #F368E0 315deg 360deg    /* Pembe - Dilim 8 */
       );
+
       box-shadow:
         0 0 0 10px rgba(94, 53, 177, 0.5),
         0 20px 40px rgba(0, 0, 0, 0.4);
@@ -114,10 +117,10 @@
       transform-origin: center center;
       text-align: center;
       font-weight: 700;
-      color: #4a148c;
+      color: #ffffff;
       line-height: 1.15;
       pointer-events: none;
-      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
     }
 
     .pointer {
@@ -281,9 +284,6 @@
     // =======================
     //  DİLİMLER (TEK TEK AYAR)
     // =======================
-    // Buradaki metinleri, mesafeyi (radius), yazı boyutunu (fontSize),
-    // dilim içi maksimum genişliği (maxWidth) ve ince açı ayarını (angleOffset)
-    // istediğin gibi değiştirebilirsin.
     const slices = [
       {
         id: 1,
