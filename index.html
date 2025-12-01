@@ -6,11 +6,10 @@
   <title>Femud Çekiliş Çarkı</title>
 
   <style>
-    /* GENEL TASARIM */
     body {
       margin: 0;
-      font-family: "Poppins", sans-serif;
-      background: radial-gradient(circle at top, #e1d7ff, #a489ff, #3a1b88);
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: radial-gradient(circle at top, #e0d4ff, #a57bff, #3b1488);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -18,20 +17,21 @@
     }
 
     .container {
-      background: #fff;
       width: 92%;
       max-width: 420px;
-      padding: 18px;
-      border-radius: 20px;
-      text-align: center;
+      background: #fff;
+      border-radius: 22px;
+      padding: 18px 18px 20px;
       box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+      text-align: center;
     }
 
     h1 {
       font-size: 24px;
+      margin: 4px 0 2px;
+      color: #34118a;
       font-weight: 700;
-      color: #3a1b88;
-      margin: 5px 0 3px;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.2);
     }
 
     .subtitle {
@@ -42,40 +42,40 @@
 
     input {
       width: 100%;
-      padding: 10px;
+      padding: 10px 12px;
       margin-top: 8px;
-      border-radius: 50px;
-      border: 1px solid #cfc3ff;
+      border-radius: 999px;
+      border: 1px solid #c8b8ff;
       font-size: 13px;
       outline: none;
     }
 
     input:focus {
       border-color: #7b4dff;
-      box-shadow: 0 0 6px rgba(123, 77, 255, 0.4);
+      box-shadow: 0 0 0 2px rgba(123,77,255,0.25);
     }
 
     .follow-hint {
       margin-top: 6px;
-      color: #5327d0;
       font-size: 12px;
+      color: #5622d0;
       font-weight: 600;
     }
 
-    /* ÇARK ve PASTA DİLİMLERİ */
     .wheel-wrapper {
-      margin: 15px auto;
+      position: relative;
       width: 300px;
       height: 300px;
-      position: relative;
+      margin: 14px auto 10px;
     }
 
     .pointer {
       position: absolute;
-      top: -8px;
+      top: -6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 0; height: 0;
+      width: 0;
+      height: 0;
       border-left: 18px solid transparent;
       border-right: 18px solid transparent;
       border-bottom: 28px solid #ff1744;
@@ -86,74 +86,73 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      border: 8px solid #3a1b88;
+      border: 8px solid #34118a;
+      background: conic-gradient(
+        #ffccde 0deg 45deg,
+        #ffe6a3 45deg 90deg,
+        #aee4ff 90deg 135deg,
+        #b4ffb4 135deg 180deg,
+        #ffb3ff 180deg 225deg,
+        #ffd0a3 225deg 270deg,
+        #a3f1ff 270deg 315deg,
+        #d3b3ff 315deg 360deg
+      );
       position: relative;
       overflow: hidden;
-      /* 8 parçalı baklava dilimi renkleri */
-      background: conic-gradient(
-        #ffe5f2 0deg 45deg,
-        #fff5c9 45deg 90deg,
-        #e2f2ff 90deg 135deg,
-        #e7ffe5 135deg 180deg,
-        #ffe5ff 180deg 225deg,
-        #fff1e0 225deg 270deg,
-        #e4f9ff 270deg 315deg,
-        #f2e4ff 315deg 360deg
-      );
+      box-shadow: 0 18px 35px rgba(0,0,0,0.6);
+      transition: transform 4s cubic-bezier(0.2, 0.8, 0.1, 1);
     }
 
-    /* DİLİM YAZILARI – AYARLANABİLİR */
     .slice-text {
       position: absolute;
       left: 50%;
       top: 50%;
-      width: 90px;              /* yazı kutusunun genişliği */
+      width: 90px;           /* yazı kutusu */
       transform-origin: center center;
       text-align: center;
-      font-size: 13px;          /* istersen büyüt/küçült */
+      font-size: 13px;
       font-weight: 700;
-      color: #2b134b;
-      line-height: 1.1;
+      color: #2a103f;
+      line-height: 1.15;
+      white-space: normal;
       pointer-events: none;
       text-shadow: 0 1px 2px rgba(255,255,255,0.9);
     }
 
-    /* ORTA LOGO */
     .logo-center {
       position: absolute;
-      width: 110px;
-      height: 110px;
+      width: 95px;
+      height: 95px;
       border-radius: 50%;
       background: #fff;
+      border: 5px solid #34118a;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      border: 6px solid #3a1b88;
       z-index: 20;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.35);
     }
 
     .logo-center img {
-      width: 92%;
+      width: 88%;
       height: auto;
       object-fit: contain;
     }
 
-    /* BUTON */
     #spinBtn {
       width: 100%;
-      padding: 14px;
+      margin-top: 10px;
+      padding: 13px;
+      border-radius: 999px;
       border: none;
-      background: linear-gradient(to right, #7b4dff, #a66bff);
-      border-radius: 50px;
+      background: linear-gradient(90deg, #7b4dff, #a36aff);
       color: #fff;
       font-size: 16px;
       font-weight: 700;
       cursor: pointer;
-      margin-top: 10px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.25);
     }
 
@@ -162,31 +161,36 @@
       cursor: not-allowed;
     }
 
-    .result {
+    #result {
       margin-top: 10px;
       font-size: 14px;
       font-weight: 600;
-      color: #000;
+      color: #111;
     }
 
     .winners-box {
-      background: #f4e8ff;
-      padding: 10px;
-      margin-top: 10px;
+      background: #f5e7ff;
       border-radius: 12px;
+      padding: 9px 10px;
       text-align: left;
       font-size: 12px;
+      margin-top: 10px;
     }
 
     .winners-title {
       font-weight: 700;
-      font-size: 14px;
-      margin-bottom: 6px;
+      font-size: 13px;
+      margin-bottom: 4px;
+      color: #34118a;
     }
 
-    .winners-box ul {
-      padding-left: 18px;
+    #winnersList {
       margin: 0;
+      padding-left: 16px;
+    }
+
+    #winnersList li {
+      margin-bottom: 2px;
     }
   </style>
 </head>
@@ -196,8 +200,8 @@
   <h1>Femud Çekiliş Çarkı</h1>
   <p class="subtitle">İsmini yaz, çarkı çevir, kazananı belirle.</p>
 
-  <input id="nameInput" placeholder="Katılımcı adı (zorunlu)">
-  <input id="instaInput" placeholder="Instagram adresi (@kullanici) (zorunlu)">
+  <input id="nameInput" placeholder="Katılımcı adı (zorunlu)" />
+  <input id="instaInput" placeholder="Instagram adresi (@kullanici) (zorunlu)" />
 
   <p class="follow-hint">Femud_tr Instagram hesabını takip etmeyi unutmayınız.</p>
 
@@ -206,13 +210,13 @@
     <div id="wheel" class="wheel"></div>
 
     <div class="logo-center">
-      <img src="femud_logo.png" alt="Femud">
+      <img src="femud_logo.png" alt="Femud" />
     </div>
   </div>
 
   <button id="spinBtn">ÇARKI ÇEVİR</button>
 
-  <div id="result" class="result"></div>
+  <div id="result"></div>
 
   <div class="winners-box">
     <div class="winners-title">Kazananlar</div>
@@ -221,96 +225,91 @@
 </div>
 
 <script>
-/* ==========================================================
-   DİLİMLER – METİN ve KONUM AYARLARI
-   Buradaki değerleri sen istediğin zaman değiştirebilirsin.
-   \n koyarsan metin alt satıra geçer.
-   radius = merkeze uzaklık (büyürse kenara yaklaşır)
-   shift  = + / - derece ile hafif açı kaydırma
-========================================================== */
-const slices = [
-  { id: 1, text: "Tekrar\nÇevir",                  radius: 105, shift: 0  },
-  { id: 2, text: "50 TL Femud\nürün çeki",        radius: 110, shift: 4  },
-  { id: 3, text: "Krem\n%15 indirim",             radius: 105, shift: -4 },
-  { id: 4, text: "6 ürün alana\n100 TL indirim",  radius: 110, shift: 6  },
-  { id: 5, text: "Köpük Sabun\nHediye",           radius: 103, shift: -6 },
-  { id: 6, text: "Tüm ürünlerde\n%20 indirim",    radius: 110, shift: 0  },
-  { id: 7, text: "Sürpriz\nHediye",               radius: 103, shift: 4  },
-  { id: 8, text: "Şampuan\nHediye",               radius: 103, shift: -4 }
-];
+  /* === DİLİMLER: Yazıları buradan istediğin gibi değiştirebilirsin ===
+     \n = alt satıra geçmek için
+  */
+  const slices = [
+    { id: 1, text: "Tekrar\nÇevir" },
+    { id: 2, text: "50 TL Femud\nürün çeki" },
+    { id: 3, text: "Krem\n%15 indirim" },
+    { id: 4, text: "6 ürün alana\n100 TL indirim" },
+    { id: 5, text: "Köpük Sabun\nHediye" },
+    { id: 6, text: "Tüm ürünlerde\n%20 indirim" },
+    { id: 7, text: "Sürpriz\nHediye" },
+    { id: 8, text: "Şampuan\nHediye" }
+  ];
 
-const wheel       = document.getElementById("wheel");
-const spinBtn     = document.getElementById("spinBtn");
-const resultEl    = document.getElementById("result");
-const winnersList = document.getElementById("winnersList");
+  const wheel        = document.getElementById("wheel");
+  const spinBtn      = document.getElementById("spinBtn");
+  const resultEl     = document.getElementById("result");
+  const winnersList  = document.getElementById("winnersList");
+  const sliceCount   = slices.length;
+  const sliceAngle   = 360 / sliceCount;
 
-const totalSlices = slices.length;
-const sliceAngle  = 360 / totalSlices;
+  // DİLİM YAZILARINI YERLEŞTİR
+  slices.forEach((slice, index) => {
+    const el = document.createElement("div");
+    el.className = "slice-text";
+    el.innerHTML = slice.text.replace(/\n/g, "<br>");
 
-/* DİLİM YAZILARINI OLUŞTURALIM */
-slices.forEach((slice, index) => {
-  const el = document.createElement("div");
-  el.className = "slice-text";
-  el.innerHTML = slice.text.replace(/\n/g, "<br>");
+    // Dilimin orta açısı (0 derece yukarı bakıyor)
+    const angle = index * sliceAngle + sliceAngle / 2;
 
-  // dilimin orta açısı (0° yukarı bakıyor)
-  let midAngle = index * sliceAngle;
-  midAngle += slice.shift || 0;
+    // Önce çarkla birlikte döndür, sonra yarıçap kadar dışarı al,
+    // en son tekrar ters açı vererek yazıyı düz hale getir.
+    const radius = 92; // yazı merkezden uzaklığı
+    el.style.transform =
+      `rotate(${angle}deg) translate(0, -${radius}px) rotate(${-angle}deg)`;
 
-  // önce açıyı ver, sonra merkezin dışına it, sonra yazıyı tekrar düz hale çevir
-  el.style.transform =
-    `rotate(${midAngle}deg) translate(0, -${slice.radius}px) rotate(${-midAngle}deg)`;
+    wheel.appendChild(el);
+  });
 
-  wheel.appendChild(el);
-});
+  let currentRotation = 0;
+  let spinning = false;
 
-/* ÇARKI ÇEVİRME */
-let spinning = false;
-let currentRotation = 0;
+  spinBtn.addEventListener("click", () => {
+    if (spinning) return;
 
-spinBtn.addEventListener("click", () => {
-  if (spinning) return;
+    const name  = document.getElementById("nameInput").value.trim();
+    const insta = document.getElementById("instaInput").value.trim();
 
-  const name  = document.getElementById("nameInput").value.trim();
-  const insta = document.getElementById("instaInput").value.trim();
+    if (!name || !insta || !insta.startsWith("@")) {
+      alert("Lütfen katılımcı adını ve Instagram adresini (@kullanici) şeklinde giriniz.");
+      return;
+    }
 
-  if (!name || !insta || !insta.startsWith("@")) {
-    alert("Lütfen isim ve Instagram adresini doğru şekilde (@kullanici) giriniz.");
-    return;
-  }
+    spinning = true;
+    spinBtn.disabled = true;
+    resultEl.textContent = "";
 
-  spinning = true;
-  spinBtn.disabled = true;
-  resultEl.textContent = "";
+    const extra = 1440 + Math.floor(Math.random() * 360); // en az 4 tur
+    currentRotation += extra;
 
-  const extraRotation = 1440 + Math.floor(Math.random() * 360); // en az 4 tur
-  currentRotation += extraRotation;
+    wheel.style.transition = "transform 4s ease-out";
+    wheel.style.transform  = `rotate(${currentRotation}deg)`;
 
-  wheel.style.transition = "transform 4s ease-out";
-  wheel.style.transform = `rotate(${currentRotation}deg)`;
+    setTimeout(() => {
+      const normalized = (currentRotation % 360 + 360) % 360;
+      // 0 derece yukarı, saat yönü pozitif
+      let indexFromTop = Math.floor((360 - normalized + sliceAngle / 2) / sliceAngle);
+      indexFromTop = (indexFromTop % sliceCount + sliceCount) % sliceCount;
 
-  setTimeout(() => {
-    const normalized = (currentRotation % 360 + 360) % 360;
-    // 0° yukarı, saat yönü pozitif → hangi dilim üstte?
-    let indexFromTop = Math.floor((360 - normalized + sliceAngle / 2) / sliceAngle);
-    indexFromTop = (indexFromTop % totalSlices + totalSlices) % totalSlices;
+      const prize = slices[indexFromTop].text.replace(/\n/g, " ");
 
-    const prize = slices[indexFromTop].text.replace(/\n/g, " ");
+      resultEl.innerHTML =
+        `<b>${name}</b> (${insta}) kazandı: <b>${prize}</b><br>
+         <span style="color:#7b4dff;">
+         Lütfen ekran görüntüsü alarak @femud_tr Instagram hesabına mesaj gönderip ödülünüzü talep ediniz.
+         </span>`;
 
-    resultEl.innerHTML =
-      `<b>${name}</b> (${insta}) kazandı: <b>${prize}</b><br>
-       <span style="color:#7b4dff;">
-       Lütfen ekran görüntüsü alıp @femud_tr Instagram hesabına mesaj göndererek ödülünüzü talep ediniz.
-       </span>`;
+      const li = document.createElement("li");
+      li.textContent = `${name} (${insta}) → ${prize}`;
+      winnersList.prepend(li); // son kazanan en üstte
 
-    const li = document.createElement("li");
-    li.textContent = `${name} (${insta}) → ${prize}`;
-    winnersList.prepend(li); // en son kazanan en üstte
-
-    spinning = false;
-    spinBtn.disabled = false;
-  }, 4200);
-});
+      spinning = false;
+      spinBtn.disabled = false;
+    }, 4200);
+  });
 </script>
 
 </body>
