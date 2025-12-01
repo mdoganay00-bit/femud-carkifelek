@@ -1,36 +1,42 @@
 const wheel = document.getElementById("wheel");
-const result = document.getElementById("result");
 const spinBtn = document.getElementById("spinBtn");
+const resultDiv = document.getElementById("result");
 
-let spinning = false;
+const prizes = [
+  "10₺ indirim kazandın!",
+  "Femud sürpriz hediyesi!",
+  "Siparişinde ücretsiz kargo!",
+  "5₺ indirim çekin hazır!",
+  "Bu seferlik sadece teşekkürler 😊",
+  "%10 indirim fırsatı!",
+  "Femud mini hediye!",
+  "Tekrar çevirme hakkı!"
+];
+
+let currentRotation = 0;
+const segmentCount = prizes.length;
+const segmentAngle = 360 / segmentCount;
 
 spinBtn.addEventListener("click", () => {
-  if (spinning) return;
+  // Butonu kilitle
+  spinBtn.disabled = true;
+  resultDiv.textContent = "Çark dönüyor...";
 
-  spinning = true;
+  // Rastgele bir dilim seç
+  const randomIndex = Math.floor(Math.random() * segmentCount);
 
-  const degree = Math.floor(Math.random() * 3600) + 360;
+  // 5 tur + seçilen dilime denk gelecek açı
+  const extraTurns = 360 * 5;
+  const targetAngle =
+    extraTurns +
+    (360 - (randomIndex * segmentAngle + segmentAngle / 2)); // ok üstte kalsın
 
-  wheel.style.transition = "transform 5s ease-out";
-  wheel.style.transform = `rotate(${degree}deg)`;
+  currentRotation = targetAngle;
+  wheel.style.transform = `rotate(${currentRotation}deg)`;
 
+  // Animasyon bitince sonucu göster (4 sn)
   setTimeout(() => {
-    spinning = false;
-
-    const finalDegree = degree % 360;
-    const segment = Math.floor(finalDegree / 45);
-
-    const rewards = [
-      "Tebrikler! %20 İndirim!",
-      "Femud Şampuan Hediye!",
-      "Kargo Bedava!",
-      "Femud Krem Hediye!",
-      "Bir Dahaki Sefere Şans!",
-      "Femud Oda Parfümü!",
-      "Sürpriz Hediye!",
-      "Femud %30 İndirim!"
-    ];
-
-    result.innerText = rewards[segment];
-  }, 5200);
+    resultDiv.textContent = prizes[randomIndex];
+    spinBtn.disabled = false;
+  }, 4100);
 });
