@@ -51,11 +51,17 @@
       margin-bottom: 4px;
     }
 
-    /* İsim girişi */
+    /* Form alanı */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
     .entry-row {
       display: flex;
       gap: 6px;
-      margin-bottom: 4px;
       align-items: center;
       justify-content: center;
     }
@@ -72,6 +78,31 @@
     .entry-row input:focus {
       border-color: #7e57c2;
       box-shadow: 0 0 0 2px rgba(126,87,194,0.2);
+    }
+
+    .note-text {
+      font-size: 11px;
+      color: #7b1fa2;
+      text-align: left;
+      padding: 0 4px;
+    }
+
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-start;
+      padding: 0 4px;
+    }
+
+    .checkbox-row input[type="checkbox"] {
+      width: 14px;
+      height: 14px;
+    }
+
+    .checkbox-row label {
+      font-size: 11px;
+      color: #555;
     }
 
     .wheel-wrapper {
@@ -235,12 +266,55 @@
     button:active { transform: scale(0.96); }
     button:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    #result {
+    #spinBtn {
       margin-top: 4px;
-      font-size: 16px;
+    }
+
+    #result {
+      margin-top: 6px;
+      min-height: 22px;
+    }
+
+    /* Sonuç kartı */
+    .result-card {
+      background: #f3e5f5;
+      border-radius: 12px;
+      padding: 10px 12px;
+      text-align: left;
+      font-size: 13px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      border: 1px solid #ce93d8;
+    }
+
+    .result-title {
+      font-weight: 700;
+      font-size: 14px;
+      color: #4a148c;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .result-line {
+      margin-bottom: 3px;
+    }
+
+    .result-line span {
       font-weight: 600;
       color: #311b92;
-      min-height: 22px;
+    }
+
+    .result-note {
+      margin-top: 6px;
+      font-size: 12px;
+      color: #4a148c;
+    }
+
+    .result-extra {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #6a1b9a;
     }
 
     /* Kazananlar paneli */
@@ -289,6 +363,21 @@
       100% { transform: translate3d(var(--dx), 110vh, 0) rotateZ(720deg); }
     }
 
+    /* Femud Instagram butonu */
+    .insta-button {
+      margin-top: 4px;
+      font-size: 11px;
+      background: transparent;
+      color: #7b1fa2;
+      box-shadow: none;
+      padding: 4px 8px;
+      text-decoration: underline;
+    }
+
+    .insta-button:active {
+      transform: none;
+    }
+
     /* Mobil tam ekran hissi */
     @media (max-width: 600px) {
       body {
@@ -315,10 +404,23 @@
 <body>
   <div class="container">
     <h1>Femud Çekiliş Çarkı</h1>
-    <div class="subtitle">İsmini yaz, çarkı çevir, kazananı belirle.</div>
+    <div class="subtitle">İsmini ve Instagram adresini yaz, çarkı çevir, kazananı belirle.</div>
 
-    <div class="entry-row">
-      <input id="nameInput" type="text" placeholder="Katılımcı adı (zorunlu)" />
+    <!-- FORM ALANI -->
+    <div class="form-group">
+      <div class="entry-row">
+        <input id="nameInput" type="text" placeholder="Ad Soyad (zorunlu)" />
+      </div>
+      <div class="entry-row">
+        <input id="instaInput" type="text" placeholder="Instagram kullanıcı adı (ör: @femud_tr)" />
+      </div>
+      <div class="checkbox-row">
+        <input id="followCheck" type="checkbox" />
+        <label for="followCheck">Femud'u Instagram’da takip ediyorum / edeceğim.</label>
+      </div>
+      <div class="note-text">
+        Çekilişe katılmadan önce bilgilerinizi eksiksiz giriniz. Kazanmanız durumunda bu bilgiler ekran görüntüsünde görünecektir.
+      </div>
     </div>
 
     <div class="wheel-wrapper">
@@ -333,16 +435,20 @@
     </div>
 
     <button id="spinBtn">ÇARKI ÇEVİR</button>
+    <button type="button" class="insta-button" id="openInstaBtn">
+      @femud_tr hesabını aç
+    </button>
+
     <div id="result"></div>
 
     <div class="winners-box">
-      <div class="winners-title">Kazananlar</div>
+      <div class="winners-title">Son Kazananlar</div>
       <ul id="winnersList"></ul>
     </div>
   </div>
 
   <script>
-    // Dilimler – senin Femud ödüllerin
+    // Dilimler – Femud ödülleri
     const slices = [
       { id: 1, text: "Şampuan",        radius: 100, shift: -20 },
       { id: 2, text: "Krem",           radius: 88,  shift: 0 },
@@ -356,14 +462,27 @@
 
     const wheel       = document.getElementById("wheel");
     const spinBtn     = document.getElementById("spinBtn");
-    const result      = document.getElementById("result");
+    const resultDiv   = document.getElementById("result");
     const nameInput   = document.getElementById("nameInput");
+    const instaInput  = document.getElementById("instaInput");
+    const followCheck = document.getElementById("followCheck");
     const winnersList = document.getElementById("winnersList");
+    const openInstaBtn = document.getElementById("openInstaBtn");
 
     const sliceCount    = slices.length;
     const anglePerSlice = 360 / sliceCount;
 
-    const winners = []; // { name, prize }
+    const winners = []; // { name, insta, prize }
+
+    // HTML injection engellemek için
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
     // Dilim yazılarını yerleştir
     for (let i = 0; i < sliceCount; i++) {
@@ -436,7 +555,7 @@
       const last = winners.slice(-10).reverse();
       last.forEach((w, index) => {
         const li = document.createElement("li");
-        li.textContent = `${last.length - index}. ${w.name} – ${w.prize}`;
+        li.textContent = `${last.length - index}. ${w.name} – ${w.insta} – ${w.prize}`;
         winnersList.appendChild(li);
       });
     }
@@ -445,14 +564,28 @@
     let tickInterval = null;
 
     spinBtn.addEventListener("click", () => {
-      const participant = nameInput.value.trim();
-      if (!participant) {
-        alert("Lütfen katılımcının adını yazın.");
+      const rawName  = nameInput.value.trim();
+      const rawInsta = instaInput.value.trim();
+
+      if (!rawName) {
+        alert("Lütfen ad soyad alanını doldurun.");
+        return;
+      }
+      if (!rawInsta) {
+        alert("Lütfen Instagram kullanıcı adını yazın (ör: @femud_tr).");
         return;
       }
 
+      let insta = rawInsta;
+      if (!insta.startsWith("@")) {
+        insta = "@" + insta;
+      }
+
+      const safeName  = escapeHtml(rawName);
+      const safeInsta = escapeHtml(insta);
+
       spinBtn.disabled = true;
-      result.textContent = "";
+      resultDiv.innerHTML = "";
 
       // 3 tam tur + rastgele
       const extra = Math.floor(Math.random() * 360) + 1080;
@@ -472,16 +605,38 @@
         const selectedIndex = (indexFromTop + sliceCount) % sliceCount;
 
         const winText = slices[selectedIndex].text;
-        result.textContent = `Kazanan: ${participant} – ${winText}`;
 
         wheel.style.transform = `rotateX(0deg) rotate(${currentRotation}deg)`;
 
-        winners.push({ name: participant, prize: winText });
+        winners.push({ name: safeName, insta: safeInsta, prize: winText });
         renderWinners();
-
         launchConfetti();
+
+        // Sonuç kartı
+        resultDiv.innerHTML = `
+          <div class="result-card">
+            <div class="result-title">
+              🎉 Femud Hediye Çarkı – Kazanan Bilgisi
+            </div>
+            <div class="result-line"><span>👤 Ad Soyad:</span> ${safeName}</div>
+            <div class="result-line"><span>📸 Instagram:</span> ${safeInsta}</div>
+            <div class="result-line"><span>🎁 Kazandığın Ödül:</span> ${winText}</div>
+            <div class="result-note">
+              📸 Lütfen bu ekran görüntüsünü <strong>@femud_tr</strong> hesabına DM olarak göndererek hediyenizi talep ediniz.
+            </div>
+            <div class="result-extra">
+              Femud kampanyalarına katılmaya devam etmek için @femud_tr hesabını takip etmeyi unutma.
+            </div>
+          </div>
+        `;
+
         spinBtn.disabled = false;
       }, 4000);
+    });
+
+    // Instagram butonu
+    openInstaBtn.addEventListener("click", () => {
+      window.open("https://www.instagram.com/femud_tr", "_blank");
     });
   </script>
 </body>
