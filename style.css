@@ -1,68 +1,131 @@
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background: #f4f4f4;
+/* Genel sayfa ayarları */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: #f4f4f4;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px;
+}
+
 .container {
-  margin-top: 50px;
+  text-align: center;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 20px;
 }
 
 h1 {
+  font-size: 32px;
   margin-bottom: 20px;
 }
 
-#wheel-container {
+/* Çark alanı */
+.wheel-wrapper {
   position: relative;
-  margin: auto;
-  width: 300px;
-  height: 300px;
+  margin: 0 auto 20px;
+  width: 280px;
+  height: 280px;
 }
 
+/* Ok işareti */
+#pointer {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 32px;
+  z-index: 3;
+}
+
+/* Çarkın kendisi */
 #wheel {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 8px solid #333;
+  border: 10px solid #333;
+  margin: 0 auto;
   background: conic-gradient(
-    #ff4d4d 0deg 45deg,
-    #ffa64d 45deg 90deg,
-    #ffff4d 90deg 135deg,
-    #4dff4d 135deg 180deg,
-    #4dffff 180deg 225deg,
-    #4d4dff 225deg 270deg,
-    #ff4dff 270deg 315deg,
-    #ff4d4d 315deg 360deg
+    #ff7675 0deg 45deg,
+    #fdcb6e 45deg 90deg,
+    #55efc4 90deg 135deg,
+    #74b9ff 135deg 180deg,
+    #a29bfe 180deg 225deg,
+    #ffeaa7 225deg 270deg,
+    #fab1a0 270deg 315deg,
+    #81ecec 315deg 360deg
   );
+  position: relative;
   transition: transform 4s ease-out;
+  overflow: hidden;
 }
 
-#pointer {
+/* Dilim yazıları */
+.label {
   position: absolute;
-  top: -25px;
+  width: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 40px;
+  top: 50%;
+  transform-origin: 0% 0%;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 600;
+  color: #000;
 }
 
+/* 8 dilim için döndürmeler */
+.label-0 {
+  transform: rotate(22.5deg) translateX(10px);
+}
+.label-1 {
+  transform: rotate(67.5deg) translateX(10px);
+}
+.label-2 {
+  transform: rotate(112.5deg) translateX(10px);
+}
+.label-3 {
+  transform: rotate(157.5deg) translateX(10px);
+}
+.label-4 {
+  transform: rotate(202.5deg) translateX(10px);
+}
+.label-5 {
+  transform: rotate(247.5deg) translateX(10px);
+}
+.label-6 {
+  transform: rotate(292.5deg) translateX(10px);
+}
+.label-7 {
+  transform: rotate(337.5deg) translateX(10px);
+}
+
+/* Buton */
 #spinBtn {
-  margin-top: 30px;
-  padding: 10px 20px;
-  font-size: 20px;
-  background: #28a745;
-  color: white;
-  border: none;
+  margin-top: 10px;
+  padding: 12px 30px;
+  font-size: 18px;
   border-radius: 8px;
+  border: none;
+  background: #28a745;
+  color: #fff;
+  cursor: pointer;
 }
 
-#spinBtn:active {
-  background: #218838;
+#spinBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 #result {
-  margin-top: 25px;
-  font-size: 22px;
+  margin-top: 15px;
+  font-size: 18px;
   font-weight: bold;
 }
