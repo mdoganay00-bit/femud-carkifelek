@@ -1,239 +1,547 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Femud Çarkıfelek</title>
+  <meta charset="UTF-8" />
+  <title>Femud Çekiliş Çarkı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-<style>
+  <style>
+    * { box-sizing: border-box; }
+
     body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background: #f5f0ff;
-        margin: 0;
-        padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #d1c4ff 0, #7e57c2 40%, #311b92 100%);
+      font-family: "Poppins", sans-serif;
     }
-    h1 {
-        color: #4b0082;
-        margin-top: 25px;
-        font-size: 28px;
-        font-weight: bold;
-    }
-    #wheelCanvas {
-        margin-top: 20px;
-    }
-    .inputBox {
-        width: 80%;
-        padding: 12px;
-        margin: 8px auto;
-        border-radius: 10px;
-        border: 1px solid #b59de6;
-        display: block;
-        font-size: 16px;
-    }
-    #spinBtn {
-        margin-top: 25px;
-        padding: 18px;
-        width: 80%;
-        background: linear-gradient(90deg,#7a3ff2,#b37bff);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 22px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    #resultBox {
-        margin-top: 25px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #4b0082;
-    }
-</style>
 
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: #f8edff;
+      padding: 18px 16px 24px;
+      border-radius: 20px;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #4a148c;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+    }
+
+    .subtitle {
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .input-row input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #c6a6ff;
+      font-size: 13px;
+      outline: none;
+      background: #fdfbff;
+    }
+
+    .input-row input:focus {
+      border-color: #7e57c2;
+      box-shadow: 0 0 0 2px rgba(126,87,194,0.2);
+    }
+
+    .info-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #4a148c;
+      margin: 4px 0 10px;
+    }
+
+    .wheel-wrapper {
+      position: relative;
+      width: 290px;
+      height: 290px;
+      margin: 0 auto 14px;
+    }
+
+    /* IŞIK HALKASI */
+    .glow {
+      position: absolute;
+      inset: -18px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(152,99,255,0.9), transparent 65%);
+      filter: blur(5px);
+      z-index: 0;
+    }
+
+    .wheel-border {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: #4a148c;
+      z-index: 1;
+    }
+
+    .wheel {
+      position: absolute;
+      inset: 10px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #ffe3f2 0deg 45deg,
+        #e4fff5 45deg 90deg,
+        #fff0ff 90deg 135deg,
+        #e7f3ff 135deg 180deg,
+        #ffe3f2 180deg 225deg,
+        #e4fff5 225deg 270deg,
+        #fff0ff 270deg 315deg,
+        #e7f3ff 315deg 360deg
+      );
+      box-shadow:
+        inset 0 5px 8px rgba(255,255,255,0.9),
+        inset 0 -10px 18px rgba(0,0,0,0.28);
+      transform-origin: 50% 50%;
+      transition: transform 4s cubic-bezier(0.2, 0.8, 0.1, 1);
+      position: relative;
+      z-index: 2;
+    }
+
+    .slice-line {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 1px;
+      height: 140px;
+      background: rgba(74,20,140,0.35);
+      transform-origin: center bottom;
+    }
+
+    .pointer {
+      position: absolute;
+      top: -22px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 16px solid transparent;
+      border-right: 16px solid transparent;
+      border-bottom: 32px solid #ff1744;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.4));
+      z-index: 4;
+    }
+
+    .logo-center {
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 6px solid #4a148c;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow:
+        0 5px 12px rgba(0,0,0,0.4),
+        inset 0 4px 6px rgba(255,255,255,0.9);
+      z-index: 5;
+    }
+
+    .logo-center img {
+      width: 80%;
+      height: 80%;
+      object-fit: contain;
+    }
+
+    .label {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 90px;
+      text-align: center;
+      font-weight: 600;
+      color: #3a105f;
+      transform-origin: center;
+      white-space: pre-line; /* \n çalışsın */
+      pointer-events: none;
+      text-shadow: 0 2px 3px rgba(255,255,255,0.9);
+      z-index: 3;
+    }
+
+    .spin-btn {
+      display: inline-block;
+      width: 100%;
+      border-radius: 999px;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      background: linear-gradient(135deg, #7e57c2, #b388ff);
+      box-shadow: 0 10px 25px rgba(94,53,177,0.55);
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    .spin-btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 6px 15px rgba(94,53,177,0.55);
+    }
+
+    .spin-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #result {
+      font-size: 13px;
+      font-weight: 600;
+      color: #311b92;
+      min-height: 32px;
+      margin-bottom: 8px;
+    }
+
+    .winners-box {
+      text-align: left;
+      background: #f3e5f5;
+      padding: 8px 10px;
+      border-radius: 10px;
+      max-height: 110px;
+      overflow-y: auto;
+      font-size: 11px;
+    }
+
+    .winners-title {
+      font-weight: 700;
+      color: #4a148c;
+      margin-bottom: 4px;
+    }
+
+    #winnersList {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #winnersList li {
+      margin-bottom: 2px;
+    }
+
+    /* KONFETİ */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 7px;
+      height: 12px;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 20;
+      animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0%   { transform: translate3d(0, 0, 0) rotateZ(0deg); }
+      100% { transform: translate3d(var(--dx), 110vh, 0) rotateZ(720deg); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        margin: 0 4px;
+        border-radius: 16px;
+      }
+      .wheel-wrapper {
+        width: 260px;
+        height: 260px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<h1>Femud Çekiliş Çarkı</h1>
+  <div class="container">
+    <h1>Femud Çekiliş Çarkı</h1>
+    <div class="subtitle">İsmini ve Instagram adresini yaz, çarkı çevir, kazananı belirle.</div>
 
-<input id="nameInput" class="inputBox" placeholder="Katılımcı adı (zorunlu)" />
-<input id="instaInput" class="inputBox" placeholder="Instagram adresi @kullanici (zorunlu)" />
+    <div class="input-row">
+      <input id="nameInput" type="text" placeholder="Katılımcı adı (zorunlu)">
+      <input id="igInput" type="text" placeholder="Instagram adresi (@kullanici) (zorunlu)">
+    </div>
 
-<p style="color:#4b0082; font-size:15px; font-weight:bold;">
-Femud_tr Instagram hesabını takip etmeyi unutmayınız.
-</p>
+    <div class="info-text">Femud_tr Instagram hesabını takip etmeyi unutmayınız.</div>
 
-<canvas id="wheelCanvas" width="360" height="360"></canvas>
+    <div class="wheel-wrapper">
+      <div class="glow"></div>
+      <div class="wheel-border"></div>
 
-<button id="spinBtn">ÇARKI ÇEVİR</button>
+      <div class="pointer"></div>
 
-<div id="resultBox"></div>
+      <div id="wheel" class="wheel">
+        <!-- Dilim ayırıcı çizgiler -->
+        <!-- 8 dilim için 8 çizgi -->
+      </div>
 
-<script>
-/* ----------------------------------------
-    HER DİLİMİN AYARINI SEN KONTROL EDERSİN
------------------------------------------ */
+      <div class="logo-center">
+        <img src="femud_logo.png" alt="Femud Logo">
+      </div>
+    </div>
 
-const slices = [
-    {
+    <button id="spinBtn" class="spin-btn">ÇARKI ÇEVİR</button>
+    <div id="result"></div>
+
+    <div class="winners-box">
+      <div class="winners-title">Kazananlar</div>
+      <ul id="winnersList"></ul>
+    </div>
+  </div>
+
+  <script>
+    // ==========================
+    //  DİLİMLER (BURAYI SENİN İÇİN ESNEK YAPTIM)
+    //  Her dilimi İSTEDİĞİN GİBİ AYARLAYABİLİRSİN
+    // ==========================
+
+    const slices = [
+      {
         id: 1,
         text: "Tekrar\nÇevir",
-        radius: 135,      // yazının merkeze uzaklığı
-        angleShift: 0,    // sağ/sol kaydırma
-        fontSize: 18      // yazı boyutu
-    },
-    {
+        radius: 110,     // merkeze uzaklık
+        fontSize: 15,
+        lineHeight: 17,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 2,
-        text: "50 TL Femud\nÜrün Çeki",
+        text: "50 TL\nFemud Ürün Çeki",
         radius: 120,
-        angleShift: 0,
-        fontSize: 16
-    },
-    {
+        fontSize: 13,
+        lineHeight: 15,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 3,
-        text: "Krem %15\nİndirim",
-        radius: 125,
-        angleShift: 5,
-        fontSize: 17
-    },
-    {
+        text: "Krem\n%15 İndirim",
+        radius: 118,
+        fontSize: 13,
+        lineHeight: 15,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 4,
         text: "Köpük Sabun\nHediye",
-        radius: 130,
-        angleShift: -5,
-        fontSize: 17
-    },
-    {
+        radius: 118,
+        fontSize: 13,
+        lineHeight: 15,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 5,
-        text: "6 ürün alana\n100 TL İndirim",
-        radius: 120,
-        angleShift: 0,
-        fontSize: 14
-    },
-    {
+        text: "6 Ürün Alana\n100 TL İndirim",
+        radius: 126,
+        fontSize: 12,
+        lineHeight: 14,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 6,
-        text: "Tüm ürünlerde\n%20 indirim",
-        radius: 120,
-        angleShift: 0,
-        fontSize: 15
-    },
-    {
+        text: "Tüm Ürünlerde\n%20 İndirim",
+        radius: 122,
+        fontSize: 12,
+        lineHeight: 14,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 7,
-        text: "50 TL Femud\nÜrün Çeki",
+        text: "50 TL\nFemud Ürün Çeki",
         radius: 120,
-        angleShift: 3,
-        fontSize: 16
-    },
-    {
+        fontSize: 13,
+        lineHeight: 15,
+        offsetX: 0,
+        offsetY: 0
+      },
+      {
         id: 8,
         text: "Tekrar\nÇevir",
-        radius: 135,
-        angleShift: 0,
-        fontSize: 18
+        radius: 110,
+        fontSize: 15,
+        lineHeight: 17,
+        offsetX: 0,
+        offsetY: 0
+      }
+    ];
+
+    // İstersen sadece metni değiştirebilirsin:
+    // text: "Yeni\nMetin" gibi.
+    // Daha ince ayar için: radius, fontSize, lineHeight, offsetX, offsetY
+    // değerleriyle oynayabilirsin.
+
+    const wheel        = document.getElementById("wheel");
+    const spinBtn      = document.getElementById("spinBtn");
+    const resultEl     = document.getElementById("result");
+    const nameInput    = document.getElementById("nameInput");
+    const igInput      = document.getElementById("igInput");
+    const winnersList  = document.getElementById("winnersList");
+
+    const sliceCount    = slices.length;
+    const anglePerSlice = 360 / sliceCount;
+
+    const winners = []; // {name, ig, prize}
+
+    // Dilim ayırıcı çizgiler
+    for (let i = 0; i < sliceCount; i++) {
+      const line = document.createElement("div");
+      line.className = "slice-line";
+      line.style.transform = `translate(-50%, -140px) rotate(${i * anglePerSlice}deg)`;
+      wheel.appendChild(line);
     }
-];
 
-/* ---------------------------------------- */
+    // Dilim yazılarını yerleştir
+    for (let i = 0; i < sliceCount; i++) {
+      const s = slices[i];
+      const label = document.createElement("div");
+      label.className = "label";
+      label.textContent = s.text;
 
-const canvas = document.getElementById("wheelCanvas");
-const ctx = canvas.getContext("2d");
-const width = canvas.width;
-const height = canvas.height;
-const cx = width / 2;
-const cy = height / 2;
-const total = slices.length;
-const step = 360 / total;
+      // Yazı stilini dilime göre ayarla
+      label.style.fontSize   = (s.fontSize || 14) + "px";
+      label.style.lineHeight = (s.lineHeight || 16) + "px";
 
-const colors = ["#ffe6e6","#fff0cc","#e6ffe6","#e6f7ff","#f2e6ff","#ffe6f2","#e6fff7","#f9e6ff"];
+      const baseAngle   = i * anglePerSlice;
+      const middleAngle = baseAngle + anglePerSlice / 2;
 
-function drawWheel() {
-    for (let i = 0; i < total; i++) {
-        const start = (i * step) * Math.PI / 180;
-        const end = ((i + 1) * step) * Math.PI / 180;
+      const r = (s.radius || 115);
 
-        ctx.beginPath();
-        ctx.moveTo(cx, cy);
-        ctx.arc(cx, cy, 170, start, end);
-        ctx.fillStyle = colors[i % colors.length];
-        ctx.fill();
-        ctx.strokeStyle = "#4b0082";
-        ctx.lineWidth = 4;
-        ctx.stroke();
+      // Merkezden r kadar uzaklaştır, sonra yazıyı tekrar dik hale çevir
+      label.style.transform =
+        `rotate(${middleAngle}deg) translate(0, -${r}px) rotate(${-middleAngle}deg)` +
+        ` translate(${s.offsetX || 0}px, ${s.offsetY || 0}px)`;
 
-        // --- YAZI AYARLARI ---
-        const slice = slices[i];
-        const angle = (start + end) / 2 + slice.angleShift * Math.PI / 180;
+      wheel.appendChild(label);
+    }
 
-        ctx.save();
-        ctx.translate(cx, cy);
-        ctx.rotate(angle);
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#000";
-        ctx.font = slice.fontSize + "px Arial";
-
-        // Çok satırlı yazı
-        const lines = slice.text.split("\n");
-        let lineGap = slice.fontSize + 2;
-
-        for (let l = 0; l < lines.length; l++) {
-            ctx.fillText(lines[l], 0, -slice.radius + l * lineGap);
+    // Ses – basit "tik" efekti
+    let audioCtx = null;
+    function playTick() {
+      try {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
+        const osc  = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
 
-        ctx.restore();
+        osc.frequency.value = 1300;
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.09);
+      } catch (e) {}
     }
 
-    // MERKEZDE LOGO
-    let img = new Image();
-    img.src = "femud_logo.png";
+    // Konfeti
+    function launchConfetti() {
+      const colors = ["#ff5252", "#ffeb3b", "#69f0ae", "#40c4ff", "#ff80ab", "#b39ddb"];
+      for (let i = 0; i < 70; i++) {
+        const c = document.createElement("div");
+        c.className = "confetti";
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        c.style.backgroundColor = color;
+        const left = Math.random() * 100;
+        const dx   = (Math.random() - 0.5) * 220 + "px";
+        const delay = Math.random() * 0.3;
 
-    img.onload = () => {
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(cx, cy, 55, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.clip();
-        ctx.drawImage(img, cx - 55, cy - 55, 110, 110);
-        ctx.restore();
-    };
-}
+        c.style.left = left + "vw";
+        c.style.setProperty("--dx", dx);
+        c.style.animationDelay = delay + "s";
 
-// ilk çizim
-drawWheel();
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 3400);
+      }
+    }
 
-/* ------------------------------------------
-   ÇARKI ÇEVİRME İŞLEMİ
-------------------------------------------- */
-let currentRotation = 0;
-document.getElementById("spinBtn").onclick = () => {
+    // Kazananlar paneli
+    function renderWinners() {
+      winnersList.innerHTML = "";
+      const last = winners.slice(-10).reverse();
+      last.forEach((w, idx) => {
+        const li = document.createElement("li");
+        li.textContent = `${last.length - idx}. ${w.name} (@${w.ig}) – ${w.prize}`;
+        winnersList.appendChild(li);
+      });
+    }
 
-    const name = document.getElementById("nameInput").value.trim();
-    const insta = document.getElementById("instaInput").value.trim();
+    let currentRotation = 0;
+    let tickInterval = null;
 
-    if (!name || !insta) {
-        alert("İsim ve Instagram adresi zorunludur.");
+    spinBtn.addEventListener("click", () => {
+      const participant = nameInput.value.trim();
+      let igHandle = igInput.value.trim();
+
+      if (!participant || !igHandle) {
+        alert("Lütfen hem katılımcı adını hem de Instagram adresini yazın.");
         return;
-    }
+      }
+      if (igHandle.startsWith("@")) {
+        igHandle = igHandle.slice(1);
+      }
 
-    let extra = Math.floor(Math.random() * 360);
-    currentRotation += 2000 + extra;
+      spinBtn.disabled = true;
+      resultEl.textContent = "";
 
-    canvas.style.transition = "transform 4s ease-out";
-    canvas.style.transform = "rotate(" + currentRotation + "deg)";
+      const extra = Math.floor(Math.random() * 360) + 1080; // 3–4 tur
+      currentRotation += extra;
 
-    setTimeout(() => {
-        const normalized = (currentRotation % 360);
-        const winIndex = Math.floor((360 - normalized) / step) % total;
-        const winText = slices[winIndex].text.replace("\n"," ");
+      wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-        document.getElementById("resultBox").innerHTML =
-            name + " - @" + insta + "<br><br>Kazandığın ödül:<br><b>" +
-            winText +
-            "</b><br><br>Ekran görüntüsü alıp @femud_tr adresine mesaj göndererek ödülünü talep et.";
+      if (tickInterval) clearInterval(tickInterval);
+      tickInterval = setInterval(playTick, 110);
 
-    }, 4200);
-};
+      setTimeout(() => {
+        if (tickInterval) clearInterval(tickInterval);
 
-</script>
+        const normalized   = (currentRotation % 360 + 360) % 360;
+        const indexFromTop = Math.floor((sliceCount - normalized / anglePerSlice)) % sliceCount;
+        const selectedIndex = (indexFromTop + sliceCount) % sliceCount;
 
+        const winText = slices[selectedIndex].text.replace(/\n/g, " ");
+        resultEl.innerHTML =
+          `Kazanan: <strong>${participant}</strong> (@${igHandle}) – <strong>${winText}</strong><br>` +
+          `<span style="font-size:11px;color:#5e35b1;">` +
+          `Ekran görüntüsü alarak <strong>femud_tr</strong> hesabına DM gönderip ödülünüzü talep ediniz.` +
+          `</span>`;
+
+        winners.push({ name: participant, ig: igHandle, prize: winText });
+        renderWinners();
+
+        launchConfetti();
+        spinBtn.disabled = false;
+      }, 4000);
+    });
+  </script>
 </body>
 </html>
