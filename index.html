@@ -4,10 +4,11 @@
   <meta charset="UTF-8" />
   <title>Femud Çekiliş Çarkı</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -15,220 +16,203 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: radial-gradient(circle at top, #d1c4ff 0, #7e57c2 40%, #311b92 100%);
-      font-family: "Poppins", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #f3e5f5 0, #b39ddb 35%, #4a148c 100%);
+      color: #2d0055;
     }
 
     .container {
       width: 100%;
       max-width: 420px;
-      background: #f8edff;
-      padding: 18px 16px 24px;
-      border-radius: 20px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+      background: rgba(255, 255, 255, 0.97);
+      border-radius: 18px;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
+      padding: 18px 18px 22px;
       text-align: center;
     }
 
     h1 {
-      margin: 0 0 6px;
-      font-size: 22px;
-      font-weight: 700;
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 800;
       color: #4a148c;
-      text-shadow: 0 3px 6px rgba(0,0,0,0.25);
+      text-shadow: 0 3px 6px rgba(155, 89, 182, 0.5);
     }
 
     .subtitle {
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 10px;
-    }
-
-    .input-row {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      margin-bottom: 6px;
-    }
-
-    .input-row input {
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid #c6a6ff;
       font-size: 13px;
+      color: #555;
+      margin-bottom: 12px;
+    }
+
+    .field {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid #d1c4e9;
+      padding: 10px 14px;
+      font-size: 14px;
+      margin-bottom: 8px;
       outline: none;
-      background: #fdfbff;
     }
 
-    .input-row input:focus {
+    .field:focus {
       border-color: #7e57c2;
-      box-shadow: 0 0 0 2px rgba(126,87,194,0.2);
+      box-shadow: 0 0 0 2px rgba(126, 87, 194, 0.25);
     }
 
-    .info-text {
-      font-size: 12px;
+    .follow-note {
+      font-size: 13px;
       font-weight: 600;
-      color: #4a148c;
-      margin: 4px 0 10px;
+      color: #6a1b9a;
+      margin: 2px 0 10px;
     }
 
     .wheel-wrapper {
       position: relative;
-      width: 290px;
-      height: 290px;
-      margin: 0 auto 14px;
+      width: 320px;
+      height: 320px;
+      margin: 0 auto 12px;
     }
 
-    /* IŞIK HALKASI */
-    .glow {
+    .wheel-glow {
       position: absolute;
-      inset: -18px;
+      inset: -22px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(152,99,255,0.9), transparent 65%);
-      filter: blur(5px);
+      background: radial-gradient(circle, rgba(156, 39, 176, 0.6) 0, rgba(81, 45, 168, 0.3) 40%, transparent 70%);
+      filter: blur(6px);
       z-index: 0;
     }
 
-    .wheel-border {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: #4a148c;
-      z-index: 1;
-    }
-
     .wheel {
-      position: absolute;
-      inset: 10px;
+      position: relative;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
+      border: 10px solid #5e35b1;
       background: conic-gradient(
-        #ffe3f2 0deg 45deg,
-        #e4fff5 45deg 90deg,
-        #fff0ff 90deg 135deg,
-        #e7f3ff 135deg 180deg,
-        #ffe3f2 180deg 225deg,
-        #e4fff5 225deg 270deg,
-        #fff0ff 270deg 315deg,
-        #e7f3ff 315deg 360deg
+        #ffe6ff 0deg   45deg,
+        #e0f7fa 45deg  90deg,
+        #fff3e0 90deg  135deg,
+        #fce4ec 135deg 180deg,
+        #e3f2fd 180deg 225deg,
+        #e8f5e9 225deg 270deg,
+        #ffebee 270deg 315deg,
+        #ede7f6 315deg 360deg
       );
       box-shadow:
-        inset 0 5px 8px rgba(255,255,255,0.9),
-        inset 0 -10px 18px rgba(0,0,0,0.28);
-      transform-origin: 50% 50%;
+        0 0 0 10px rgba(94, 53, 177, 0.5),
+        0 20px 40px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      z-index: 1;
       transition: transform 4s cubic-bezier(0.2, 0.8, 0.1, 1);
-      position: relative;
-      z-index: 2;
     }
 
-    .slice-line {
+    .slice-label {
       position: absolute;
-      left: 50%;
       top: 50%;
-      width: 1px;
-      height: 140px;
-      background: rgba(74,20,140,0.35);
-      transform-origin: center bottom;
+      left: 50%;
+      transform-origin: center center;
+      text-align: center;
+      font-weight: 700;
+      color: #4a148c;
+      line-height: 1.15;
+      pointer-events: none;
+      text-shadow: 0 1px 2px rgba(255, 255, 255, 0.9);
     }
 
     .pointer {
       position: absolute;
-      top: -22px;
+      top: -18px;
       left: 50%;
       transform: translateX(-50%);
       width: 0;
       height: 0;
-      border-left: 16px solid transparent;
-      border-right: 16px solid transparent;
-      border-bottom: 32px solid #ff1744;
-      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.4));
-      z-index: 4;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 34px solid #ff1744;
+      z-index: 3;
+      filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.35));
     }
 
-    .logo-center {
+    .center-logo {
       position: absolute;
-      width: 130px;
-      height: 130px;
+      top: 50%;
+      left: 50%;
+      width: 135px;
+      height: 135px;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
       background: #ffffff;
-      border: 6px solid #4a148c;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      border: 5px solid #5e35b1;
+      box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.45),
+        inset 0 3px 6px rgba(255, 255, 255, 0.9);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow:
-        0 5px 12px rgba(0,0,0,0.4),
-        inset 0 4px 6px rgba(255,255,255,0.9);
-      z-index: 5;
+      z-index: 4;
     }
 
-    .logo-center img {
-      width: 80%;
-      height: 80%;
+    .center-logo img {
+      width: 82%;
+      height: 82%;
       object-fit: contain;
     }
 
-    .label {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      width: 90px;
-      text-align: center;
-      font-weight: 600;
-      color: #3a105f;
-      transform-origin: center;
-      white-space: pre-line; /* \n çalışsın */
-      pointer-events: none;
-      text-shadow: 0 2px 3px rgba(255,255,255,0.9);
-      z-index: 3;
-    }
-
-    .spin-btn {
-      display: inline-block;
+    .btn-spin {
       width: 100%;
+      margin-top: 4px;
+      padding: 12px 20px;
       border-radius: 999px;
       border: none;
-      padding: 10px 20px;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: 700;
-      color: #ffffff;
-      background: linear-gradient(135deg, #7e57c2, #b388ff);
-      box-shadow: 0 10px 25px rgba(94,53,177,0.55);
+      color: #fff;
       cursor: pointer;
-      margin-bottom: 10px;
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      box-shadow: 0 10px 20px rgba(94, 53, 177, 0.6);
     }
 
-    .spin-btn:active {
-      transform: translateY(1px) scale(0.98);
-      box-shadow: 0 6px 15px rgba(94,53,177,0.55);
+    .btn-spin:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 12px rgba(94, 53, 177, 0.7);
     }
 
-    .spin-btn:disabled {
-      opacity: 0.6;
+    .btn-spin:disabled {
+      opacity: 0.65;
       cursor: not-allowed;
+      box-shadow: 0 5px 12px rgba(94, 53, 177, 0.4);
     }
 
     #result {
-      font-size: 13px;
+      margin-top: 10px;
+      min-height: 40px;
+      font-size: 14px;
       font-weight: 600;
-      color: #311b92;
-      min-height: 32px;
-      margin-bottom: 8px;
+      color: #4a148c;
+    }
+
+    #result .note {
+      font-size: 12px;
+      font-weight: 500;
+      color: #555;
+      margin-top: 4px;
     }
 
     .winners-box {
-      text-align: left;
-      background: #f3e5f5;
+      margin-top: 10px;
       padding: 8px 10px;
-      border-radius: 10px;
-      max-height: 110px;
+      border-radius: 12px;
+      background: #f3e5f5;
+      text-align: left;
+      max-height: 120px;
       overflow-y: auto;
-      font-size: 11px;
+      font-size: 12px;
     }
 
     .winners-title {
       font-weight: 700;
+      font-size: 13px;
       color: #4a148c;
       margin-bottom: 4px;
     }
@@ -243,65 +227,48 @@
       margin-bottom: 2px;
     }
 
-    /* KONFETİ */
-    .confetti {
-      position: fixed;
-      top: -10px;
-      width: 7px;
-      height: 12px;
-      opacity: 0.95;
-      pointer-events: none;
-      z-index: 20;
-      animation: confettiFall 3s linear forwards;
-    }
-
-    @keyframes confettiFall {
-      0%   { transform: translate3d(0, 0, 0) rotateZ(0deg); }
-      100% { transform: translate3d(var(--dx), 110vh, 0) rotateZ(720deg); }
-    }
-
     @media (max-width: 480px) {
       .container {
-        margin: 0 4px;
-        border-radius: 16px;
+        border-radius: 0;
+        max-width: 100%;
+        min-height: 100vh;
       }
       .wheel-wrapper {
-        width: 260px;
-        height: 260px;
+        width: 78vw;
+        height: 78vw;
+        max-width: 320px;
+        max-height: 320px;
       }
     }
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Femud Çekiliş Çarkı</h1>
-    <div class="subtitle">İsmini ve Instagram adresini yaz, çarkı çevir, kazananı belirle.</div>
-
-    <div class="input-row">
-      <input id="nameInput" type="text" placeholder="Katılımcı adı (zorunlu)">
-      <input id="igInput" type="text" placeholder="Instagram adresi (@kullanici) (zorunlu)">
+    <div class="subtitle">
+      İsmini ve Instagram adresini yaz, çarkı çevir, kazananı belirle.
     </div>
 
-    <div class="info-text">Femud_tr Instagram hesabını takip etmeyi unutmayınız.</div>
+    <input id="nameInput" class="field" type="text" placeholder="Katılımcı adı (zorunlu)" />
+    <input id="igInput" class="field" type="text" placeholder="Instagram adresi (@kullanici) (zorunlu)" />
+
+    <div class="follow-note">
+      Femud_tr Instagram hesabını takip etmeyi unutmayınız.
+    </div>
 
     <div class="wheel-wrapper">
-      <div class="glow"></div>
-      <div class="wheel-border"></div>
-
+      <div class="wheel-glow"></div>
       <div class="pointer"></div>
-
       <div id="wheel" class="wheel">
-        <!-- Dilim ayırıcı çizgiler -->
-        <!-- 8 dilim için 8 çizgi -->
-      </div>
-
-      <div class="logo-center">
-        <img src="femud_logo.png" alt="Femud Logo">
+        <!-- Dinamik dilim etiketleri JS ile eklenecek -->
+        <div class="center-logo">
+          <img src="femud_logo.png" alt="Femud Logo" />
+        </div>
       </div>
     </div>
 
-    <button id="spinBtn" class="spin-btn">ÇARKI ÇEVİR</button>
+    <button id="spinBtn" class="btn-spin">ÇARKI ÇEVİR</button>
+
     <div id="result"></div>
 
     <div class="winners-box">
@@ -311,236 +278,174 @@
   </div>
 
   <script>
-    // ==========================
-    //  DİLİMLER (BURAYI SENİN İÇİN ESNEK YAPTIM)
-    //  Her dilimi İSTEDİĞİN GİBİ AYARLAYABİLİRSİN
-    // ==========================
-
+    // =======================
+    //  DİLİMLER (TEK TEK AYAR)
+    // =======================
+    // Buradaki metinleri, mesafeyi (radius), yazı boyutunu (fontSize),
+    // dilim içi maksimum genişliği (maxWidth) ve ince açı ayarını (angleOffset)
+    // istediğin gibi değiştirebilirsin.
     const slices = [
       {
         id: 1,
         text: "Tekrar\nÇevir",
-        radius: 110,     // merkeze uzaklık
-        fontSize: 15,
-        lineHeight: 17,
-        offsetX: 0,
-        offsetY: 0
+        radius: 115,
+        fontSize: 16,
+        maxWidth: 90,
+        angleOffset: 0
       },
       {
         id: 2,
-        text: "50 TL\nFemud Ürün Çeki",
+        text: "50 TL Femud\nÜrün Çeki",
         radius: 120,
         fontSize: 13,
-        lineHeight: 15,
-        offsetX: 0,
-        offsetY: 0
+        maxWidth: 110,
+        angleOffset: 2
       },
       {
         id: 3,
         text: "Krem\n%15 İndirim",
-        radius: 118,
-        fontSize: 13,
-        lineHeight: 15,
-        offsetX: 0,
-        offsetY: 0
+        radius: 120,
+        fontSize: 14,
+        maxWidth: 90,
+        angleOffset: 0
       },
       {
         id: 4,
         text: "Köpük Sabun\nHediye",
-        radius: 118,
-        fontSize: 13,
-        lineHeight: 15,
-        offsetX: 0,
-        offsetY: 0
+        radius: 120,
+        fontSize: 14,
+        maxWidth: 100,
+        angleOffset: -2
       },
       {
         id: 5,
-        text: "6 Ürün Alana\n100 TL İndirim",
-        radius: 126,
-        fontSize: 12,
-        lineHeight: 14,
-        offsetX: 0,
-        offsetY: 0
+        text: "6 ürün alana\n100 TL İndirim",
+        radius: 118,
+        fontSize: 13,
+        maxWidth: 110,
+        angleOffset: 0
       },
       {
         id: 6,
-        text: "Tüm Ürünlerde\n%20 İndirim",
-        radius: 122,
-        fontSize: 12,
-        lineHeight: 14,
-        offsetX: 0,
-        offsetY: 0
+        text: "Tüm ürünlerde\n%20 indirim",
+        radius: 118,
+        fontSize: 13,
+        maxWidth: 110,
+        angleOffset: 0
       },
       {
         id: 7,
-        text: "50 TL\nFemud Ürün Çeki",
-        radius: 120,
-        fontSize: 13,
-        lineHeight: 15,
-        offsetX: 0,
-        offsetY: 0
+        text: "Tekrar\nÇevir",
+        radius: 115,
+        fontSize: 16,
+        maxWidth: 90,
+        angleOffset: 0
       },
       {
         id: 8,
-        text: "Tekrar\nÇevir",
-        radius: 110,
-        fontSize: 15,
-        lineHeight: 17,
-        offsetX: 0,
-        offsetY: 0
+        text: "Sürpriz\nFemud Hediye",
+        radius: 118,
+        fontSize: 13,
+        maxWidth: 110,
+        angleOffset: 0
       }
     ];
 
-    // İstersen sadece metni değiştirebilirsin:
-    // text: "Yeni\nMetin" gibi.
-    // Daha ince ayar için: radius, fontSize, lineHeight, offsetX, offsetY
-    // değerleriyle oynayabilirsin.
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const resultEl = document.getElementById("result");
+    const nameInput = document.getElementById("nameInput");
+    const igInput = document.getElementById("igInput");
+    const winnersList = document.getElementById("winnersList");
 
-    const wheel        = document.getElementById("wheel");
-    const spinBtn      = document.getElementById("spinBtn");
-    const resultEl     = document.getElementById("result");
-    const nameInput    = document.getElementById("nameInput");
-    const igInput      = document.getElementById("igInput");
-    const winnersList  = document.getElementById("winnersList");
-
-    const sliceCount    = slices.length;
+    const sliceCount = slices.length;
     const anglePerSlice = 360 / sliceCount;
 
-    const winners = []; // {name, ig, prize}
-
-    // Dilim ayırıcı çizgiler
-    for (let i = 0; i < sliceCount; i++) {
-      const line = document.createElement("div");
-      line.className = "slice-line";
-      line.style.transform = `translate(-50%, -140px) rotate(${i * anglePerSlice}deg)`;
-      wheel.appendChild(line);
-    }
-
-    // Dilim yazılarını yerleştir
-    for (let i = 0; i < sliceCount; i++) {
-      const s = slices[i];
+    // DİLİM YAZILARINI OLUŞTUR
+    slices.forEach((slice, index) => {
       const label = document.createElement("div");
-      label.className = "label";
-      label.textContent = s.text;
+      label.className = "slice-label";
 
-      // Yazı stilini dilime göre ayarla
-      label.style.fontSize   = (s.fontSize || 14) + "px";
-      label.style.lineHeight = (s.lineHeight || 16) + "px";
+      // Satır sonu için \n -> <br>
+      label.innerHTML = slice.text.replace(/\n/g, "<br>");
 
-      const baseAngle   = i * anglePerSlice;
-      const middleAngle = baseAngle + anglePerSlice / 2;
+      label.style.fontSize = (slice.fontSize || 14) + "px";
+      label.style.width = (slice.maxWidth || 100) + "px";
 
-      const r = (s.radius || 115);
+      const angle = index * anglePerSlice + anglePerSlice / 2 + (slice.angleOffset || 0);
+      const radius = slice.radius || 115;
 
-      // Merkezden r kadar uzaklaştır, sonra yazıyı tekrar dik hale çevir
       label.style.transform =
-        `rotate(${middleAngle}deg) translate(0, -${r}px) rotate(${-middleAngle}deg)` +
-        ` translate(${s.offsetX || 0}px, ${s.offsetY || 0}px)`;
+        `rotate(${angle}deg) translate(0, -${radius}px) rotate(${-angle}deg)`;
 
       wheel.appendChild(label);
-    }
+    });
 
-    // Ses – basit "tik" efekti
-    let audioCtx = null;
-    function playTick() {
-      try {
-        if (!audioCtx) {
-          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        }
-        const osc  = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
+    let currentRotation = 0;
+    let isSpinning = false;
+    const winners = [];
 
-        osc.frequency.value = 1300;
-        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.25, audioCtx.currentTime + 0.01);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.09);
-      } catch (e) {}
-    }
-
-    // Konfeti
-    function launchConfetti() {
-      const colors = ["#ff5252", "#ffeb3b", "#69f0ae", "#40c4ff", "#ff80ab", "#b39ddb"];
-      for (let i = 0; i < 70; i++) {
-        const c = document.createElement("div");
-        c.className = "confetti";
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        c.style.backgroundColor = color;
-        const left = Math.random() * 100;
-        const dx   = (Math.random() - 0.5) * 220 + "px";
-        const delay = Math.random() * 0.3;
-
-        c.style.left = left + "vw";
-        c.style.setProperty("--dx", dx);
-        c.style.animationDelay = delay + "s";
-
-        document.body.appendChild(c);
-        setTimeout(() => c.remove(), 3400);
-      }
-    }
-
-    // Kazananlar paneli
     function renderWinners() {
       winnersList.innerHTML = "";
       const last = winners.slice(-10).reverse();
-      last.forEach((w, idx) => {
+      last.forEach((w, i) => {
         const li = document.createElement("li");
-        li.textContent = `${last.length - idx}. ${w.name} (@${w.ig}) – ${w.prize}`;
+        li.textContent = `${last.length - i}. ${w.name} (@${w.ig}) – ${w.prize}`;
         winnersList.appendChild(li);
       });
     }
 
-    let currentRotation = 0;
-    let tickInterval = null;
-
     spinBtn.addEventListener("click", () => {
-      const participant = nameInput.value.trim();
-      let igHandle = igInput.value.trim();
+      if (isSpinning) return;
 
-      if (!participant || !igHandle) {
-        alert("Lütfen hem katılımcı adını hem de Instagram adresini yazın.");
+      const name = nameInput.value.trim();
+      let ig = igInput.value.trim();
+
+      if (!name || !ig) {
+        alert("Lütfen katılımcı adı ve Instagram adresini doldurun.");
         return;
       }
-      if (igHandle.startsWith("@")) {
-        igHandle = igHandle.slice(1);
+
+      if (!ig.startsWith("@")) {
+        ig = "@" + ig;
       }
 
+      isSpinning = true;
       spinBtn.disabled = true;
-      resultEl.textContent = "";
+      resultEl.innerHTML = "";
 
-      const extra = Math.floor(Math.random() * 360) + 1080; // 3–4 tur
+      // Rasgele ekstra dönüş
+      const extra = Math.floor(Math.random() * 360) + 1080; // 3 tur + 0-360 arası
       currentRotation += extra;
-
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-      if (tickInterval) clearInterval(tickInterval);
-      tickInterval = setInterval(playTick, 110);
-
       setTimeout(() => {
-        if (tickInterval) clearInterval(tickInterval);
-
-        const normalized   = (currentRotation % 360 + 360) % 360;
+        // Hangi dilimde durduğunu hesapla
+        const normalized = ((currentRotation % 360) + 360) % 360;
         const indexFromTop = Math.floor((sliceCount - normalized / anglePerSlice)) % sliceCount;
         const selectedIndex = (indexFromTop + sliceCount) % sliceCount;
 
-        const winText = slices[selectedIndex].text.replace(/\n/g, " ");
-        resultEl.innerHTML =
-          `Kazanan: <strong>${participant}</strong> (@${igHandle}) – <strong>${winText}</strong><br>` +
-          `<span style="font-size:11px;color:#5e35b1;">` +
-          `Ekran görüntüsü alarak <strong>femud_tr</strong> hesabına DM gönderip ödülünüzü talep ediniz.` +
-          `</span>`;
+        const selectedSlice = slices[selectedIndex];
 
-        winners.push({ name: participant, ig: igHandle, prize: winText });
+        resultEl.innerHTML = `
+          Kazanan: <strong>${name}</strong> – <strong>${selectedSlice.text.replace(/\n/g, " ")}</strong><br>
+          <span class="note">
+            Lütfen ekran görüntüsü alarak Instagram'da
+            <strong>@Femud_tr</strong> hesabına DM gönderip hediyenizi talep ediniz.
+            (Instagram adresiniz: <strong>${ig}</strong>)
+          </span>
+        `;
+
+        winners.push({
+          name,
+          ig: ig.replace(/^@/, ""),
+          prize: selectedSlice.text.replace(/\n/g, " ")
+        });
         renderWinners();
 
-        launchConfetti();
+        isSpinning = false;
         spinBtn.disabled = false;
-      }, 4000);
+      }, 4000); // animasyon süresiyle aynı
     });
   </script>
 </body>
