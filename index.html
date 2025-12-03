@@ -6,9 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -90,14 +88,14 @@
       border-radius: 50%;
       border: 10px solid #5e35b1;
       background: conic-gradient(
-        #ff8a80 0deg   45deg,
-        #4fc3f7 45deg  90deg,
-        #ffb74d 90deg  135deg,
-        #ba68c8 135deg 180deg,
-        #64b5f6 180deg 225deg,
-        #4db6ac 225deg 270deg,
-        #ffd54f 270deg 315deg,
-        #f06292 315deg 360deg
+        #ff6f69 0deg   45deg,
+        #2ecc71 45deg  90deg,
+        #f1c40f 90deg  135deg,
+        #9b59b6 135deg 180deg,
+        #3498db 180deg 225deg,
+        #f39c12 225deg 270deg,
+        #8e44ad 270deg 315deg,
+        #1abc9c 315deg 360deg
       );
       box-shadow:
         0 0 0 10px rgba(94, 53, 177, 0.5),
@@ -117,9 +115,7 @@
       color: #ffffff;
       line-height: 1.15;
       pointer-events: none;
-      text-shadow:
-        0 1px 3px rgba(0, 0, 0, 0.5),
-        0 0 4px rgba(0, 0, 0, 0.4);
+      text-shadow: 0 2px 3px rgba(0, 0, 0, 0.4);
     }
 
     .pointer {
@@ -140,12 +136,12 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 135px;
-      height: 135px;
+      width: 150px;
+      height: 150px;
       transform: translate(-50%, -50%);
       border-radius: 50%;
       background: #ffffff;
-      border: 5px solid #5e35b1;
+      border: 6px solid #5e35b1;
       box-shadow:
         0 4px 10px rgba(0, 0, 0, 0.45),
         inset 0 3px 6px rgba(255, 255, 255, 0.9);
@@ -262,7 +258,7 @@
       <div class="wheel-glow"></div>
       <div class="pointer"></div>
       <div id="wheel" class="wheel">
-        <!-- Etiketler JS ile gelecek -->
+        <!-- Dilim yazıları JS ile eklenecek -->
         <div class="center-logo">
           <img src="femud_logo.png" alt="Femud Logo" />
         </div>
@@ -280,9 +276,18 @@
   </div>
 
   <script>
-    // =======================
-    //  DİLİMLER (SENİN AYARLARIN)
-    // =======================
+    // Google Apps Script web app adresin
+    const API_URL = "https://script.google.com/macros/s/AKfycbys_Ptvgz8TbKLAg-wMu70o5UaEA728wMDpLdKBlkwrNMU8nEzBzqy6Wj2cYdwzv5pp/exec";
+
+    // =========================
+    //  DİLİMLER (AYRI AYRI AYAR)
+    // =========================
+    // Buradaki değerleri istediğin zaman değiştirebilirsin.
+    // text:        dilimdeki yazı, \n = alt satır
+    // radius:      merkeze uzaklık
+    // fontSize:    yazı boyutu
+    // maxWidth:    yazının maksimum genişliği
+    // angleOffset: sağ/sol açı düzeltmesi
     const slices = [
       {
         id: 1,
@@ -310,7 +315,7 @@
       },
       {
         id: 4,
-        text: "50 TL Femud \nÜrün Çeki",
+        text: "50 TL Femud\nÜrün Çeki",
         radius: 90,
         fontSize: 10,
         maxWidth: 100,
@@ -350,31 +355,27 @@
       }
     ];
 
-    const wheel = document.getElementById("wheel");
-    const spinBtn = document.getElementById("spinBtn");
-    const resultEl = document.getElementById("result");
-    const nameInput = document.getElementById("nameInput");
-    const igInput = document.getElementById("igInput");
-    const winnersList = document.getElementById("winnersList");
+    const wheel        = document.getElementById("wheel");
+    const spinBtn      = document.getElementById("spinBtn");
+    const resultEl     = document.getElementById("result");
+    const nameInput    = document.getElementById("nameInput");
+    const igInput      = document.getElementById("igInput");
+    const winnersList  = document.getElementById("winnersList");
 
-    const sliceCount = slices.length;
+    const sliceCount   = slices.length;
     const anglePerSlice = 360 / sliceCount;
 
-    // =======================
-    //  DİLİM YAZILARINI OLUŞTUR
-    // =======================
+    // DİLİM YAZILARINI OLUŞTUR
     slices.forEach((slice, index) => {
       const label = document.createElement("div");
       label.className = "slice-label";
 
-      // Satır sonu için \n -> <br>
       label.innerHTML = slice.text.replace(/\n/g, "<br>");
-
       label.style.fontSize = (slice.fontSize || 14) + "px";
-      label.style.width = (slice.maxWidth || 100) + "px";
+      label.style.width    = (slice.maxWidth || 100) + "px";
 
-      const angle = index * anglePerSlice + anglePerSlice / 2 + (slice.angleOffset || 0);
-      const radius = slice.radius || 120;
+      const angle  = index * anglePerSlice + anglePerSlice / 2 + (slice.angleOffset || 0);
+      const radius = slice.radius || 115;
 
       label.style.transform =
         `rotate(${angle}deg) translate(0, -${radius}px) rotate(${-angle}deg)`;
@@ -383,8 +384,8 @@
     });
 
     let currentRotation = 0;
-    let isSpinning = false;
-    const winners = [];
+    let isSpinning      = false;
+    const winners       = [];
 
     function renderWinners() {
       winnersList.innerHTML = "";
@@ -396,60 +397,62 @@
       });
     }
 
-    // =======================
-    //  24 SAATLİK SINIR
-    // =======================
-    const ONE_DAY = 24 * 60 * 60 * 1000;
+    // 24 SAAT KONTROLÜ (Instagram hesabına göre)
+    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
-    function normalizeIg(ig) {
-      return ig.replace(/^@/, "").trim().toLowerCase();
+    function canSpin(ig) {
+      const key = "femud_spin_" + ig.toLowerCase();
+      const last = localStorage.getItem(key);
+      if (!last) return true;
+      const diff = Date.now() - Number(last);
+      return diff >= ONE_DAY_MS;
     }
 
-    function canSpinForIg(ig) {
+    function markSpun(ig) {
+      const key = "femud_spin_" + ig.toLowerCase();
+      localStorage.setItem(key, Date.now().toString());
+    }
+
+    // Google Sheet’e kayıt gönder
+    function sendToSheet(name, ig, prize) {
       try {
-        const key = "femud_wheel_" + normalizeIg(ig);
-        const last = localStorage.getItem(key);
-        if (!last) return true;
-        const lastTime = parseInt(last, 10);
-        if (isNaN(lastTime)) return true;
-        const now = Date.now();
-        return now - lastTime >= ONE_DAY;
-      } catch (e) {
-        // localStorage kapalıysa sınırlama yapma
-        return true;
+        fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            ig: ig,
+            prize: prize
+          })
+        }).catch(err => {
+          console.log("Kayıt gönderilirken hata:", err);
+        });
+      } catch (err) {
+        console.log("Kayıt gönderilemedi:", err);
       }
     }
 
-    function markSpinForIg(ig) {
-      try {
-        const key = "femud_wheel_" + normalizeIg(ig);
-        localStorage.setItem(key, String(Date.now()));
-      } catch (e) {
-        // localStorage yoksa sessiz geç
-      }
-    }
-
-    // =======================
-    //  ÇEVİRME OLAYI
-    // =======================
     spinBtn.addEventListener("click", () => {
       if (isSpinning) return;
 
-      const name = nameInput.value.trim();
-      let ig = igInput.value.trim();
+      const nameRaw = nameInput.value.trim();
+      let igRaw     = igInput.value.trim();
 
-      if (!name || !ig) {
+      if (!nameRaw || !igRaw) {
         alert("Lütfen katılımcı adı ve Instagram adresini doldurun.");
         return;
       }
 
-      if (!ig.startsWith("@")) {
-        ig = "@" + ig;
+      if (!igRaw.startsWith("@")) {
+        igRaw = "@" + igRaw;
       }
 
-      // 24 saat kontrolü
-      if (!canSpinForIg(ig)) {
-        alert("Bu Instagram hesabı ile son 24 saat içinde zaten çark çevirdiniz. Lütfen daha sonra tekrar deneyiniz.");
+      const igClean = igRaw.replace(/^@/, "").trim();
+
+      // 24 saat kontrol
+      if (!canSpin(igClean)) {
+        alert("Bu Instagram hesabı son 24 saat içinde çarkı çevirdi. Lütfen 24 saat sonra tekrar deneyin.");
         return;
       }
 
@@ -457,7 +460,8 @@
       spinBtn.disabled = true;
       resultEl.innerHTML = "";
 
-      const extra = Math.floor(Math.random() * 360) + 1080; // 3 tur + 0-360 arası
+      // Rasgele ekstra dönüş (en az 3 tur)
+      const extra = Math.floor(Math.random() * 360) + 1080;
       currentRotation += extra;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
@@ -465,31 +469,35 @@
         const normalized = ((currentRotation % 360) + 360) % 360;
         const indexFromTop = Math.floor((sliceCount - normalized / anglePerSlice)) % sliceCount;
         const selectedIndex = (indexFromTop + sliceCount) % sliceCount;
-
         const selectedSlice = slices[selectedIndex];
 
+        const prizeText = selectedSlice.text.replace(/\n/g, " ");
+
         resultEl.innerHTML = `
-          Kazanan: <strong>${name}</strong> – <strong>${selectedSlice.text.replace(/\n/g, " ")}</strong><br>
+          Kazanan: <strong>${nameRaw}</strong> – <strong>${prizeText}</strong><br>
           <span class="note">
             Lütfen ekran görüntüsü alarak Instagram'da
             <strong>@Femud_tr</strong> hesabına DM gönderip hediyenizi talep ediniz.
-            (Instagram adresiniz: <strong>${ig}</strong>)
+            (Instagram adresiniz: <strong>@${igClean}</strong>)
           </span>
         `;
 
         winners.push({
-          name,
-          ig: normalizeIg(ig),
-          prize: selectedSlice.text.replace(/\n/g, " ")
+          name: nameRaw,
+          ig: igClean,
+          prize: prizeText
         });
         renderWinners();
 
-        // 24 saatlik hakkı kaydet
-        markSpinForIg(ig);
+        // 24 saat kilidi işaretle
+        markSpun(igClean);
+
+        // Google Sheet’e kaydet
+        sendToSheet(nameRaw, igClean, prizeText);
 
         isSpinning = false;
         spinBtn.disabled = false;
-      }, 4000);
+      }, 4000); // animasyon süresiyle aynı
     });
   </script>
 </body>
