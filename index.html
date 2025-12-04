@@ -274,20 +274,6 @@
       margin-bottom: 14px;
     }
 
-    .modal-btn-primary {
-      width: 100%;
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: none;
-      font-size: 15px;
-      font-weight: 700;
-      color: #fff;
-      cursor: pointer;
-      background: linear-gradient(135deg, #7e57c2, #5e35b1);
-      box-shadow: 0 8px 18px rgba(94, 53, 177, 0.6);
-      margin-bottom: 8px;
-    }
-
     .modal-btn-secondary {
       width: 100%;
       padding: 8px 16px;
@@ -360,11 +346,8 @@
       <div class="modal-title">Tebrikler! 🎉</div>
       <div id="modalPrize" class="modal-prize"></div>
       <div id="modalText" class="modal-text">
-        Hediyenizi talep etmek için aşağıdaki butona basın.
+        Ürününüzü Femud_tr hesabından talep etmek için ekran görüntüsü alıp mesaj olarak gönderiniz.
       </div>
-      <button id="dmBtn" class="modal-btn-primary">
-        Hediyemi Instagram'dan talep et
-      </button>
       <button id="modalClose" class="modal-btn-secondary">
         Kapat
       </button>
@@ -459,7 +442,6 @@
     const prizeModal  = document.getElementById("prizeModal");
     const modalPrize  = document.getElementById("modalPrize");
     const modalText   = document.getElementById("modalText");
-    const dmBtn       = document.getElementById("dmBtn");
     const modalClose  = document.getElementById("modalClose");
 
     const sliceCount    = slices.length;
@@ -554,51 +536,18 @@
     }
 
     // MODAL AÇ/KAPAT
-    let currentDmText = "";
-
-    function openModal(prizeText, dmText) {
+    function openModal(prizeText) {
       modalPrize.textContent = prizeText;
       modalText.textContent =
-        "Hediyenizi talep etmek için aşağıdaki butona basın. Mesajınız panoya kopyalanacak ve @femud_tr profili açılacaktır.";
-      currentDmText = dmText;
+        "Ürününüzü Femud_tr hesabından talep etmek için ekran görüntüsü alıp mesaj olarak gönderiniz.";
       prizeModal.classList.remove("hidden");
     }
 
     function closeModal() {
       prizeModal.classList.add("hidden");
-      currentDmText = "";
     }
 
     modalClose.addEventListener("click", closeModal);
-
-    // DM BUTONU – profil aç + mesajı panoya kopyala
-    dmBtn.addEventListener("click", () => {
-      const dmText = currentDmText || "Merhaba Femud, çekiliş çarkından hediyemi kazandım.";
-
-      // 1) Mesajı panoya kopyala
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          navigator.clipboard.writeText(dmText);
-          alert(
-            "Mesaj panoya kopyalandı.\n" +
-            "@femud_tr hesabında mesaj bölümüne yapıştırıp gönderin."
-          );
-        } else {
-          alert(
-            "Lütfen aşağıdaki mesajı kopyalayıp, Instagram'da @femud_tr hesabına gönderin:\n\n" +
-            dmText
-          );
-        }
-      } catch (e) {
-        alert(
-          "Lütfen aşağıdaki mesajı kopyalayıp, Instagram'da @femud_tr hesabına gönderin:\n\n" +
-          dmText
-        );
-      }
-
-      // 2) Femud Instagram profilini aç
-      window.open("https://instagram.com/femud_tr", "_blank");
-    });
 
     // ÇARK OLAYI
     spinBtn.addEventListener("click", () => {
@@ -646,7 +595,7 @@
         resultEl.innerHTML = `
           Kazanan: <strong>${nameRaw}</strong> – <strong>${prizeText}</strong><br>
           <span class="note">
-            Lütfen hediyenizi talep etmek için açılan penceredeki yönergeleri izleyin.
+            Lütfen hediyenizi talep etmek için ekrandaki yönlendirmeyi izleyin.
           </span>
         `;
 
@@ -666,14 +615,8 @@
         // Konfeti
         fireConfetti();
 
-        // DM için önerilen metin
-        const dmText =
-          `Merhaba Femud, ben ${nameRaw} (@${igClean}). ` +
-          `Femud Çekiliş Çarkı'ndan "${prizeText}" hediyesini kazandım. ` +
-          `Hediyemi talep etmek istiyorum.`;
-
         // Modal aç
-        openModal(prizeText, dmText);
+        openModal(prizeText);
 
         isSpinning = false;
         spinBtn.disabled = false;
