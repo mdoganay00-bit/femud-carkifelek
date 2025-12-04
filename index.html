@@ -308,6 +308,76 @@
       }
     }
 
+    /* Modal (özel kare kutu) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9000;
+    }
+
+    .modal-card {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 16px 18px 14px;
+      width: 90%;
+      max-width: 320px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      text-align: center;
+      animation: modal-pop 0.35s ease-out;
+    }
+
+    @keyframes modal-pop {
+      0%   { transform: scale(0.85); opacity: 0; }
+      60%  { transform: scale(1.02); opacity: 1; }
+      100% { transform: scale(1); }
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #4a148c;
+      margin-bottom: 6px;
+    }
+
+    .modal-prize {
+      font-size: 15px;
+      font-weight: 700;
+      color: #7b1fa2;
+      margin-bottom: 8px;
+    }
+
+    .modal-text {
+      font-size: 12px;
+      color: #444;
+      margin-bottom: 12px;
+    }
+
+    .modal-btn {
+      width: 100%;
+      padding: 10px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      background: linear-gradient(135deg, #ff4081, #f50057);
+      box-shadow: 0 8px 18px rgba(245, 0, 87, 0.6);
+    }
+
+    .modal-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 3px 9px rgba(245, 0, 87, 0.7);
+    }
+
+    .hidden {
+      display: none;
+    }
+
     @media (max-width: 480px) {
       .container {
         border-radius: 0;
@@ -355,6 +425,18 @@
     <div class="winners-box">
       <div class="winners-title">Kazananlar</div>
       <ul id="winnersList"></ul>
+    </div>
+  </div>
+
+  <!-- Kazanılan hediye için kare modal -->
+  <div id="prizeModal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-title">Tebrikler!</div>
+      <div class="modal-prize" id="modalPrizeText"></div>
+      <div class="modal-text">
+        Hediyenizi talep etmek için butona basarak kazandığınız hediyeyi Femud Instagram adresine gönderiniz.
+      </div>
+      <button id="modalDmBtn" class="modal-btn">Instagram'dan hediyemi talep et</button>
     </div>
   </div>
 
@@ -439,8 +521,19 @@
     const igInput     = document.getElementById("igInput");
     const winnersList = document.getElementById("winnersList");
 
+    const prizeModal      = document.getElementById("prizeModal");
+    const modalPrizeText  = document.getElementById("modalPrizeText");
+    const modalDmBtn      = document.getElementById("modalDmBtn");
+
     const sliceCount    = slices.length;
     const anglePerSlice = 360 / sliceCount;
+
+    let currentRotation = 0;
+    let isSpinning      = false;
+    const winners       = [];
+
+    let confettiInterval = null;
+    let modalDmUrl = "";
 
     // DİLİM YAZILARINI OLUŞTUR
     slices.forEach((slice, index) => {
@@ -459,10 +552,6 @@
 
       wheel.appendChild(label);
     });
-
-    let currentRotation = 0;
-    let isSpinning      = false;
-    const winners       = [];
 
     function renderWinners() {
       winnersList.innerHTML = "";
@@ -510,12 +599,12 @@
       }
     }
 
-    // === Premium konfeti efekti ===
-    function launchConfetti() {
+    // === Konfeti ===
+    function launchConfettiBurst() {
       const colors = ["#ff6f69", "#ffcc5c", "#88d8b0", "#6c5ce7", "#fd79a8", "#ffeaa7"];
-      const confettiCount = 110;
+      const count = 35; // küçük küçük patlamalar
 
-      for (let i = 0; i < confettiCount; i++) {
+      for (let i = 0; i < count; i++) {
         const piece = document.createElement("div");
         piece.className = "confetti-piece";
 
@@ -525,15 +614,31 @@
 
         piece.style.left = Math.random() * 100 + "vw";
         piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-        piece.style.animationDuration = (Math.random() * 1.5 + 2.4).toFixed(2) + "s";
-        piece.style.animationDelay    = (Math.random() * 0.8).toFixed(2) + "s";
+        piece.style.animationDuration = (Math.random() * 1.5 + 3).toFixed(2) + "s";
+        piece.style.animationDelay    = (Math.random() * 0.6).toFixed(2) + "s";
         piece.style.transform = `rotateZ(${Math.random() * 360}deg)`;
 
         document.body.appendChild(piece);
 
         setTimeout(() => {
           piece.remove();
-        }, 4500);
+        }, 5000);
+      }
+    }
+
+    function startConfettiContinuous(durationMs = 6000) {
+      stopConfettiContinuous();
+      // ilk patlama
+      launchConfettiBurst();
+      // sonra sürekli yağmur
+      confettiInterval = setInterval(launchConfettiBurst, 500);
+      setTimeout(stopConfettiContinuous, durationMs);
+    }
+
+    function stopConfettiContinuous() {
+      if (confettiInterval) {
+        clearInterval(confettiInterval);
+        confettiInterval = null;
       }
     }
 
@@ -542,6 +647,40 @@
       spinBtn.classList.add("glow");
       setTimeout(() => spinBtn.classList.remove("glow"), 300);
     }
+
+    // Modal aç / kapat
+    function openPrizeModal(name, ig, prizeText) {
+      modalPrizeText.textContent = prizeText;
+
+      const dmMessage =
+        `Merhaba Femud, çekiliş çarkından ödül kazandım.\n` +
+        `İsim: ${name}\n` +
+        `Instagram: @${ig}\n` +
+        `Kazandığım ödül: ${prizeText}`;
+
+      modalDmUrl = `https://ig.me/m/femud_tr?text=${encodeURIComponent(dmMessage)}`;
+
+      prizeModal.classList.remove("hidden");
+    }
+
+    function closePrizeModal() {
+      prizeModal.classList.add("hidden");
+    }
+
+    modalDmBtn.addEventListener("click", () => {
+      if (modalDmUrl) {
+        window.open(modalDmUrl, "_blank");
+      }
+      // kullanıcı butona bastıktan sonra modalı kapatmak istersen:
+      // closePrizeModal();
+    });
+
+    // Arka plana tıklayınca modal kapansın (istersen)
+    prizeModal.addEventListener("click", (e) => {
+      if (e.target === prizeModal) {
+        closePrizeModal();
+      }
+    });
 
     spinBtn.addEventListener("click", () => {
       if (isSpinning) return;
@@ -571,6 +710,8 @@
       resultEl.innerHTML = "";
       resultEl.classList.remove("win");
       wheel.classList.remove("win-animation");
+      closePrizeModal();
+      stopConfettiContinuous();
 
       spinButtonGlow();
 
@@ -610,15 +751,16 @@
         // Google Sheet’e kaydet
         sendToSheet(nameRaw, igClean, prizeText);
 
-        // "Tekrar Çevir" olmayan sonuçlarda konfeti ve çark animasyonu
+        // "Tekrar Çevir" değilse: konfeti + modal + titreşim
         if (!/Tekrar\s*Çevir/i.test(selectedSlice.text)) {
           wheel.classList.add("win-animation");
-          launchConfetti();
+          startConfettiContinuous(6000);
 
-          // Telefonlarda hafif titreşim (destekleyen cihazlarda)
           if (navigator.vibrate) {
             navigator.vibrate([60, 40, 60]);
           }
+
+          openPrizeModal(nameRaw, igClean, prizeText);
         }
 
         isSpinning = false;
