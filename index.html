@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Femud Hediye Çarkı</title>
+  <title>Femud Çekiliş Çarkı</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
@@ -27,8 +27,6 @@
       box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45);
       padding: 18px 18px 22px;
       text-align: center;
-      position: relative;
-      overflow: hidden;
     }
 
     h1 {
@@ -78,12 +76,7 @@
       position: absolute;
       inset: -22px;
       border-radius: 50%;
-      background: radial-gradient(
-        circle,
-        rgba(156, 39, 176, 0.6) 0,
-        rgba(81, 45, 168, 0.3) 40%,
-        transparent 70%
-      );
+      background: radial-gradient(circle, rgba(156, 39, 176, 0.6) 0, rgba(81, 45, 168, 0.3) 40%, transparent 70%);
       filter: blur(6px);
       z-index: 0;
     }
@@ -197,13 +190,6 @@
       color: #4a148c;
     }
 
-    #result .note {
-      font-size: 12px;
-      font-weight: 500;
-      color: #555;
-      margin-top: 4px;
-    }
-
     .winners-box {
       margin-top: 10px;
       padding: 8px 10px;
@@ -233,61 +219,95 @@
     }
 
     /* Modal (kare kutu) */
-    .modal-backdrop {
+    .modal {
       position: fixed;
       inset: 0;
-      background: rgba(15, 0, 40, 0.65);
-      display: flex;
+      display: none;
       align-items: center;
       justify-content: center;
-      z-index: 999;
+      z-index: 20;
     }
 
-    .modal {
-      width: 90%;
-      max-width: 360px;
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .modal-card {
+      position: relative;
       background: #ffffff;
       border-radius: 18px;
       padding: 18px 18px 16px;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+      max-width: 320px;
+      width: 90%;
+      box-shadow: 0 18px 45px rgba(0, 0, 0, 0.6);
       text-align: center;
-      position: relative;
+      z-index: 21;
+      animation: pop-in 0.3s ease-out;
     }
 
-    .modal-title {
-      font-size: 18px;
-      font-weight: 800;
+    .modal-card h2 {
+      margin: 0 0 8px;
+      font-size: 20px;
       color: #4a148c;
-      margin-bottom: 6px;
     }
 
     .modal-prize {
-      font-size: 16px;
       font-weight: 700;
-      color: #2e7d32;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
+      font-size: 15px;
     }
 
     .modal-text {
       font-size: 13px;
-      color: #444;
-      margin-bottom: 14px;
+      color: #555;
+      margin-bottom: 12px;
     }
 
-    .modal-btn-secondary {
-      width: 100%;
-      padding: 8px 16px;
+    .modal-button {
+      border: none;
       border-radius: 999px;
-      border: 1px solid #d1c4e9;
-      font-size: 13px;
+      padding: 9px 16px;
+      font-size: 14px;
       font-weight: 600;
-      color: #4a148c;
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      color: #fff;
       cursor: pointer;
-      background: #f5f5f5;
+      box-shadow: 0 8px 18px rgba(94, 53, 177, 0.5);
     }
 
-    .hidden {
-      display: none;
+    @keyframes pop-in {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    /* Konfeti parçacıkları */
+    .confetti-piece {
+      position: fixed;
+      top: -10px;
+      width: 8px;
+      height: 14px;
+      background: #ffd700;
+      opacity: 0.9;
+      z-index: 19;
+      pointer-events: none;
+      animation-name: confetti-fall;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        transform: translate3d(var(--start-x), -10px, 0) rotateZ(0deg);
+      }
+      100% {
+        transform: translate3d(var(--end-x), 110vh, 0) rotateZ(360deg);
+      }
     }
 
     @media (max-width: 480px) {
@@ -307,7 +327,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>Femud Hediye Çarkı</h1>
+    <h1>Femud Çekiliş Çarkı</h1>
     <div class="subtitle">
       İsmini ve Instagram adresini yaz, çarkı çevir, kazananı belirle.
     </div>
@@ -323,7 +343,6 @@
       <div class="wheel-glow"></div>
       <div class="pointer"></div>
       <div id="wheel" class="wheel">
-        <!-- Dilim yazıları JS ile eklenecek -->
         <div class="center-logo">
           <img src="femud_logo.png" alt="Femud Logo" />
         </div>
@@ -340,22 +359,20 @@
     </div>
   </div>
 
-  <!-- ÖDÜL MODALİ -->
-  <div id="prizeModal" class="modal-backdrop hidden">
-    <div class="modal">
-      <div class="modal-title">Tebrikler! 🎉</div>
+  <!-- Sonuç Modali -->
+  <div id="resultModal" class="modal">
+    <div class="modal-backdrop"></div>
+    <div class="modal-card">
+      <h2>🎉 Tebrikler!</h2>
       <div id="modalPrize" class="modal-prize"></div>
-      <div id="modalText" class="modal-text">
-        Ürününüzü Femud_tr hesabından talep etmek için ekran görüntüsü alıp mesaj olarak gönderiniz.
+      <div class="modal-text">
+        Lütfen bu ekranın <strong>görüntüsünü alın</strong> ve
+        Instagram'da <strong>@femud_tr</strong> hesabına mesaj olarak gönderin.
+        Mesajınıza adınızı ve telefon numaranızı da ekleyin.
       </div>
-      <button id="modalClose" class="modal-btn-secondary">
-        Kapat
-      </button>
+      <button id="modalClose" class="modal-button">Tamam</button>
     </div>
   </div>
-
-  <!-- Konfeti kütüphanesi -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 
   <script>
     // Google Apps Script web app adresin
@@ -363,7 +380,7 @@
       "https://script.google.com/macros/s/AKfycbys_Ptvgz8TbKLAg-wMu70o5UaEA728wMDpLdKBlkwrNMU8nEzBzqy6Wj2cYdwzv5pp/exec";
 
     // =========================
-    //  DİLİMLER (AYRI AYRI AYAR)
+    //  DİLİMLER
     // =========================
     const slices = [
       {
@@ -424,7 +441,7 @@
       },
       {
         id: 8,
-        text: "3 Ürün alana\n70 Tl İndirim",
+        text: "3 Ürün alana\n70 TL İndirim",
         radius: 140,
         fontSize: 8,
         maxWidth: 110,
@@ -439,20 +456,19 @@
     const igInput     = document.getElementById("igInput");
     const winnersList = document.getElementById("winnersList");
 
-    const prizeModal  = document.getElementById("prizeModal");
+    const resultModal = document.getElementById("resultModal");
     const modalPrize  = document.getElementById("modalPrize");
-    const modalText   = document.getElementById("modalText");
     const modalClose  = document.getElementById("modalClose");
 
-    const sliceCount    = slices.length;
+    const sliceCount   = slices.length;
     const anglePerSlice = 360 / sliceCount;
 
     // DİLİM YAZILARINI OLUŞTUR
     slices.forEach((slice, index) => {
       const label = document.createElement("div");
       label.className = "slice-label";
-
       label.innerHTML = slice.text.replace(/\n/g, "<br>");
+
       label.style.fontSize = (slice.fontSize || 14) + "px";
       label.style.width    = (slice.maxWidth || 100) + "px";
 
@@ -468,6 +484,7 @@
     let currentRotation = 0;
     let isSpinning      = false;
     const winners       = [];
+    let lastResultData  = null;
 
     function renderWinners() {
       winnersList.innerHTML = "";
@@ -495,7 +512,7 @@
       localStorage.setItem(key, Date.now().toString());
     }
 
-    // Google Sheet’e kayıt gönder
+    // Google Sheet’e kayıt gönder (oyun = Çark)
     function sendToSheet(name, ig, prize) {
       try {
         fetch(API_URL, {
@@ -505,7 +522,9 @@
           body: JSON.stringify({
             name: name,
             ig: ig,
-            prize: prize
+            prize: prize,
+            game: "Çark",
+            points: 0
           })
         }).catch(err => {
           console.log("Kayıt gönderilirken hata:", err);
@@ -515,41 +534,44 @@
       }
     }
 
-    // KONFETİ
-    function fireConfetti() {
-      if (typeof confetti !== "function") return;
-      const duration = 2500;
-      const end = Date.now() + duration;
+    // Konfeti
+    function launchConfetti() {
+      const colors = ["#ff6f69", "#ffcc5c", "#88d8b0", "#a29bfe", "#fd79a8"];
+      const total = 140;
 
-      (function frame() {
-        confetti({
-          particleCount: 4,
-          startVelocity: 35,
-          spread: 55,
-          ticks: 200,
-          origin: { x: Math.random(), y: Math.random() - 0.2 }
-        });
-        if (Date.now() < end) {
-          requestAnimationFrame(frame);
-        }
-      })();
+      for (let i = 0; i < total; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        const color = colors[i % colors.length];
+        piece.style.backgroundColor = color;
+
+        const startX = (Math.random() * 100) + "vw";
+        const endX   = (Math.random() * 100) + "vw";
+        piece.style.left = startX;
+
+        piece.style.setProperty("--start-x", "0");
+        piece.style.setProperty("--end-x", "0");
+
+        piece.style.animationDuration = (3 + Math.random() * 3) + "s";
+        piece.style.animationDelay    = (Math.random() * 0.5) + "s";
+
+        document.body.appendChild(piece);
+
+        setTimeout(() => piece.remove(), 7000);
+      }
     }
 
-    // MODAL AÇ/KAPAT
-    function openModal(prizeText) {
+    function openResultModal(prizeText) {
       modalPrize.textContent = prizeText;
-      modalText.textContent =
-        "Ürününüzü Femud_tr hesabından talep etmek için ekran görüntüsü alıp mesaj olarak gönderiniz.";
-      prizeModal.classList.remove("hidden");
+      resultModal.classList.add("show");
+      lastResultData = { prizeText };
+      launchConfetti();
     }
 
-    function closeModal() {
-      prizeModal.classList.add("hidden");
-    }
+    modalClose.addEventListener("click", () => {
+      resultModal.classList.remove("show");
+    });
 
-    modalClose.addEventListener("click", closeModal);
-
-    // ÇARK OLAYI
     spinBtn.addEventListener("click", () => {
       if (isSpinning) return;
 
@@ -567,7 +589,6 @@
 
       const igClean = igRaw.replace(/^@/, "").trim();
 
-      // 24 saat kontrol
       if (!canSpin(igClean)) {
         alert("Bu Instagram hesabı son 24 saat içinde çarkı çevirdi. Lütfen 24 saat sonra tekrar deneyin.");
         return;
@@ -577,27 +598,20 @@
       spinBtn.disabled = true;
       resultEl.innerHTML = "";
 
-      // Rasgele ekstra dönüş (en az 3 tur)
-      const extra = Math.floor(Math.random() * 360) + 1080;
+      const extra = Math.floor(Math.random() * 360) + 1080; // en az 3 tur
       currentRotation += extra;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
       setTimeout(() => {
-        const normalized = ((currentRotation % 360) + 360) % 360;
-        const indexFromTop = Math.floor(
-          (sliceCount - normalized / anglePerSlice)
-        ) % sliceCount;
+        const normalized   = ((currentRotation % 360) + 360) % 360;
+        const indexFromTop = Math.floor((sliceCount - normalized / anglePerSlice)) % sliceCount;
         const selectedIndex = (indexFromTop + sliceCount) % sliceCount;
         const selectedSlice = slices[selectedIndex];
 
         const prizeText = selectedSlice.text.replace(/\n/g, " ");
 
-        resultEl.innerHTML = `
-          Kazanan: <strong>${nameRaw}</strong> – <strong>${prizeText}</strong><br>
-          <span class="note">
-            Lütfen hediyenizi talep etmek için ekrandaki yönlendirmeyi izleyin.
-          </span>
-        `;
+        resultEl.innerHTML =
+          `Kazanan: <strong>${nameRaw}</strong> – <strong>${prizeText}</strong>`;
 
         winners.push({
           name: nameRaw,
@@ -606,17 +620,10 @@
         });
         renderWinners();
 
-        // 24 saat kilidi işaretle
         markSpun(igClean);
-
-        // Google Sheet’e kaydet
         sendToSheet(nameRaw, igClean, prizeText);
 
-        // Konfeti
-        fireConfetti();
-
-        // Modal aç
-        openModal(prizeText);
+        openResultModal(prizeText);
 
         isSpinning = false;
         spinBtn.disabled = false;
@@ -625,4 +632,3 @@
   </script>
 </body>
 </html>
-
