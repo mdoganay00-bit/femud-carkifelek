@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Arkadaş Davet & Kupon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="femud_logo.png" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #8c5bff, #2b0b4f);
+      color: #fff;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(20, 6, 40, 0.9);
+      border-radius: 24px;
+      padding: 24px 20px 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      text-align: center;
+      opacity: 0.8;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(140, 91, 255, 0.25);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 12px;
+      margin: 0 auto 20px;
+    }
+
+    .badge span {
+      font-weight: 600;
+    }
+
+    label {
+      font-size: 13px;
+      opacity: 0.9;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(10, 3, 25, 0.9);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, opacity 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff5bbd, #ff9b4b);
+      color: #1b062e;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.16);
+      margin-top: 8px;
+      width: 100%;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .helper {
+      font-size: 12px;
+      opacity: 0.75;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .info-box {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .info-box ul {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+
+    .info-box li + li {
+      margin-top: 2px;
+    }
+
+    .status {
+      margin-top: 8px;
+      font-size: 12px;
+      min-height: 16px;
+    }
+
+    .status.ok { color: #6fff9b; }
+    .status.err { color: #ff8080; }
+
+    @media (min-width: 480px) {
+      .card {
+        padding: 26px 26px 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="title">👥 Arkadaş Davet & Kupon</div>
+    <div class="subtitle">
+      Arkadaşlarını Femud Oyun Merkezi'ne davet et, oyun hakkı ve indirim kuponu kazan.
+    </div>
+
+    <div class="badge">
+      🎁 <span>Her gerçek davet = +1 ekstra oyun hakkı</span>
+    </div>
+
+    <div class="input-group">
+      <label for="ig">Instagram adın (@ işareti olmadan)</label>
+      <input id="ig" type="text" placeholder="örnek: femud_tr" />
+    </div>
+
+    <div class="row">
+      <button class="btn btn-primary" id="createLinkBtn">
+        🔗 Davet linki oluştur
+      </button>
+    </div>
+
+    <div class="input-group">
+      <label for="inviteLink">Davet linkin</label>
+      <input id="inviteLink" type="text" readonly placeholder="Önce yukarıdan davet linki oluştur" />
+    </div>
+
+    <div class="row">
+      <button class="btn btn-outline" id="copyBtn">
+        📋 Linki kopyala
+      </button>
+    </div>
+
+    <div class="helper">
+      Bu sayfada oluşturduğun linki arkadaşlarına gönder.  
+      Onlar bu linkten girip oyun oynadığında, sistemde davetin görünür.
+    </div>
+
+    <div class="info-box">
+      <strong>Nasıl çalışıyor?</strong>
+      <ul>
+        <li>Senin için benzersiz bir davet kodu üretilir.</li>
+        <li>Link örneği: <code>https://femud.com/OyunMerkezi.html?kod=XXXXXX</code></li>
+        <li>Aynı kişi birden çok kez tıklasa bile, 24 saat içinde tek davet sayılır.</li>
+      </ul>
+    </div>
+
+    <div class="status" id="status"></div>
+
+    <button class="btn btn-secondary" onclick="window.location.href='OyunMerkezi.html'">
+      🎮 Oyun Merkezine Dön
+    </button>
+  </div>
+
+  <script>
+    const igInput = document.getElementById('ig');
+    const inviteInput = document.getElementById('inviteLink');
+    const statusEl = document.getElementById('status');
+
+    function randomCode(len) {
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      let out = '';
+      for (let i = 0; i < len; i++) {
+        out += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return out;
+    }
+
+    document.getElementById('createLinkBtn').addEventListener('click', () => {
+      const ig = igInput.value.trim();
+      if (!ig) {
+        statusEl.textContent = 'Instagram adını yazmalısın.';
+        statusEl.className = 'status err';
+        return;
+      }
+
+      const code = randomCode(6);
+      const link = `https://femud.com/OyunMerkezi.html?kod=${encodeURIComponent(code)}&ref=${encodeURIComponent(ig)}`;
+
+      inviteInput.value = link;
+      statusEl.textContent = 'Davet linkin hazır. Kopyalayıp arkadaşlarına gönderebilirsin.';
+      statusEl.className = 'status ok';
+    });
+
+    document.getElementById('copyBtn').addEventListener('click', async () => {
+      if (!inviteInput.value) {
+        statusEl.textContent = 'Önce davet linki oluştur.';
+        statusEl.className = 'status err';
+        return;
+      }
+
+      try {
+        await navigator.clipboard.writeText(inviteInput.value);
+        statusEl.textContent = 'Link panoya kopyalandı.';
+        statusEl.className = 'status ok';
+      } catch (e) {
+        statusEl.textContent = 'Kopyalanamadı, metni elle seçip kopyalayabilirsin.';
+        statusEl.className = 'status err';
+      }
+    });
+  </script>
+</body>
+</html>
