@@ -6,111 +6,118 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="icon" href="femud_logo.png" />
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-    min-height:100vh;
-    font-family:system-ui,-apple-system;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:radial-gradient(circle at top,#19002a,#0d0018);
-    color:#fff;
-    padding:24px;
-}
-.card{
-    width:100%;max-width:520px;
-    background:rgba(20,6,40,0.9);
-    border-radius:24px;
-    padding:24px 20px 28px;
-    box-shadow:0 20px 40px rgba(0,0,0,0.35);
-    border:1px solid rgba(255,255,255,0.08);
-}
-.title{
-    font-size:22px;
-    font-weight:800;
-    text-align:center;
-    margin-bottom:8px;
-}
-.subtitle{
-    font-size:14px;text-align:center;
-    opacity:0.8;margin-bottom:20px;
-}
-.badge{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:6px 12px;
-    border-radius:999px;
-    background:rgba(140,91,255,0.25);
-    border:1px solid rgba(255,255,255,0.08);
-    font-size:12px;margin:0 auto 20px;
-}
-.input-group{margin-bottom:14px}
-label{font-size:13px;opacity:.9;display:block;margin-bottom:6px}
-input[type="text"]{
-    width:100%;padding:10px 12px;
-    border-radius:999px;
-    border:1px solid rgba(255,255,255,0.15);
-    background:rgba(10,3,25,0.9);
-    color:#fff;font-size:14px;
-}
-input[type="text"]::placeholder{color:rgba(255,255,255,0.4)}
-.row{display:flex;gap:8px;margin-bottom:10px}
-.btn{
-    flex:1;border-radius:999px;border:none;
-    font-size:14px;font-weight:600;
-    padding:10px 14px;cursor:pointer;
-    display:inline-flex;align-items:center;
-    justify-content:center;gap:6px;
-}
-.btn-primary{
-    background:linear-gradient(135deg,#7d4bff,#a46cff);
-    color:#1b062e;
-    box-shadow:0 8px 18px rgba(0,0,0,0.35);
-}
-.btn-outline{
-    background:transparent;color:#fff;
-    border:1px solid rgba(255,255,255,0.3);
-}
-.btn-secondary{
-    background:rgba(255,255,255,0.06);
-    color:#fff;border:1px solid rgba(255,255,255,0.08);
-    width:100%;margin-top:8px;
-}
-.status{
-    margin-top:8px;font-size:12px;
-    min-height:16px;
-}
-.status.ok{color:#6fff9b}
-.status.err{color:#ff8080}
-.helper{
-    font-size:12px;opacity:.75;line-height:1.4;
-    margin-bottom:12px;text-align:center;
-}
-.info-box{
-    margin-top:10px;padding:10px 12px;
-    border-radius:16px;background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.06);
-    font-size:12px;line-height:1.4;
-}
-.info-box ul{padding-left:18px;margin-top:6px}
-.info-box li + li{margin-top:2px}
-@media(min-width:480px){.card{padding:26px 26px 30px}}
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+        min-height: 100vh;
+        font-family: system-ui, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: radial-gradient(circle at top, #280a3c, #0a0515);
+        color: #fff;
+        padding: 24px;
+    }
+
+    .card {
+        width: 100%;
+        max-width: 520px;
+        background: rgba(20, 6, 40, 0.9);
+        border-radius: 24px;
+        padding: 24px 20px 28px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .title { font-size: 22px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+    .subtitle { font-size: 14px; text-align: center; opacity: 0.8; margin-bottom: 20px; }
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(140,91,255,0.25);
+        border: 1px solid rgba(255,255,255,0.15);
+        font-size: 12px;
+        margin: 0 auto 20px;
+    }
+
+    .input-group { margin-bottom: 14px; }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.1);
+        background: rgba(10,3,25,0.9);
+        color: #fff;
+        font-size: 14px;
+        outline: none;
+    }
+
+    input[type="text"]::placeholder { color: rgba(255,255,255,0.45); }
+
+    .row {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .btn {
+        flex: 1;
+        border-radius: 999px;
+        border: none;
+        font-size: 14px;
+        font-weight: 600;
+        padding: 10px 14px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        transition: transform 0.12s ease;
+    }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-primary {
+        background: linear-gradient(135deg,#6f3bff,#3e1cb3);
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+    }
+
+    .btn-outline {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.35);
+    }
+
+    .btn-secondary {
+        background: rgba(255,255,255,0.06);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.15);
+        margin-top: 8px;
+        width: 100%;
+    }
+
+    .status { margin-top: 8px; font-size: 12px; min-height: 18px; }
+    .status.ok { color: #6fff9b; }
+    .status.err { color: #ff8080; }
+
 </style>
 </head>
+
 <body>
-
 <div class="card">
+    <div class="title">👥 Arkadaş Davet & Ekstra Oyun</div>
+    <div class="subtitle">Arkadaşlarını Femud Oyun Merkezi'ne davet et</div>
 
-    <div class="title">👥 Arkadaş Davet & Ekstra Oyun Hakkı</div>
-
-    <div class="subtitle">Arkadaşlarını Femud Oyun Merkezi’ne davet et</div>
-
-    <div class="badge">🎁 <span>Her doğru davet = +1 ekstra oyun hakkı</span></div>
+    <div class="badge">🎁 <span>Her gerçek davet = +1 ekstra oyun hakkı</span></div>
 
     <div class="input-group">
         <label for="ig">Instagram adın (@ işareti olmadan)</label>
-        <input id="ig" type="text" placeholder="örnek: femudoficial">
+        <input id="ig" type="text" placeholder="örn: mustafadoganay">
     </div>
 
     <div class="row">
@@ -126,24 +133,9 @@ input[type="text"]::placeholder{color:rgba(255,255,255,0.4)}
         <button class="btn btn-outline" id="copyBtn">📋 Linki kopyala</button>
     </div>
 
-    <div class="helper">
-        Bu linki arkadaşlarına gönder.<br>
-        Onlar bu linkten girip oyun oynadığında sen +1 oyun hakkı kazanırsın.
-    </div>
-
-    <div class="info-box">
-        <strong>Nasıl çalışıyor?</strong>
-        <ul>
-            <li>Sana özel benzersiz bir davet linki oluşturulur.</li>
-            <li>Arkadaşın bu linkten Oyun Merkezi’ne girerse sistem otomatik kaydeder.</li>
-            <li>Aynı kişi tekrar tekrar tıklarsa sadece 1 kez sayılır.</li>
-        </ul>
-    </div>
-
     <div class="status" id="status"></div>
 
     <button class="btn btn-secondary" onclick="location.href='OyunMerkezi.html'">🎮 Oyun Merkezine Dön</button>
-
 </div>
 
 <script>
@@ -151,50 +143,46 @@ const igInput = document.getElementById("ig");
 const inviteInput = document.getElementById("inviteLink");
 const statusEl = document.getElementById("status");
 
-function randomCode(len){
-    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+function randomCode(len) {
+    const chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ123456789";
     let out = "";
-    for(let i=0;i<len;i++){
-        out += chars[Math.floor(Math.random()*chars.length)];
-    }
+    for (let i = 0; i < len; i++) out += chars[Math.floor(Math.random()*chars.length)];
     return out;
 }
 
-document.getElementById("createLinkBtn").addEventListener("click", ()=>{
+document.getElementById("createLinkBtn").addEventListener("click", () => {
     const ig = igInput.value.trim();
-    if(!ig){
-        statusEl.textContent = "Instagram adını yazmadın.";
+    if (!ig) {
+        statusEl.textContent = "Instagram adını yazmalısın.";
         statusEl.className = "status err";
         return;
     }
 
     const code = randomCode(6);
 
-    // 🌟 SENİN OYUN MERKEZİ DOĞRULAMA SAYFAN
-    const link = `https://femud.com/OyunMerkezi.html?ref=${ig}_${code}`;
+    const link = `https://femud.com/OyunMerkezi.html?ref=${ig}&kod=${code}`;
 
     inviteInput.value = link;
     statusEl.textContent = "Davet linkin hazır!";
     statusEl.className = "status ok";
 });
 
-document.getElementById("copyBtn").addEventListener("click", async ()=>{
-    if(!inviteInput.value){
-        statusEl.textContent = "Önce link oluşturmalısın";
+document.getElementById("copyBtn").addEventListener("click", async () => {
+    if (!inviteInput.value) {
+        statusEl.textContent = "Önce davet linki oluşturmalısın.";
         statusEl.className = "status err";
         return;
     }
 
-    try{
+    try {
         await navigator.clipboard.writeText(inviteInput.value);
         statusEl.textContent = "Link panoya kopyalandı!";
         statusEl.className = "status ok";
-    }catch(e){
+    } catch (e) {
         statusEl.textContent = "Kopyalanamadı!";
         statusEl.className = "status err";
     }
 });
 </script>
-
 </body>
 </html>
