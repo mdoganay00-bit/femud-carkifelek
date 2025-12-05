@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Femud Hediye Merkezi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{
+    background:#1a0033;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+    padding:20px;
+}
+.container{
+    background:#28004d;
+    padding:20px;
+    border-radius:15px;
+    max-width:500px;
+    margin:auto;
+    box-shadow:0 0 20px #9b4dff;
+}
+.button{
+    display:block;
+    background:#ff00aa;
+    margin:15px auto;
+    padding:15px;
+    width:80%;
+    border-radius:10px;
+    color:white;
+    text-decoration:none;
+    font-size:20px;
+    font-weight:bold;
+    box-shadow:0 0 10px #ff00aa;
+}
+.button:hover{
+    background:#ff33cc;
+}
+h1{
+    font-size:28px;
+    margin-bottom:10px;
+}
+.codeBox{
+    margin-top:20px;
+    background:#3f0077;
+    padding:15px;
+    border-radius:10px;
+    font-size:18px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎁 FEMUD HEDİYE MERKEZİ</h1>
+<p>Femud eğlence & ödül sistemine hoş geldin!</p>
+
+<div class="container">
+
+    <a class="button" href="Kazikazan.html">🎯 Kazı Kazan Oyna</a>
+    <a class="button" href="index.html">🎡 Çarkıfelek Oyna</a>
+
+    <a class="button" href="#" onclick="generateCode()">🎫 Kupon Kodlarım</a>
+
+    <a class="button" href="#" onclick="showInvite()">🤝 Arkadaş Davet Et</a>
+
+    <div id="output" class="codeBox" style="display:none;"></div>
+
+</div>
+
+
+<script>
+// Özel kupon kodu üretme
+function generateCode(){
+    const code = "FMD-" + Math.random().toString(36).substring(2,8).toUpperCase();
+    document.getElementById("output").style.display="block";
+    document.getElementById("output").innerHTML =
+        "🎉 <b>Kupon Kodun:</b><br><br>" + code +
+        "<br><br>24 saat geçerlidir.";
+}
+
+// Davet sistemi
+function showInvite(){
+    let userId = localStorage.getItem("femudUser");
+    if(!userId){
+        userId = "U" + Math.random().toString(36).substring(2,10);
+        localStorage.setItem("femudUser", userId);
+    }
+
+    const inviteLink = "https://femud.com/?davet=" + userId;
+
+    document.getElementById("output").style.display="block";
+    document.getElementById("output").innerHTML =
+        "🤝 <b>Davet Linkin:</b><br><br>" +
+        "<textarea style='width:90%;height:60px;'>" + inviteLink + "</textarea>" +
+        "<br><br>Bu linki paylaş, her arkadaş = +1 oyun hakkı!";
+}
+</script>
+
+</body>
+</html>
