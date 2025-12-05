@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Hediye Merkezi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #7b3df0, #1a062a 55%, #070012);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 12px;
+    }
+
+    .page {
+      width: 100%;
+      max-width: 480px;
+      background: radial-gradient(circle at top, #3b155d, #1a0828 60%);
+      border-radius: 24px;
+      padding: 20px 18px 24px;
+      box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .logo-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.35);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 8px;
+    }
+
+    .logo-badge span.dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #ffce4a;
+      margin-right: 6px;
+    }
+
+    .header h1 {
+      font-size: 22px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .header p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.4;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(255,255,255,0.7);
+      margin: 14px 2px 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .card {
+      position: relative;
+      padding: 12px 11px;
+      border-radius: 16px;
+      background: radial-gradient(circle at top left, #8f4bff, #321551 60%);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+
+    .card--secondary {
+      background: radial-gradient(circle at top left, #5321a5, #22112f 60%);
+    }
+
+    .card--muted {
+      background: radial-gradient(circle at top left, #31203f, #140817 60%);
+      opacity: 0.95;
+    }
+
+    .card h2 {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    .card p {
+      font-size: 12px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      background: rgba(0,0,0,0.3);
+      color: rgba(255,255,255,0.85);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      margin-right: 5px;
+      background: #ffce4a;
+      box-shadow: 0 0 10px rgba(255, 206, 74, 0.7);
+    }
+
+    .pill-dot.green {
+      background: #5ee674;
+      box-shadow: 0 0 10px rgba(94, 230, 116, 0.6);
+    }
+
+    .pill-dot.blue {
+      background: #3bc2ff;
+      box-shadow: 0 0 10px rgba(59, 194, 255, 0.6);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #ff4cc3, #ffb347);
+      color: #2b003c;
+      box-shadow: 0 9px 20px rgba(0,0,0,0.35);
+      transition: transform 0.08s ease, box-shadow 0.08s ease, opacity 0.08s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0,0,0,0.45);
+    }
+
+    .btn:active {
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    .btn--ghost {
+      background: rgba(0,0,0,0.35);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: none;
+    }
+
+    .btn--full {
+      width: 100%;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .btn span.icon {
+      font-size: 14px;
+      margin-right: 6px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .input {
+      flex: 1;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(3,0,12,0.6);
+      color: #fff;
+      padding: 7px 11px;
+      font-size: 12px;
+      outline: none;
+    }
+
+    .input::placeholder {
+      color: rgba(255,255,255,0.45);
+    }
+
+    .note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.4;
+      margin-top: 6px;
+    }
+
+    .note strong {
+      color: #ffe082;
+    }
+
+    .footer {
+      margin-top: 14px;
+      text-align: center;
+      font-size: 10px;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .footer span {
+      opacity: 0.8;
+    }
+
+    .tagline {
+      font-size: 10px;
+      margin-top: 4px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.58);
+    }
+
+    .code-box {
+      margin-top: 6px;
+      padding: 6px 8px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.45);
+      border: 1px dashed rgba(255,255,255,0.24);
+      font-size: 11px;
+      word-break: break-all;
+    }
+
+    .code-label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 2px;
+    }
+
+    .tiny {
+      font-size: 10px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <header class="header">
+      <div class="logo-badge">
+        <span class="dot"></span>
+        FEMUD HEDİYE MERKEZİ
+      </div>
+      <h1>Femud Hediye Merkezi</h1>
+      <p>Çarkıfelek, Kazı Kazan, kupon kodu ve davet sistemi tek sayfada.</p>
+    </header>
+
+    <!-- Oyunlar Bölümü -->
+    <div class="section-title">Oyunlar</div>
+
+    <section class="grid" aria-label="Oyunlar">
+      <!-- Çarkıfelek -->
+      <article class="card">
+        <div class="pill">
+          <span class="pill-dot"></span> Ana Oyun
+        </div>
+        <h2>Femud Çarkıfelek</h2>
+        <p>İsmini ve Instagram adresini yaz, çevir ve anında indirim kazan.</p>
+        <button class="btn" onclick="goToWheel()">
+          <span class="icon">🎡</span>
+          Çarkıfelek'e Git
+        </button>
+      </article>
+
+      <!-- Kazı Kazan -->
+      <article class="card card--secondary">
+        <div class="pill">
+          <span class="pill-dot blue"></span> Premium
+        </div>
+        <h2>Femud Kazı Kazan</h2>
+        <p>5×5 kare içinde 6 seçim hakkı. Aynı tutardan 3 tane bul, kuponu kap!</p>
+        <button class="btn" onclick="goToScratch()">
+          <span class="icon">🎁</span>
+          Kazı Kazan'a Git
+        </button>
+      </article>
+    </section>
+
+    <!-- Kupon & Davet Bölümü -->
+    <div class="section-title">Kupon & Davet</div>
+
+    <section class="grid" aria-label="Kupon ve davet">
+      <!-- Kupon Kodu -->
+      <article class="card card--secondary">
+        <div class="pill">
+          <span class="pill-dot green"></span> Kupon
+        </div>
+        <h2>Özel Kupon Kodum</h2>
+        <p>Femud indirim kampanyalarında kullanacağın özel kupon kodunu oluştur.</p>
+        <button class="btn btn--full" onclick="generateCoupon()">
+          <span class="icon">✨</span>
+          Kupon Kodu Oluştur
+        </button>
+
+        <div id="couponBox" style="display:none;">
+          <div class="code-label">Kupon Kodun:</div>
+          <div class="code-box" id="couponCode">FEMUD-XXXXXX</div>
+          <div class="tiny" id="couponInfo">
+            Kod panoya kopyalandı. Sipariş sırasında “kupon” alanına yazabilirsin.
+          </div>
+        </div>
+      </article>
+
+      <!-- Davet Sistemi -->
+      <article class="card card--muted" id="inviteCard">
+        <div class="pill">
+          <span class="pill-dot"></span> Davet Sistemi
+        </div>
+        <h2>Davet Et, Oyun Hakkı Kazan</h2>
+        <p>Her gerçek arkadaş davetinde 1 oyun hakkı. Aşağıdan davet linkini al.</p>
+
+        <div class="form-row">
+          <input
+            id="igInput"
+            class="input"
+            type="text"
+            placeholder="Instagram adresin (@siz_olmadan)"
+          />
+        </div>
+
+        <button class="btn btn--full" style="margin-top:8px;" onclick="createInviteLink()">
+          <span class="icon">📨</span>
+          Davet Linkimi Oluştur
+        </button>
+
+        <div id="inviteBox" style="display:none;">
+          <div class="code-label">Davet Linkin:</div>
+          <div class="code-box" id="inviteLink">https://femud.com/?kod=XXXXXX</div>
+          <p class="tiny" id="inviteInfo">
+            Bu linki arkadaşlarına gönder. Her gerçek davet için +1 oyun hakkı
+            sistemde tutulacak. (Google Sheet bağlantısını kurduktan sonra
+            otomatik saymaya başlayacak.)
+          </p>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span>Femud, doğadan gelen güç.</span>
+      <div class="tagline">oyna · kazan · femud ile harca</div>
+    </footer>
+  </main>
+
+  <script>
+    // --- Navigasyon Fonksiyonları ---
+
+    // Çarkıfelek (şu anki index.html)
+    function goToWheel() {
+      // Sitenin ana sayfası çarkıfelek ise:
+      window.location.href = "https://femud.com/";
+      // Eğer farklı dosyaya taşırsak sadece bu adresi değiştirmen yeterli.
+    }
+
+    // Kazı Kazan (Kazikazan.html)
+    function goToScratch() {
+      window.location.href = "https://femud.com/Kazikazan.html";
+    }
+
+    // --- Kupon Kodu Oluşturma ---
+
+    function generateCoupon() {
+      // Kullanıcıya özel basit kupon kodu
+      var base = "FEMUD-";
+      var randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+      var code = base + randomPart;
+
+      var box = document.getElementById("couponBox");
+      var codeEl = document.getElementById("couponCode");
+      var infoEl = document.getElementById("couponInfo");
+
+      codeEl.textContent = code;
+      box.style.display = "block";
+
+      // Panoya kopyala (destek varsa)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(code).then(function () {
+          infoEl.textContent =
+            "Kod panoya kopyalandı. Sipariş verirken Femud’a bu kodu söyleyebilirsin.";
+        }).catch(function () {
+          infoEl.textContent =
+            "Kodu kopyalayamadık, istersen elle seçip kopyalayabilirsin.";
+        });
+      } else {
+        infoEl.textContent =
+          "Tarayıcın otomatik kopyalamayı desteklemiyor, kodu elle seçip kopyalayabilirsin.";
+      }
+
+      // Aynı cihazda hatırlamak için isteğe bağlı kayıt
+      try {
+        localStorage.setItem("femud_coupon_code", code);
+      } catch (e) {}
+    }
+
+    // Sayfa açıldığında varsa eski kuponu göster
+    (function restoreCoupon() {
+      try {
+        var old = localStorage.getItem("femud_coupon_code");
+        if (old) {
+          var box = document.getElementById("couponBox");
+          var codeEl = document.getElementById("couponCode");
+          codeEl.textContent = old;
+          box.style.display = "block";
+        }
+      } catch (e) {}
+    })();
+
+
+    // --- Davet Linki Oluşturma ---
+
+    function createInviteLink() {
+      var igInput = document.getElementById("igInput");
+      var ig = (igInput.value || "").trim();
+
+      if (!ig) {
+        alert("Önce Instagram adresini yaz (örnek: femud_tr).");
+        igInput.focus();
+        return;
+      }
+
+      // @ işareti yazdıysa silelim
+      if (ig.startsWith("@")) {
+        ig = ig.substring(1);
+      }
+
+      // Basit, benzersiz görünen bir kod üretelim
+      var short = ig.replace(/[^a-zA-Z0-9]/g, "").toUpperCase().substring(0, 4);
+      if (short.length < 2) short = "FD";
+
+      var rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+      var code = short + "-" + rand;
+
+      // Davet linkinin formatı:
+      // Örneğin: https://femud.com/?kod=AB34TK
+      // İstersen bunu Kazı Kazan veya Çarkıfelek sayfasına da yönlendirebiliriz.
+      var link = "https://femud.com/?kod=" + encodeURIComponent(code);
+
+      var box = document.getElementById("inviteBox");
+      var linkEl = document.getElementById("inviteLink");
+      var infoEl = document.getElementById("inviteInfo");
+
+      linkEl.textContent = link;
+      box.style.display = "block";
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(link).then(function () {
+          infoEl.textContent =
+            "Davet linkin panoya kopyalandı. Arkadaşlarına bu linki gönder. " +
+            "Google Sheet bağlantısını kurduğumuzda her gerçek tıklamayı " +
+            "oyun hakkına çevireceğiz.";
+        }).catch(function () {
+          infoEl.textContent =
+            "Linki kopyalayamadık, istersen elle seçip kopyalayabilirsin.";
+        });
+      }
+
+      // Aynı cihazda bu kodu hatırlayalım
+      try {
+        localStorage.setItem("femud_invite_code", code);
+        localStorage.setItem("femud_invite_ig", ig);
+      } catch (e) {}
+    }
+
+    // Sayfa açıldığında daha önce oluşturulan davet linkini geri yükle
+    (function restoreInvite() {
+      try {
+        var code = localStorage.getItem("femud_invite_code");
+        var ig = localStorage.getItem("femud_invite_ig");
+        if (ig) {
+          document.getElementById("igInput").value = ig;
+        }
+        if (code) {
+          var link = "https://femud.com/?kod=" + encodeURIComponent(code);
+          document.getElementById("inviteLink").textContent = link;
+          document.getElementById("inviteBox").style.display = "block";
+        }
+      } catch (e) {}
+    })();
+
+    // İLERİDE: Buraya Google Apps Script + Google Sheet entegrasyonu
+    // ekleyip, ?kod=... ile gelen ziyaretçileri arkaya kaydedeceğiz.
+    // Şu anki sürüm davet ve kupon kodu oluşturmak için tamamen
+    // ön yüzde (tarayıcıda) çalışıyor.
+  </script>
+</body>
+</html>
