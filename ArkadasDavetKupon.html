@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Arkadaş Davet & Kupon</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Ortak stiller için -->
+  <link rel="stylesheet" href="style.css" />
+
+  <style>
+    /* Sayfa arka planı ve genel düzen */
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #8f3cff, #2b0648 60%, #120018);
+      color: #fff;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      max-width: 480px;
+      padding: 24px 16px 40px;
+    }
+
+    .card {
+      background: rgba(15, 0, 40, 0.9);
+      border-radius: 24px;
+      box-shadow: 0 22px 45px rgba(0, 0, 0, 0.5);
+      padding: 24px 20px 28px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      margin: 0 0 4px;
+    }
+
+    .subtitle {
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 18px 0 6px;
+    }
+
+    .small-text {
+      font-size: 12px;
+      opacity: 0.8;
+      line-height: 1.4;
+    }
+
+    .input-group {
+      margin-top: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .input-group input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+    }
+
+    .input-group input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      margin-bottom: 8px;
+    }
+
+    .btn {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: 700;
+      margin-top: 16px;
+      cursor: pointer;
+      color: #1b032b;
+      background: linear-gradient(135deg, #ffdf64, #ff9c33);
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.6);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: none;
+      margin-top: 10px;
+    }
+
+    .coupon-box {
+      margin-top: 14px;
+      padding: 10px 12px;
+      border-radius: 18px;
+      border: 1px dashed rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .coupon-code-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .coupon-code {
+      flex: 1;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: #1a062c;
+      font-family: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(80, 255, 167, 0.12);
+      color: #7dffbf;
+    }
+
+    .copy-btn {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: none;
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .hint {
+      font-size: 11px;
+      opacity: 0.75;
+      margin-top: 6px;
+    }
+
+    .back-link {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .back-link a {
+      color: #ffd86b;
+      text-decoration: none;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <div class="card">
+      <h1 class="title">🤝 Arkadaş Davet & Kupon</h1>
+      <p class="subtitle">
+        Arkadaşlarını Femud Oyun Merkezi’ne davet et, onlar oynadıkça sen indirim kuponu biriktir.
+      </p>
+
+      <!-- 1. Adım: Kullanıcı bilgisi -->
+      <div class="pill">1️⃣ Adım • Instagram adını yaz</div>
+      <div class="input-group">
+        <input id="igName" type="text" placeholder="@femud_tr gibi…" />
+      </div>
+      <p class="small-text">
+        Bu isim, davet kayıtlarında ve kazandığın kuponlarda seni tanımamız için kullanılacak.
+      </p>
+
+      <!-- 2. Adım: Davet linki -->
+      <div class="section-title">2️⃣ Adım • Kişisel davet linkin</div>
+      <p class="small-text">
+        Linki arkadaşlarınla paylaş. Bu link üzerinden gelen her yeni oyuncu sana +1 oyun hakkı veya özel kupon kazandırır.
+      </p>
+
+      <div class="coupon-box">
+        <div class="coupon-code-row">
+          <div class="coupon-code" id="inviteLink">
+            Yükleniyor…
+          </div>
+          <button class="copy-btn" onclick="copyInvite()">Kopyala</button>
+        </div>
+        <div class="hint">
+          Bu link her kullanıcı için benzersizdir ve cihazında saklanır. Daha sonra tekrar geldiğinde aynı linki görürsün.
+        </div>
+      </div>
+
+      <!-- 3. Adım: Kupon bilgisi (görsel taraf) -->
+      <div class="section-title">3️⃣ Adım • Kazandığın kuponlar</div>
+      <p class="small-text">
+        Sistem tarafını Google Sheet + Apps Script ile bağladığımızda, davetlerinden gelen
+        kuponların listesi burada görünecek. Şimdilik sadece ekran tasarımı hazır.
+      </p>
+
+      <button class="btn" onclick="alert('Bu butonun arkasına Google Sheet bağlantısını bir sonraki adımda ekleyeceğiz. Şimdilik sadece tasarım hazır ✅')">
+        Davet Listemi Göster (Yakında)
+      </button>
+
+      <button class="btn btn-secondary" onclick="window.location.href='OyunMerkezi.html'">
+        ⬅ Femud Oyun Merkezi’ne Dön
+      </button>
+
+      <div class="back-link">
+        <span class="badge">BETA</span>
+        <span style="margin-left:6px;">Davet sistemi test aşamasında. Kuralları birlikte netleştireceğiz. 🎯</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Basit davet kodu üretici (cihazda saklanıyor)
+    const BASE_URL = "https://femud.com/OyunMerkezi.html";
+
+    function generateCode(length) {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+      let out = "";
+      for (let i = 0; i < length; i++) {
+        out += chars[Math.floor(Math.random() * chars.length)];
+      }
+      return out;
+    }
+
+    function initInviteLink() {
+      // Cihazda kayıtlı kod var mı?
+      let code = localStorage.getItem("femud_invite_code");
+      if (!code) {
+        code = generateCode(6);
+        localStorage.setItem("femud_invite_code", code);
+      }
+
+      const link = BASE_URL + "?kod=" + code;
+      const inviteEl = document.getElementById("inviteLink");
+      inviteEl.textContent = link;
+    }
+
+    function copyInvite() {
+      const inviteEl = document.getElementById("inviteLink");
+      const text = inviteEl.textContent.trim();
+
+      if (!navigator.clipboard) {
+        // Eski tarayıcılar için
+        const tmp = document.createElement("textarea");
+        tmp.value = text;
+        document.body.appendChild(tmp);
+        tmp.select();
+        document.execCommand("copy");
+        document.body.removeChild(tmp);
+      } else {
+        navigator.clipboard.writeText(text);
+      }
+
+      alert("Davet linkin kopyalandı. Arkadaşlarına gönderebilirsin. 🎉");
+    }
+
+    // Sayfa açıldığında davet linkini hazırla
+    initInviteLink();
+  </script>
+</body>
+</html>
