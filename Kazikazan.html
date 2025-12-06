@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Kazı Kazan Oyunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #402472, #050316 65%);
+      color: #fff;
+      padding: 24px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(20, 6, 40, 0.95);
+      border-radius: 24px;
+      padding: 24px 22px 26px;
+      box-shadow: 0 22px 40px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .title {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      text-align: center;
+      opacity: 0.85;
+      margin-bottom: 18px;
+      line-height: 1.4;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(140, 91, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 12px;
+      margin: 0 auto 18px;
+    }
+
+    .badge span {
+      font-weight: 600;
+    }
+
+    .badge-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      font-size: 13px;
+      opacity: 0.9;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      background: rgba(10, 3, 25, 0.9);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff4ba2, #ffb347);
+      color: #1b062e;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .helper {
+      font-size: 12px;
+      opacity: 0.75;
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .info-box {
+      margin-top: 8px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 12px;
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .info-box ul {
+      padding-left: 18px;
+      margin-top: 6px;
+    }
+
+    .info-box li + li {
+      margin-top: 2px;
+    }
+
+    .status {
+      margin-top: 6px;
+      font-size: 12px;
+      min-height: 16px;
+    }
+
+    .status.ok {
+      color: #6fff9b;
+    }
+
+    .status.err {
+      color: #ff8080;
+    }
+
+    /* Kart alanı */
+
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 14px 0 6px;
+    }
+
+    .scratch-card {
+      position: relative;
+      padding-top: 70%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #fefefe, #d3d3d3);
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    }
+
+    .scratch-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+      color: #1b062e;
+    }
+
+    .scratch-cover {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        #7a51ff,
+        #7a51ff 6px,
+        #5b35d0 6px,
+        #5b35d0 12px
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .scratch-card.revealed .scratch-cover {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease;
+    }
+
+    .remaining {
+      font-size: 12px;
+      opacity: 0.85;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    @media (min-width: 480px) {
+      .card {
+        padding: 26px 26px 30px;
+      }
+    }
+
+    /* Modal */
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(1, 0, 12, 0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 90%;
+      max-width: 420px;
+      background: #150624;
+      border-radius: 22px;
+      padding: 20px 20px 18px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.65);
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .modal-text {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+<div class="card">
+  <div class="title">🎟️ Femud Kazı Kazan</div>
+  <div class="subtitle">
+    3 aynı tutarı bul, Femud indirim kuponunu kap!  
+  </div>
+
+  <div class="badge-wrapper">
+    <div class="badge">
+      🎁 <span>Gerçek kazançlar sadece Femud ürünleri için geçerlidir.</span>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="ig">Instagram adın (@ işareti olmadan):</label>
+    <input id="ig" type="text" placeholder="örnek: femud_tr" />
+  </div>
+
+  <div class="remaining" id="remaining">
+    Kalan deneme hakkın: <strong>6</strong>
+  </div>
+
+  <div class="game-grid" id="gameGrid">
+    <!-- Kartlar JS ile dolduruluyor -->
+  </div>
+
+  <div class="info-box">
+    <strong>Nasıl oynanır?</strong>
+    <ul>
+      <li>Toplam 6 kart var, sırayla kazıyorsun.</li>
+      <li>3 adet aynı tutarı bulursan kupon kazanırsın.</li>
+      <li>Kazandığında, kazancın otomatik olarak Femud Kazananlar listesine kaydedilir.</li>
+    </ul>
+  </div>
+
+  <div class="helper">
+    ⚠️ Lütfen gerçek oyun öncesi Instagram adını doğru yaz.  
+    Kupon doğrulaması bu ad üzerinden yapılacak.
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <button class="btn btn-secondary" id="btnRestart">
+    ♻️ Oyunu Sıfırla
+  </button>
+</div>
+
+<!-- SONUÇ MODALI -->
+<div class="modal-backdrop" id="resultBackdrop">
+  <div class="modal">
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-text" id="modalText"></div>
+
+    <div class="row" style="margin-top: 6px;">
+      <button class="btn btn-primary" id="btnPlayAgain">Tekrar Oyna</button>
+      <button class="btn btn-outline" id="btnCloseModal">Kapat</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // GOOGLE APPS SCRIPT URL'İN (KAZANANLARI TUTAN)
+  const SCRIPT_URL =
+    "https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec";
+
+  // HTML elemanları
+  const igInput = document.getElementById("ig");
+  const gameGrid = document.getElementById("gameGrid");
+  const remainingEl = document.getElementById("remaining");
+  const statusEl = document.getElementById("status");
+
+  const resultBackdrop = document.getElementById("resultBackdrop");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalText = document.getElementById("modalText");
+  const btnPlayAgain = document.getElementById("btnPlayAgain");
+  const btnCloseModal = document.getElementById("btnCloseModal");
+  const btnRestart = document.getElementById("btnRestart");
+
+  // OYUN DURUMU
+  const ALL_PRIZES = ["50 TL Femud Kuponu", "40 TL Femud Kuponu", "40 TL Femud Kuponu", "30 TL Femud Kuponu", "30 TL Femud Kuponu", "40 TL Femud Kuponu"];
+
+  let cards = [];
+  let revealed = 0;
+  let clicks = 0;
+  let finished = false;
+  let counts = {};
+
+  // Yardımcı: Diziyi karıştır
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  function initGame() {
+    // Durum sıfırla
+    cards = ALL_PRIZES.slice();
+    shuffle(cards);
+    revealed = 0;
+    clicks = 0;
+    finished = false;
+    counts = {};
+
+    statusEl.textContent = "";
+    statusEl.className = "status";
+    remainingEl.innerHTML = 'Kalan deneme hakkın: <strong>6</strong>';
+
+    // Kartları oluştur
+    gameGrid.innerHTML = "";
+    cards.forEach((prize, index) => {
+      const card = document.createElement("div");
+      card.className = "scratch-card";
+      card.dataset.index = index;
+
+      const inner = document.createElement("div");
+      inner.className = "scratch-inner";
+      inner.textContent = prize;
+
+      const cover = document.createElement("div");
+      cover.className = "scratch-cover";
+      cover.textContent = "KAZI";
+
+      card.appendChild(inner);
+      card.appendChild(cover);
+
+      card.addEventListener("click", () => onCardClick(card, prize));
+      gameGrid.appendChild(card);
+    });
+  }
+
+  function onCardClick(card, prize) {
+    if (finished) return;
+    if (card.classList.contains("revealed")) return;
+
+    const ig = igInput.value.trim();
+    if (!ig) {
+      statusEl.textContent = "Önce Instagram adını yazmalısın.";
+      statusEl.className = "status err";
+      return;
+    }
+
+    card.classList.add("revealed");
+    clicks++;
+    revealed++;
+
+    counts[prize] = (counts[prize] || 0) + 1;
+
+    remainingEl.innerHTML =
+      "Kalan deneme hakkın: <strong>" + (6 - revealed) + "</strong>";
+
+    // 3 aynı tutar yakalandı mı?
+    if (counts[prize] === 3) {
+      finished = true;
+      showResult(true, prize, clicks);
+      sendScratchResult(ig, prize, clicks);
+      return;
+    }
+
+    // Tüm kartlar açıldı ama 3'lük yoksa kayıp
+    if (revealed === 6 && !finished) {
+      finished = true;
+      showResult(false, null, clicks);
+    }
+  }
+
+  // Google Sheet'e KAZANAN KAYDI GÖNDER
+  async function sendScratchResult(ig, prize, step) {
+    try {
+      const payload = {
+        type: "scratch",
+        ig: ig,
+        prize: prize,
+        step: step,
+        ip: ""
+      };
+
+      const res = await fetch(SCRIPT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        throw new Error("HTTP " + res.status);
+      }
+
+      statusEl.textContent = "Kazancın başarıyla kaydedildi. 🎉";
+      statusEl.className = "status ok";
+    } catch (e) {
+      statusEl.textContent = "Kazanç kaydı sırasında hata oluştu, sonra tekrar dene.";
+      statusEl.className = "status err";
+      console.error("Kazikazan kayıt hatası:", e);
+    }
+  }
+
+  function showResult(isWin, prize, step) {
+    if (isWin) {
+      modalTitle.textContent = "Tebrikler! 🎉";
+      modalText.innerHTML =
+        prize +
+        "<br/><br/><small>(Bu, " +
+        step +
+        ". kazıdığın kartta 3'lü eşleşme!)</small>";
+    } else {
+      modalTitle.textContent = "Bu sefer olmadı 😔";
+      modalText.textContent = "3 aynı tutarı bulamadın. Şansını tekrar deneyebilirsin.";
+    }
+
+    resultBackdrop.classList.add("show");
+  }
+
+  function closeModal() {
+    resultBackdrop.classList.remove("show");
+  }
+
+  function resetGame() {
+    closeModal();
+    initGame();
+  }
+
+  // BUTON OLAYLARI
+  btnPlayAgain.addEventListener("click", () => {
+    resetGame();
+  });
+
+  btnCloseModal.addEventListener("click", () => {
+    closeModal();
+  });
+
+  btnRestart.addEventListener("click", () => {
+    resetGame();
+  });
+
+  // SAYFA YÜKLENİNCE
+  initGame();
+</script>
+</body>
+</html>
