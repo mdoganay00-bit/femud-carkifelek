@@ -597,6 +597,30 @@
     });
 
     resetGame();
+    // =========================
+// 📌 KAZIKAZAN KAZANINCA KAYIT GÖNDER
+// =========================
+
+// Bu fonksiyonu oyunda kazandığın anda çağırıyoruz
+async function sendScratchResult(ig, prize) {
+    try {
+        await fetch("https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                type: "scratch",   // → ÇARK için wheel, KAZIKAZAN için scratch
+                ig: ig,            // → Kullanıcı adı
+                prize: prize,      // → Kazandığı ödül (örn “40 TL”)
+                ip: ""             // → İstersen ekleyebiliriz
+            })
+        });
+
+        console.log("KazıKazan başarıyla Google Sheets’e kaydedildi!");
+
+    } catch (err) {
+        console.error("KazıKazan kayıt hatası:", err);
+    }
+}
   </script>
 </body>
 </html>
