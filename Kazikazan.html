@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femud Kazı Kazan</title>
+
+<style>
+    body { background:#0d0026; color:white; font-family:Arial; text-align:center; }
+    .card { 
+        width:80px; height:120px; 
+        background:#444; 
+        margin:10px; display:inline-block;
+        border-radius:10px; 
+        font-size:24px; 
+        padding-top:40px;
+    }
+    #resultBox {
+        margin-top:20px; padding:20px;
+        background:#222; border-radius:10px;
+        display:none;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>🎁 Femud Kazı Kazan 🎁</h2>
+
+<div id="gameArea"></div>
+
+<div id="resultBox">
+    <h3 id="resultText"></h3>
+    <button onclick="restartGame()">Tekrar Oyna</button>
+</div>
+
+<script>
+// ------------------------------
+// OYUN VERİLERİ
+// ------------------------------
+const ig = localStorage.getItem("instagram") || "bos";
+const apiURL = "https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec";
+
+const cards = ["30", "40", "40", "50", "40"]; // 5 karttan biri 50 TL
+let revealed = [];
+let matched = false;
+
+// ------------------------------
+// OYUNU BAŞLAT
+// ------------------------------
+function startGame() {
+    const game = document.getElementById("gameArea");
+    game.innerHTML = "";
+
+    cards.sort(() => Math.random() - 0.5);
+
+    cards.forEach((val, index) => {
+        const c = document.createElement("div");
+        c.className = "card";
+        c.textContent = "❓";
+        c.onclick = () => reveal(index, c);
+        game.appendChild(c);
+    });
+}
+
+// ------------------------------
+// KART AÇMA
+// ------------------------------
+function reveal(i, el) {
+    if (matched) return;
+
+    el.textContent = cards[i];
+    revealed.push(cards[i]);
+
+    const count40 = revealed.filter(v => v === "40").length;
+    const count50 = revealed.filter(v => v === "50").length;
+    const count30 = revealed.filter(v => v === "30").length;
+
+    if (count40 === 3) endGame("40 TL");
+    if (count50 === 3) endGame("50 TL");
+    if (count30 === 3) endGame("30 TL");
+}
+
+// ------------------------------
+// OYUN BİTTİ
+// ------------------------------
+function endGame(prizeText) {
+    matched = true;
+
+    document.getElementById("resultText").textContent =
+        "Tebrikler! " + prizeText + " Femud İndirim Kuponu Kazandın!";
+    
+    document.getElementById("resultBox").style.display = "block";
+
+    // SHEET'E KAYIT GÖNDER
+    sendToSheet(prizeText);
+}
+
+// ------------------------------
+// GOOGLE SHEET KAYDI
+// ------------------------------
+function sendToSheet(prizeText) {
+
+    fetch(apiURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            type: "scratch",
+            ig: ig,
+            prize: prizeText,
+            matchCount: 3,
+            ip: ""
+        })
+    })
+    .then(r => r.json().catch(()=>({status:"ok"})))
+    .then(d => console.log("✔ Sheet kaydı:", d))
+    .catch(err => console.error("❌ Sheet hatası:", err));
+}
+
+// ------------------------------
+// TEKRAR OYNA
+// ------------------------------
+function restartGame() {
+    revealed = [];
+    matched = false;
+    document.getElementById("resultBox").style.display = "none";
+    startGame();
+}
+
+startGame();
+</script>
+
+</body>
+</html>
