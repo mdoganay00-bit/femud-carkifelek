@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud 4x4 Kazı Kazan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #ffe4f3 0, #b3e5fc 40%, #7c4dff 100%);
+      color: #2d0055;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 26px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+      padding: 18px 18px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 120deg,
+        rgba(255,255,255,0.15),
+        rgba(255,255,255,0.7),
+        rgba(255,255,255,0.15)
+      );
+      opacity: 0.35;
+      filter: blur(10px);
+      animation: glowRotate 9s linear infinite;
+      z-index: -1;
+    }
+
+    @keyframes glowRotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .header-face {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .face-emoji {
+      font-size: 28px;
+      filter: drop-shadow(0 3px 4px rgba(0,0,0,0.25));
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 20px;
+      font-weight: 900;
+      color: #4a148c;
+      text-shadow: 0 3px 6px rgba(155, 89, 182, 0.6);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 8px;
+    }
+
+    .badge-row {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ffeb3b, #ff9800);
+      color: #4a148c;
+      font-weight: 700;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      white-space: nowrap;
+    }
+
+    .badge.secondary {
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      color: #fff;
+    }
+
+    .field {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid #d1c4e9;
+      padding: 9px 14px;
+      font-size: 13px;
+      margin-bottom: 6px;
+      outline: none;
+    }
+
+    .field:focus {
+      border-color: #7e57c2;
+      box-shadow: 0 0 0 2px rgba(126, 87, 194, 0.25);
+    }
+
+    .note {
+      font-size: 11px;
+      color: #6a1b9a;
+      margin: 2px 0 10px;
+    }
+
+    .grid-wrapper {
+      margin-top: 6px;
+    }
+
+    .grid-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #4a148c;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      justify-items: center;
+    }
+
+    .card {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      transition: transform 0.14s ease, box-shadow 0.14s ease;
+      box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.35),
+        inset 0 3px 5px rgba(255, 255, 255, 0.25);
+    }
+
+    .card-style-1 {
+      background: radial-gradient(circle at top left, #ff80ab, #f06292);
+    }
+
+    .card-style-2 {
+      background: radial-gradient(circle at top left, #ffb74d, #ff9800);
+    }
+
+    .card-style-3 {
+      background: radial-gradient(circle at top left, #64b5f6, #1976d2);
+    }
+
+    .card-style-4 {
+      background: radial-gradient(circle at top left, #a5d6a7, #43a047);
+    }
+
+    .card.disabled {
+      opacity: 0.55;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .card:not(.disabled):hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    }
+
+    .card:not(.disabled):active {
+      transform: translateY(1px) scale(0.97);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 12px;
+      text-align: center;
+      padding: 4px;
+      line-height: 1.15;
+    }
+
+    .card-mask {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at top, #ffffff 0, #e1bee7 30%, #7e57c2 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4a148c;
+      font-weight: 800;
+      font-size: 12px;
+      letter-spacing: 0.03em;
+      text-shadow: 0 1px 2px rgba(255,255,255,0.7);
+      user-select: none;
+      transition: opacity 0.25s ease;
+    }
+
+    .card.revealed .card-mask {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .logo-circle {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow:
+        0 2px 4px rgba(0,0,0,0.25),
+        inset 0 2px 3px rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 800;
+      color: #6a1b9a;
+    }
+
+    .status-bar {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #4a148c;
+      font-weight: 600;
+    }
+
+    .btn-row {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #ffffff;
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      box-shadow: 0 7px 14px rgba(245, 124, 0, 0.6);
+      white-space: nowrap;
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      box-shadow: 0 7px 14px rgba(94, 53, 177, 0.55);
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.35);
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: default;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* Sonuç Modalı */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    .modal {
+      width: 90%;
+      max-width: 360px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 16px 16px 18px;
+      text-align: center;
+      box-shadow: 0 18px 40px rgba(0,0,0,0.6);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .modal::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle at top, rgba(255,235,59,0.5), transparent 60%);
+      opacity: 0.6;
+      z-index: -1;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      color: #4a148c;
+    }
+
+    .modal-text {
+      font-size: 13px;
+      color: #444;
+      margin-bottom: 10px;
+    }
+
+    .modal-highlight {
+      font-weight: 800;
+      color: #d32f2f;
+    }
+
+    .modal-note {
+      font-size: 11px;
+      color: #555;
+      margin-top: 4px;
+    }
+
+    .modal-btn {
+      margin-top: 8px;
+      border-radius: 999px;
+      border: none;
+      padding: 9px 18px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      box-shadow: 0 7px 14px rgba(94, 53, 177, 0.6);
+    }
+
+    /* Konfeti */
+    .confetti {
+      position: fixed;
+      top: -10px;
+      width: 8px;
+      height: 14px;
+      opacity: 0.9;
+      pointer-events: none;
+      z-index: 20;
+      animation: confettiFall 3s linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0%   { transform: translate3d(0, 0, 0) rotateZ(0deg); }
+      100% { transform: translate3d(var(--dx), 110vh, 0) rotateZ(720deg); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        border-radius: 0;
+        max-width: 100%;
+        min-height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header-face">
+      <span class="face-emoji">🎉</span>
+      <h1>Femud 4x4 Kazı Kazan</h1>
+    </div>
+
+    <div class="badge-row">
+      <div class="badge">Tek kutu seçme hakkın var</div>
+      <div class="badge secondary">50 / 30 / 20 TL ödüller</div>
+    </div>
+
+    <div class="subtitle">
+      4x4 kutudan <strong>1 tanesini</strong> seç, şansını dene.  
+      50 TL – 30 TL – 20 TL indirim kuponlarından birini yakalayabilirsin.
+    </div>
+
+    <input id="nameInput" class="field" type="text" placeholder="Adınız (zorunlu)" />
+    <input id="igInput" class="field" type="text" placeholder="Instagram adresiniz (@kullanici) (zorunlu)" />
+
+    <div class="note">
+      Lütfen gerçek Instagram adresinizi yazın. Kazanırsanız ekran görüntüsünü
+      <strong>@Femud_tr</strong> hesabına DM olarak göndermeniz gerekir.
+    </div>
+
+    <div class="grid-wrapper">
+      <div class="grid-title">
+        16 kutudan sadece <strong>1 tanesini</strong> seçebilirsin. 🎁
+      </div>
+      <div id="grid" class="grid"></div>
+    </div>
+
+    <div id="statusBar" class="status-bar">
+      Seçim hakkın: <strong>1</strong>
+    </div>
+
+    <div class="btn-row">
+      <button id="btnReset" class="btn secondary">Yeniden Oyna</button>
+    </div>
+  </div>
+
+  <!-- Sonuç Modalı -->
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <div id="modalTitle" class="modal-title"></div>
+      <div id="modalText" class="modal-text"></div>
+      <div id="modalNote" class="modal-note"></div>
+      <button id="modalCloseBtn" class="modal-btn">Tamam</button>
+    </div>
+  </div>
+
+  <script>
+    // 👇 Eski çalışan kodundaki Google Apps Script URL – AYNI BIRAKTIM
+    const API_URL = "https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec";
+
+    const gridEl      = document.getElementById("grid");
+    const statusBar   = document.getElementById("statusBar");
+    const nameInput   = document.getElementById("nameInput");
+    const igInput     = document.getElementById("igInput");
+    const btnReset    = document.getElementById("btnReset");
+
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const modalTitle    = document.getElementById("modalTitle");
+    const modalText     = document.getElementById("modalText");
+    const modalNote     = document.getElementById("modalNote");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    let choiceLeft = 1;
+    let cardsData = [];
+    let gameFinished = false;
+
+    // 16 kutu: 3x50, 3x30, 3x20, 7x boş
+    const BASE_PRIZES = [
+      "50 TL İndirim", "50 TL İndirim", "50 TL İndirim",
+      "30 TL İndirim", "30 TL İndirim", "30 TL İndirim",
+      "20 TL İndirim", "20 TL İndirim", "20 TL İndirim",
+      "Boş", "Boş", "Boş", "Boş", "Boş", "Boş", "Boş"
+    ];
+
+    function shuffle(array) {
+      const arr = array.slice();
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function initGame() {
+      gridEl.innerHTML = "";
+      choiceLeft = 1;
+      gameFinished = false;
+      cardsData = shuffle(BASE_PRIZES);
+      updateStatus();
+
+      for (let i = 0; i < 16; i++) {
+        const card = document.createElement("div");
+        const styleIndex = (i % 4) + 1;
+        card.className = "card card-style-" + styleIndex;
+        card.dataset.index = i.toString();
+
+        const inner = document.createElement("div");
+        inner.className = "card-inner";
+        inner.textContent = cardsData[i] === "Boş" ? "Şansını tekrar dene" : cardsData[i];
+
+        const mask = document.createElement("div");
+        mask.className = "card-mask";
+
+        const logo = document.createElement("div");
+        logo.className = "logo-circle";
+        logo.textContent = "Femud";
+
+        mask.appendChild(logo);
+        card.appendChild(inner);
+        card.appendChild(mask);
+
+        card.addEventListener("click", onCardClick);
+        gridEl.appendChild(card);
+      }
+    }
+
+    function updateStatus() {
+      statusBar.innerHTML = `Seçim hakkın: <strong>${choiceLeft}</strong>`;
+    }
+
+    function onCardClick(e) {
+      if (gameFinished || choiceLeft <= 0) return;
+
+      const card = e.currentTarget;
+      if (card.classList.contains("revealed") || card.classList.contains("disabled")) {
+        return;
+      }
+
+      const name = nameInput.value.trim();
+      let ig = igInput.value.trim();
+      if (!name || !ig) {
+        alert("Lütfen önce adınızı ve Instagram adresinizi girin.");
+        return;
+      }
+      if (!ig.startsWith("@")) {
+        ig = "@" + ig;
+        igInput.value = ig;
+      }
+
+      const index = Number(card.dataset.index || "0");
+      const prize = cardsData[index];
+
+      card.classList.add("revealed");
+      choiceLeft = 0;
+      updateStatus();
+      gameFinished = true;
+
+      // Tüm kutuları kilitle
+      const allCards = gridEl.querySelectorAll(".card");
+      allCards.forEach(c => c.classList.add("disabled"));
+
+      if (prize === "Boş") {
+        showLoseModal(ig);
+        sendToSheet(name, ig, "Kazanan yok (4x4 Kazı Kazan)");
+      } else {
+        launchConfetti();
+        showWinModal(ig, prize);
+        sendToSheet(name, ig, prize);
+      }
+    }
+
+    function launchConfetti() {
+      const colors = ["#ff5252", "#ffeb3b", "#69f0ae", "#40c4ff", "#ff80ab", "#b39ddb"];
+      for (let i = 0; i < 80; i++) {
+        const conf = document.createElement("div");
+        conf.className = "confetti";
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        conf.style.backgroundColor = color;
+
+        const left = Math.random() * 100;
+        const dx   = (Math.random() - 0.5) * 200 + "px";
+        const delay = Math.random() * 0.3;
+
+        conf.style.left = left + "vw";
+        conf.style.setProperty("--dx", dx);
+        conf.style.animationDelay = delay + "s";
+
+        document.body.appendChild(conf);
+        setTimeout(() => conf.remove(), 3500);
+      }
+    }
+
+    function showWinModal(ig, prize) {
+      modalTitle.textContent = `Tebrikler! ${prize} kazandınız 🎉`;
+      modalText.innerHTML = `
+        Kazandığınız indirim kuponu: <span class="modal-highlight">${prize}</span><br>
+        Bu kuponu Femud alışverişlerinizde kullanabilirsiniz.
+      `;
+      modalNote.innerHTML = `
+        Lütfen bu ekranın <strong>ekran görüntüsünü</strong> alıp
+        <strong>@Femud_tr</strong> Instagram hesabına DM (mesaj) olarak gönderin.<br>
+        (Instagram hesabınız: <strong>${ig}</strong>)
+      `;
+      modalBackdrop.style.display = "flex";
+    }
+
+    function showLoseModal(ig) {
+      modalTitle.textContent = "Bu kutu boş çıktı 😇";
+      modalText.innerHTML = `
+        Seçtiğiniz kutudan indirim kuponu çıkmadı.<br>
+        Dilerseniz oyunu tekrar deneyebilirsiniz.
+      `;
+      modalNote.innerHTML = `
+        Kazandığınız bir kupon olursa bu ekranın ekran görüntüsünü alıp
+        <strong>@Femud_tr</strong> hesabına DM olarak göndermeniz gerekir.
+      `;
+      modalBackdrop.style.display = "flex";
+    }
+
+    modalCloseBtn.addEventListener("click", () => {
+      modalBackdrop.style.display = "none";
+    });
+
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) {
+        modalBackdrop.style.display = "none";
+      }
+    });
+
+    btnReset.addEventListener("click", () => {
+      modalBackdrop.style.display = "none";
+      initGame();
+    });
+
+    // 🔽 Eski çalışan kodundaki sendToSheet fonksiyonunu birebir aldım
+    function sendToSheet(name, ig, prize) {
+      try {
+        const payload = {
+          name: name,
+          ig: ig.replace(/^@/, ""),
+          prize: prize,
+          game: "Kazı Kazan",   // Eskide nasılsa aynısı
+          points: 0
+        };
+
+        fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }).catch(err => {
+          console.log("Kazı Kazan kaydı gönderilirken hata:", err);
+        });
+      } catch (err) {
+        console.log("Kazı Kazan kaydı gönderilemedi:", err);
+      }
+    }
+
+    initGame();
+  </script>
+</body>
+</html>
