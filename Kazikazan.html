@@ -528,13 +528,42 @@
         return;
       }
 
-      const payload = {
-        type: 'scratch',                        // ✅ Apps Script’te KAZIKAZAN_KAZANANLAR sayfasına düşecek
-        ig,
-        amount: amount + ' TL Femud Kuponu',
-        matchCount,
-        ip: ''
-      };
+      // Kazı Kazan oyunu KAZANINCA Sheet'e gönder
+const payload = {
+  type: 'scratch',                     // ⚠️ Burası aynen böyle kalacak
+  ig: ig,                              // Instagram kullanıcı adı
+  amount: amount + ' TL Femud Kuponu', // Kazandığı tutar yazısı
+  matchCount: matchCount,              // Kaçıncı eşleşmede kazandı
+  ip: ''                               // İstersen sonra doldururuz
+};
+
+try {
+  const res = await fetch(SHEET_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json().catch(() => null);
+
+  if (!data || !data.ok) {
+    console.error('Sheet kaydı hatası:', data);
+    statusEl.textContent =
+      'Kupon kaydı yapılamadı, ekran görüntüsünü sakla.';
+    statusEl.className = 'status err';
+  } else {
+    statusEl.textContent =
+      'Kazandığın kupon Google Sheet’e kaydedildi.';
+    statusEl.className = 'status ok';
+  }
+} catch (err) {
+  console.error(err);
+  statusEl.textContent =
+    'Sunucuya bağlanırken hata oluştu, ekran görüntüsünü sakla.';
+  statusEl.className = 'status err';
+}
 
       try {
         const res = await fetch(SHEET_URL, {
