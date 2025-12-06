@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Kazı Kazan – Premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #f3e5f5 0, #b39ddb 30%, #311b92 70%, #120028 100%);
+      color: #fdfdfd;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      padding: 18px 18px 24px;
+      background: linear-gradient(145deg, rgba(10, 0, 40, 0.98), rgba(55, 0, 110, 0.98));
+      border-radius: 22px;
+      box-shadow:
+        0 0 0 2px rgba(255, 215, 0, 0.4),
+        0 22px 50px rgba(0, 0, 0, 0.7);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(255, 255, 255, 0.2), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255, 215, 0, 0.25), transparent 55%);
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .inner {
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: #ffeb3b;
+      text-shadow:
+        0 0 10px rgba(255, 235, 59, 0.9),
+        0 4px 10px rgba(0, 0, 0, 0.9);
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: #e0d7ff;
+      margin-bottom: 10px;
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .field {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(209, 196, 233, 0.8);
+      padding: 9px 14px;
+      font-size: 14px;
+      outline: none;
+      background: rgba(18, 0, 60, 0.9);
+      color: #fff;
+    }
+
+    .field::placeholder {
+      color: #b39ddb;
+      font-size: 13px;
+    }
+
+    .field:focus {
+      border-color: #ffeb3b;
+      box-shadow: 0 0 0 2px rgba(255, 235, 59, 0.3);
+    }
+
+    .info-line {
+      font-size: 12px;
+      color: #ffecb3;
+      margin-bottom: 10px;
+    }
+
+    .grid-wrapper {
+      background: radial-gradient(circle at 50% 0%, #4527a0 0, #1a0030 60%);
+      border-radius: 18px;
+      padding: 10px;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      box-shadow:
+        inset 0 0 12px rgba(255, 255, 255, 0.05),
+        0 12px 26px rgba(0, 0, 0, 0.8);
+      margin-bottom: 10px;
+    }
+
+    .grid-title {
+      font-size: 13px;
+      color: #ffecb3;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+    }
+
+    .cell {
+      position: relative;
+      width: 100%;
+      padding-top: 100%; /* kare */
+      border-radius: 10px;
+      overflow: hidden;
+      background: linear-gradient(145deg, #311b92, #512da8);
+      cursor: pointer;
+      box-shadow:
+        0 3px 6px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .cell.disabled {
+      cursor: default;
+      filter: grayscale(0.3);
+      opacity: 0.9;
+    }
+
+    .cell-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .cell .logo {
+      width: 70%;
+      height: 70%;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 215, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #ffeb3b;
+      background: radial-gradient(circle at 30% 20%, #ffffff, #ffeb3b 55%, #b28704 100%);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    }
+
+    .cell .amount {
+      display: none;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+      text-shadow:
+        0 0 6px rgba(0, 0, 0, 0.9),
+        0 0 10px rgba(255, 235, 59, 0.9);
+    }
+
+    .cell.revealed .logo {
+      display: none;
+    }
+
+    .cell.revealed .amount {
+      display: block;
+    }
+
+    .cell:hover:not(.disabled) {
+      transform: translateY(-2px);
+      box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.9),
+        0 0 12px rgba(255, 235, 59, 0.6);
+    }
+
+    .status-bar {
+      font-size: 12px;
+      color: #ffe082;
+      margin: 4px 0 8px;
+    }
+
+    .buttons-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #1a0030;
+      background: linear-gradient(135deg, #ffeb3b, #ffc107);
+      box-shadow:
+        0 8px 18px rgba(255, 235, 59, 0.55),
+        0 0 10px rgba(255, 235, 59, 0.75);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow:
+        0 4px 10px rgba(255, 235, 59, 0.6),
+        0 0 8px rgba(255, 235, 59, 0.7);
+    }
+
+    .btn.secondary {
+      flex: 0.9;
+      background: linear-gradient(135deg, #ce93d8, #ab47bc);
+      color: #fdfdfd;
+      box-shadow:
+        0 6px 14px rgba(171, 71, 188, 0.7),
+        0 0 10px rgba(171, 71, 188, 0.6);
+    }
+
+    .btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .result-card {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(13, 0, 50, 0.95);
+      border: 1px solid rgba(255, 235, 59, 0.55);
+      box-shadow:
+        0 0 12px rgba(255, 235, 59, 0.4),
+        0 10px 20px rgba(0, 0, 0, 0.7);
+      font-size: 13px;
+      color: #fffde7;
+      text-align: left;
+      display: none;
+    }
+
+    .result-card.visible {
+      display: block;
+    }
+
+    .result-title {
+      font-weight: 800;
+      font-size: 15px;
+      margin-bottom: 4px;
+      color: #ffeb3b;
+    }
+
+    .result-note {
+      font-size: 12px;
+      margin-top: 4px;
+      color: #ffecb3;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        border-radius: 0;
+        max-width: 100%;
+        min-height: 100vh;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="inner">
+      <h1>Femud Kazı Kazan</h1>
+      <div class="subtitle">
+        5x5 premium kartta <strong>6 kutu</strong> seç, aynı tutardan <strong>3 tane</strong> yakalarsan ödül senin!
+      </div>
+
+      <div class="fields">
+        <input id="nameInput" class="field" type="text" placeholder="Adınız (zorunlu)" />
+        <input id="igInput" class="field" type="text" placeholder="Instagram adresiniz (@kullanici) (zorunlu)" />
+      </div>
+
+      <div class="info-line">
+        Femud_tr Instagram hesabını takip etmeyi unutmayınız.
+      </div>
+
+      <div class="grid-wrapper">
+        <div class="grid-title">
+          6 kere kazıyabilirsiniz. 50 TL, 40 TL veya 30 TL'den <strong>3 tane</strong> yakalarsanız o tutarı kazanırsınız.
+        </div>
+        <div id="grid" class="grid"></div>
+      </div>
+
+      <div id="statusBar" class="status-bar">
+        Kalan seçim hakkınız: <strong>6</strong>
+      </div>
+
+      <div class="buttons-row">
+        <button id="resetBtn" class="btn secondary" type="button">YENİ KART</button>
+        <button id="dummyBtn" class="btn" type="button" disabled>Femud Premium</button>
+      </div>
+
+      <div id="resultCard" class="result-card">
+        <div id="resultTitle" class="result-title"></div>
+        <div id="resultText"></div>
+        <div class="result-note">
+          Kazandığınız tutar, <strong>24 saat içinde</strong> Femud alışverişlerinizde indirim kuponu olarak kullanılabilir.
+          Detaylar için ekran görüntüsü alıp <strong>@Femud_tr</strong> hesabına DM gönderebilirsiniz.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ➤ Google Apps Script Kazı Kazan URL’in
+    const API_URL = "https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec";
+
+    const nameInput   = document.getElementById("nameInput");
+    const igInput     = document.getElementById("igInput");
+    const gridEl      = document.getElementById("grid");
+    const statusBar   = document.getElementById("statusBar");
+    const resultCard  = document.getElementById("resultCard");
+    const resultTitle = document.getElementById("resultTitle");
+    const resultText  = document.getElementById("resultText");
+    const resetBtn    = document.getElementById("resetBtn");
+
+    const MAX_SELECT = 6;
+
+    let amountsLayout = [];
+    let selectedCount = 0;
+    let counts = { "50": 0, "40": 0, "30": 0 };
+    let gameOver = false;
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function generateLayout() {
+      const prizeValues = [
+        "50", "50", "50",
+        "40", "40", "40",
+        "30", "30", "30"
+      ];
+      const emptiesCount = 25 - prizeValues.length;
+      for (let i = 0; i < emptiesCount; i++) {
+        prizeValues.push("0"); // 0 = boş
+      }
+      return shuffle(prizeValues);
+    }
+
+    function updateStatusBar() {
+      const kalan = MAX_SELECT - selectedCount;
+      statusBar.innerHTML = `Kalan seçim hakkınız: <strong>${kalan}</strong>`;
+    }
+
+    function disableAllCells() {
+      const cells = gridEl.querySelectorAll(".cell");
+      cells.forEach(c => c.classList.add("disabled"));
+      gameOver = true;
+    }
+
+    function sendResultToSheet(name, ig, prizeText) {
+      try {
+        fetch(API_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            name: name,
+            ig: ig,
+            prize: prizeText,
+            game: "Kazı Kazan"
+          })
+        }).catch(() => {});
+      } catch (e) {
+        console.log("Kazı Kazan kaydı gönderilemedi:", e);
+      }
+    }
+
+    function checkWinAndShowResult() {
+      let winningAmount = null;
+      if (counts["50"] >= 3) {
+        winningAmount = "50 TL";
+      } else if (counts["40"] >= 3) {
+        winningAmount = "40 TL";
+      } else if (counts["30"] >= 3) {
+        winningAmount = "30 TL";
+      }
+
+      resultCard.classList.add("visible");
+
+      if (winningAmount) {
+        resultTitle.textContent = "TEBRİKLER! 🎉";
+        resultText.innerHTML =
+          `Kazandığınız ödül: <strong>${winningAmount} Femud indirim kuponu</strong>.<br>` +
+          `Lütfen bu ekranın görüntüsünü alıp Instagram'da <strong>@Femud_tr</strong> hesabına DM olarak gönderin.`;
+
+        const name = nameInput.value.trim();
+        let ig = igInput.value.trim();
+        if (ig && !ig.startsWith("@")) {
+          ig = "@" + ig;
+        }
+        if (name && ig) {
+          sendResultToSheet(name, ig, `${winningAmount} Kazı Kazan`);
+        }
+      } else {
+        resultTitle.textContent = "Bu turda olmadı 😌";
+        resultText.innerHTML =
+          "Seçtiğiniz 6 kutuda aynı tutardan 3 adet bulamadınız.<br>" +
+          "İsterseniz <strong>Yeni Kart</strong> tuşuna basarak tekrar deneyebilirsiniz.";
+      }
+    }
+
+    function handleCellClick(e) {
+      const cell = e.currentTarget;
+      if (cell.classList.contains("disabled") || cell.classList.contains("revealed")) return;
+      if (gameOver) return;
+
+      const name = nameInput.value.trim();
+      let ig = igInput.value.trim();
+
+      if (!name || !ig) {
+        alert("Lütfen önce adınızı ve Instagram adresinizi yazın.");
+        return;
+      }
+      if (!ig.startsWith("@")) {
+        ig = "@" + ig;
+        igInput.value = ig;
+      }
+
+      if (selectedCount >= MAX_SELECT) return;
+
+      cell.classList.add("revealed");
+      selectedCount++;
+
+      const amount = cell.getAttribute("data-amount");
+      if (amount === "50" || amount === "40" || amount === "30") {
+        counts[amount] = (counts[amount] || 0) + 1;
+      }
+
+      updateStatusBar();
+
+      if (selectedCount === MAX_SELECT) {
+        disableAllCells();
+        checkWinAndShowResult();
+      }
+    }
+
+    function renderGrid() {
+      gridEl.innerHTML = "";
+      amountsLayout = generateLayout();
+      selectedCount = 0;
+      counts = { "50": 0, "40": 0, "30": 0 };
+      gameOver = false;
+      resultCard.classList.remove("visible");
+      resultTitle.textContent = "";
+      resultText.textContent = "";
+      updateStatusBar();
+
+      for (let i = 0; i < 25; i++) {
+        const amountCode = amountsLayout[i]; // "50", "40", "30" veya "0"
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.setAttribute("data-amount", amountCode);
+
+        const inner = document.createElement("div");
+        inner.className = "cell-inner";
+
+        const logo = document.createElement("div");
+        logo.className = "logo";
+        logo.textContent = "Femud";
+
+        const amount = document.createElement("div");
+        amount.className = "amount";
+        if (amountCode === "50") {
+          amount.textContent = "50 TL";
+        } else if (amountCode === "40") {
+          amount.textContent = "40 TL";
+        } else if (amountCode === "30") {
+          amount.textContent = "30 TL";
+        } else {
+          amount.textContent = "Boş";
+        }
+
+        inner.appendChild(logo);
+        inner.appendChild(amount);
+        cell.appendChild(inner);
+        cell.addEventListener("click", handleCellClick);
+        gridEl.appendChild(cell);
+      }
+    }
+
+    resetBtn.addEventListener("click", () => {
+      renderGrid();
+    });
+
+    // Sayfa ilk açıldığında kartı hazırla
+    renderGrid();
+  </script>
+</body>
+</html>
