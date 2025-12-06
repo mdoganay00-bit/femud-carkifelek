@@ -1,134 +1,429 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Femud Kazı Kazan</title>
+  <meta charset="UTF-8" />
+  <title>Femud Kazı Kazan – Premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="femud_logo.png" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-<style>
-    body { background:#0d0026; color:white; font-family:Arial; text-align:center; }
-    .card { 
-        width:80px; height:120px; 
-        background:#444; 
-        margin:10px; display:inline-block;
-        border-radius:10px; 
-        font-size:24px; 
-        padding-top:40px;
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #3d1a6b 0, #090017 55%, #02000a 100%);
+      color: #fff;
+      padding: 24px;
     }
-    #resultBox {
-        margin-top:20px; padding:20px;
-        background:#222; border-radius:10px;
-        display:none;
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(20, 8, 40, 0.9);
+      border-radius: 24px;
+      padding: 24px 20px 28px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
     }
-</style>
+
+    .title {
+      font-size: 22px;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      text-align: center;
+      opacity: 0.9;
+      line-height: 1.4;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(140, 91, 255, 0.25);
+      border: 1px solid rgba(255,255,255,0.12);
+      font-size: 12px;
+      margin: 0 auto 18px;
+    }
+
+    .badge span { font-weight: 600; }
+
+    label {
+      font-size: 13px;
+      opacity: 0.9;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .input-group {
+      margin-bottom: 14px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(10, 3, 25, 0.9);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+
+    input[type="text"]::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff4fb3, #ffb347);
+      color: #1b062e;
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.06);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.12);
+      margin-top: 6px;
+      width: 100%;
+    }
+
+    .btn:active {
+      transform: translateY(1px);
+      box-shadow: none;
+    }
+
+    .grid-wrapper {
+      margin-top: 14px;
+      border-radius: 20px;
+      padding: 10px;
+      background: radial-gradient(circle at top, #4b2b85 0, #180427 70%);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tile {
+      position: relative;
+      width: 100%;
+      padding-top: 100%;
+      border-radius: 12px;
+      overflow: hidden;
+      cursor: pointer;
+      background: linear-gradient(135deg, #2a1147, #120521);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 6px 10px rgba(0,0,0,0.5);
+    }
+
+    .tile-inner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+    }
+
+    .tile.scratched {
+      background: #0b0015;
+    }
+
+    .tile.scratched .tile-inner {
+      color: #ffdf6f;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      opacity: 0.9;
+      margin-top: 4px;
+    }
+
+    .status {
+      margin-top: 8px;
+      font-size: 12px;
+      min-height: 16px;
+    }
+
+    .status.ok { color: #6fff9b; }
+    .status.err { color: #ff8080; }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+    }
+
+    .modal {
+      background: rgba(24, 6, 46, 0.96);
+      padding: 20px 18px 18px;
+      border-radius: 22px;
+      width: 90%;
+      max-width: 360px;
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+      text-align: center;
+    }
+
+    .modal-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .modal-text {
+      font-size: 13px;
+      opacity: 0.9;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    @media (min-width: 480px) {
+      .card { padding: 26px 26px 30px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="card">
+    <div class="title">🎫 Femud Kazı Kazan – Premium</div>
+    <div class="subtitle">
+      5x5 karttan en fazla <strong>6 tanesini</strong> kazı.  
+      Aynı tutardan <strong>3 adet</strong> bulursan Femud indirim kuponu senin! 🎉
+    </div>
 
-<h2>🎁 Femud Kazı Kazan 🎁</h2>
+    <div class="badge">
+      <span>Hedef:</span> Aynı tutardan <strong>3 eşleşme</strong> yakala
+    </div>
 
-<div id="gameArea"></div>
+    <div class="input-group">
+      <label for="ig">Instagram adın (@ işareti olmadan)</label>
+      <input id="ig" type="text" placeholder="ör: femud_tr" />
+    </div>
 
-<div id="resultBox">
-    <h3 id="resultText"></h3>
-    <button onclick="restartGame()">Tekrar Oyna</button>
-</div>
+    <div class="grid-wrapper">
+      <div class="grid" id="grid"></div>
+      <div class="info-row">
+        <span id="attemptInfo">Kalan hak: 0 / 6</span>
+        <span id="foundInfo">Buldukların: 50 • 40 • 30</span>
+      </div>
+    </div>
 
-<script>
-// ------------------------------
-// OYUN VERİLERİ
-// ------------------------------
-const ig = localStorage.getItem("instagram") || "bos";
-const apiURL = "https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec";
+    <div class="status" id="status"></div>
 
-const cards = ["30", "40", "40", "50", "40"]; // 5 karttan biri 50 TL
-let revealed = [];
-let matched = false;
+    <button class="btn btn-secondary" id="btnBack">
+      ⬅ Çarkıfelek'e Dön
+    </button>
+  </div>
 
-// ------------------------------
-// OYUNU BAŞLAT
-// ------------------------------
-function startGame() {
-    const game = document.getElementById("gameArea");
-    game.innerHTML = "";
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-title" id="modalTitle">Tebrikler! 🎉</div>
+      <div class="modal-text" id="modalText"></div>
+      <div class="row">
+        <button class="btn btn-primary" id="btnPlayAgain">Tekrar Oyna</button>
+      </div>
+    </div>
+  </div>
 
-    cards.sort(() => Math.random() - 0.5);
+  <script>
+    // 🔗 1) Google Apps Script URL'in – gerekirse burayı kendi URL’inle kontrol et
+    const API_URL =
+      'https://script.google.com/macros/s/AKfycbwxw3gTT1htqN3cuALPMdgSJm3213dIXG7TtJGChhMPLiIrLgg38TbuCTd_7GKobD1L/exec';
 
-    cards.forEach((val, index) => {
-        const c = document.createElement("div");
-        c.className = "card";
-        c.textContent = "❓";
-        c.onclick = () => reveal(index, c);
-        game.appendChild(c);
-    });
-}
+    const gridEl = document.getElementById('grid');
+    const attemptInfo = document.getElementById('attemptInfo');
+    const foundInfo = document.getElementById('foundInfo');
+    const statusEl = document.getElementById('status');
+    const igInput = document.getElementById('ig');
 
-// ------------------------------
-// KART AÇMA
-// ------------------------------
-function reveal(i, el) {
-    if (matched) return;
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalText = document.getElementById('modalText');
+    const btnPlayAgain = document.getElementById('btnPlayAgain');
+    const btnBack = document.getElementById('btnBack');
 
-    el.textContent = cards[i];
-    revealed.push(cards[i]);
+    const rows = 5;
+    const cols = 5;
+    const maxClicks = 6;
+    const values = ['50', '40', '30'];
 
-    const count40 = revealed.filter(v => v === "40").length;
-    const count50 = revealed.filter(v => v === "50").length;
-    const count30 = revealed.filter(v => v === "30").length;
+    let cards = [];
+    let clicked = 0;
+    let counts = { '50': 0, '40': 0, '30': 0 };
+    let gameFinished = false;
 
-    if (count40 === 3) endGame("40 TL");
-    if (count50 === 3) endGame("50 TL");
-    if (count30 === 3) endGame("30 TL");
-}
+    function randomCardValues() {
+      const arr = [];
+      for (let i = 0; i < rows * cols; i++) {
+        const v = values[Math.floor(Math.random() * values.length)];
+        arr.push(v);
+      }
+      return arr;
+    }
 
-// ------------------------------
-// OYUN BİTTİ
-// ------------------------------
-function endGame(prizeText) {
-    matched = true;
+    function updateInfoText() {
+      attemptInfo.textContent = `Kalan hak: ${Math.max(0, maxClicks - clicked)} / ${maxClicks}`;
+      foundInfo.textContent =
+        `Buldukların: 50 TL: ${counts['50']} • 40 TL: ${counts['40']} • 30 TL: ${counts['30']}`;
+    }
 
-    document.getElementById("resultText").textContent =
-        "Tebrikler! " + prizeText + " Femud İndirim Kuponu Kazandın!";
-    
-    document.getElementById("resultBox").style.display = "block";
+    function createGrid() {
+      gridEl.innerHTML = '';
+      cards = randomCardValues();
+      clicked = 0;
+      counts = { '50': 0, '40': 0, '30': 0 };
+      gameFinished = false;
+      statusEl.textContent = '';
+      statusEl.className = 'status';
 
-    // SHEET'E KAYIT GÖNDER
-    sendToSheet(prizeText);
-}
+      cards.forEach((val, index) => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.dataset.index = index;
+        tile.dataset.value = val;
 
-// ------------------------------
-// GOOGLE SHEET KAYDI
-// ------------------------------
-function sendToSheet(prizeText) {
+        const inner = document.createElement('div');
+        inner.className = 'tile-inner';
+        inner.textContent = 'Femud';
+        tile.appendChild(inner);
 
-    fetch(apiURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        tile.addEventListener('click', () => handleTileClick(tile));
+        gridEl.appendChild(tile);
+      });
+
+      updateInfoText();
+    }
+
+    function handleTileClick(tile) {
+      if (gameFinished) return;
+      if (tile.classList.contains('scratched')) return;
+      if (clicked >= maxClicks) return;
+
+      const val = tile.dataset.value;
+      clicked++;
+      tile.classList.add('scratched');
+      tile.querySelector('.tile-inner').textContent = `${val} TL`;
+
+      counts[val] = (counts[val] || 0) + 1;
+      updateInfoText();
+
+      // Kazandı mı?
+      if (counts[val] >= 3) {
+        gameFinished = true;
+        showWin(val, counts[val]);
+        saveWin(val, counts[val]);
+        return;
+      }
+
+      // Hakkı bitti, kazanamadı
+      if (clicked >= maxClicks) {
+        gameFinished = true;
+        showLose();
+      }
+    }
+
+    function showWin(amount, matchCount) {
+      modalTitle.textContent = 'Tebrikler! 🎉';
+      modalText.textContent =
+        `${amount} TL Femud indirim kuponu kazandın. ` +
+        `Ekran görüntüsünü @femud_tr hesabına göndererek kullanabilirsin.`;
+      modalBackdrop.style.display = 'flex';
+    }
+
+    function showLose() {
+      modalTitle.textContent = 'Maalesef! 😔';
+      modalText.textContent =
+        'Bu turda 3 aynı tutarı yakalayamadın. İstersen tekrar deneyebilirsin.';
+      modalBackdrop.style.display = 'flex';
+    }
+
+    function saveWin(amount, matchCount) {
+      const ig = igInput.value.trim();
+      if (!ig) {
+        statusEl.textContent = 'Instagram adını yazarsan kazancın tabloya kaydedilir.';
+        statusEl.className = 'status err';
+        return;
+      }
+
+      fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            type: "scratch",
-            ig: ig,
-            prize: prizeText,
-            matchCount: 3,
-            ip: ""
+          type: 'scratch',               // 🔹 Apps Script bu tipe göre KAZIKAZAN_KAZANANLAR sayfasına yazıyor
+          ig: ig || 'bos',
+          amount: `${amount} TL Femud Kuponu`,
+          matchCount: matchCount,
+          ip: ''                         // İstersen Apps Script tarafında doldurursun
         })
-    })
-    .then(r => r.json().catch(()=>({status:"ok"})))
-    .then(d => console.log("✔ Sheet kaydı:", d))
-    .catch(err => console.error("❌ Sheet hatası:", err));
-}
+      })
+        .then(res => res.json().catch(() => null))
+        .then(data => {
+          statusEl.textContent = 'Kazandığın kupon Google Sheet’e kaydedildi. ✅';
+          statusEl.className = 'status ok';
+        })
+        .catch(err => {
+          console.error(err);
+          statusEl.textContent = 'Kupon kaydı yapılamadı, ama sen yine de kazandın. 😉';
+          statusEl.className = 'status err';
+        });
+    }
 
-// ------------------------------
-// TEKRAR OYNA
-// ------------------------------
-function restartGame() {
-    revealed = [];
-    matched = false;
-    document.getElementById("resultBox").style.display = "none";
-    startGame();
-}
+    btnPlayAgain.addEventListener('click', () => {
+      modalBackdrop.style.display = 'none';
+      createGrid();
+    });
 
-startGame();
-</script>
+    btnBack.addEventListener('click', () => {
+      // Oyun merkezine / çarkıfelek sayfasına dön
+      window.location.href = 'index.html';
+    });
 
+    // Sayfa açıldığında oyunu başlat
+    createGrid();
+  </script>
 </body>
 </html>
