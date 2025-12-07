@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Şans Merkezi – Çarkıfelek & Kazı Kazan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Poppins", sans-serif;
+      background: radial-gradient(circle at top, #f5f0ff 0, #b39ddb 30%, #26c6da 70%, #004d40 100%);
+      color: #240046;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 26px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.6);
+      padding: 20px 18px 22px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wrapper::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(
+        from 120deg,
+        rgba(255,255,255,0.15),
+        rgba(255,255,255,0.8),
+        rgba(255,255,255,0.15)
+      );
+      opacity: 0.35;
+      filter: blur(10px);
+      z-index: -1;
+      animation: rotate 12s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    .logo {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: #ffffff;
+      margin: 0 auto 8px;
+      box-shadow:
+        0 3px 8px rgba(0,0,0,0.25),
+        inset 0 2px 4px rgba(255,255,255,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 16px;
+      color: #6a1b9a;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+      font-weight: 900;
+      color: #4a148c;
+      text-shadow: 0 3px 6px rgba(155, 89, 182, 0.7);
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .subtitle strong { color: #004d40; }
+
+    .cards {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 480px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      border-radius: 18px;
+      padding: 14px 10px 14px;
+      background: linear-gradient(145deg, #8e24aa, #4a148c);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.35);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 140px;
+    }
+
+    .card.kazikazan {
+      background: linear-gradient(145deg, #26c6da, #004d40);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle at top, rgba(255,255,255,0.35), transparent 60%);
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .card-title span.emoji {
+      font-size: 20px;
+    }
+
+    .card-text {
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.3);
+      font-size: 10px;
+      margin-top: 4px;
+    }
+
+    .btn-play {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+      border-radius: 999px;
+      border: none;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      color: #4a148c;
+      background: #ffeb3b;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-play:active {
+      transform: translateY(1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    }
+
+    .footer-note {
+      margin-top: 14px;
+      font-size: 11px;
+      color: #666;
+    }
+
+    .footer-note strong {
+      color: #4a148c;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="logo">Femud</div>
+    <h1>Femud Şans Merkezi</h1>
+    <div class="subtitle">
+      Femud hediyeleri için <strong>Çarkıfelek</strong> veya <strong>Kazı Kazan</strong> oyununu seçin.
+    </div>
+
+    <div class="cards">
+      <!-- ÇARKIFELEK -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-title">
+            <span class="emoji">🎡</span> Femud Çarkıfelek
+          </div>
+          <div class="card-text">
+            Çarkı çevir, anında sürpriz indirimler ve hediyeler kazan.
+            Her turda farklı şans, farklı Femud hediyesi seni bekliyor.
+            <div class="pill">Canlı & hareketli çark animasyonu</div>
+          </div>
+        </div>
+        <!-- Buradaki href çarkın ÇALIŞAN adresi -->
+        <a class="btn-play" href="https://mdoganay00-bit.github.io/femud-carkifelek/">
+          Çarkıfelek ile oyna
+        </a>
+      </div>
+
+      <!-- KAZI KAZAN -->
+      <div class="card kazikazan">
+        <div class="card-content">
+          <div class="card-title">
+            <span class="emoji">🎁</span> Femud Kazı Kazan
+          </div>
+          <div class="card-text">
+            5x5 Femud kutularından 7 tanesini seç, 50 / 40 / 30 TL
+            indirimlerden aynı olanı 3 kez yakalarsan kupon senin!
+            <div class="pill">Femud renklerinde premium kazı kazan</div>
+          </div>
+        </div>
+        <!-- Buradaki href kazı kazanın ÇALIŞAN adresi -->
+        <a class="btn-play" href="https://mdoganay00-bit.github.io/femud-carkifelek/kazikazan4x4.html">
+          Kazı Kazan ile oyna
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Tüm oyunlar <strong>Femud hediyeleri</strong> içindir. Kazandığınız kuponları
+      <strong>@Femud_tr</strong> Instagram hesabına ekran görüntüsü göndererek talep edebilirsiniz.
+    </div>
+  </div>
+</body>
+</html>
