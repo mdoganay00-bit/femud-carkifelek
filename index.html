@@ -2,319 +2,247 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Femud Şans Merkezi – Çarkıfelek & Kazı Kazan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <title>Femud | Doğadan Gelen Güç</title>
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
+      font-family: Arial, sans-serif;
+      background: radial-gradient(circle at top, #f3e9ff 0%, #f5f5f8 45%, #ececf5 100%);
       margin: 0;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #d8c6f0, #9578d3);
-      color: #240046;
-      padding: 18px;
-    }
-
-    .wrapper {
-      width: 100%;
-      max-width: 520px;
-      background: rgba(255,255,255,0.97);
-      border-radius: 26px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-      padding: 20px 18px 32px;
+      padding: 0;
       text-align: center;
-      position: relative;
-      overflow: hidden;
+      color: #222;
     }
 
-    /* ÜSTTE BÜYÜK FEMUD LOGOSU */
-    .hero-logo img {
-      width: 260px;
-      max-width: 90%;
+    header {
+      padding: 16px 12px 4px;
+    }
+
+    header img {
+      width: 85%;
+      max-width: 600px;
+      height: auto;
       display: block;
-      margin: 0 auto;
+      margin: 0 auto 8px;
     }
 
-    /* SİYAH SLOGAN */
-    .hero-logo-slogan {
-      font-size: 16px;
+    header h1 {
+      margin: 4px 0 0;
+      font-size: 22px;
       font-weight: 700;
-      margin-top: 8px;
-      color: #000000;
+      color: #111;
     }
 
-    h1 {
-      margin-top: 20px;
-      font-size: 24px;
-      font-weight: 900;
-      color: #4a148c;
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 10px 12px 30px;
     }
 
-    .subtitle {
-      margin-top: 6px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .subtitle strong { color: #004d40; }
-
-    .cards {
-      margin-top: 18px;
+    .products-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 18px;
+      margin-top: 16px;
     }
 
-    .card {
-      border-radius: 18px;
-      padding: 14px 10px 18px;
-      background: linear-gradient(145deg, #8c10f5, #5a04c7);
-      color: #fff;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.3);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 150px;
-    }
-
-    .card.kazikazan {
-      background: linear-gradient(145deg, #00c8c8, #00716b);
-    }
-
-    .card-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .card-title span.emoji { font-size: 24px; }
-
-    .card-text {
-      font-size: 13px;
-      line-height: 1.35;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: rgba(0,0,0,0.3);
-      font-size: 10px;
-      margin-top: 4px;
-    }
-
-    .btn-play {
-      position: relative;
-      z-index: 1;
-      margin-top: 12px;
-      border-radius: 999px;
-      border: none;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 800;
-      cursor: pointer;
-      color: #4a148c;
-      background: #ffeb3b;
-      text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
-    }
-
-    .btn-play:active {
-      transform: translateY(1px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
-    }
-
-    /* ÜRÜN KUTULARI BÖLÜMÜ */
-    .products {
-      margin-top: 24px;
-      text-align: left;
-    }
-
-    .products-title {
-      text-align: center;
-      font-size: 18px;
-      font-weight: 800;
-      color: #4a148c;
-      margin-bottom: 8px;
-    }
-
-    .products-subtitle {
-      text-align: center;
-      font-size: 12px;
-      color: #555;
-      margin-bottom: 10px;
-    }
-
-    .product-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 10px;
-    }
-
-    @media (min-width: 480px) {
-      .product-grid {
+    @media (min-width: 720px) {
+      .products-grid {
         grid-template-columns: 1fr 1fr;
       }
     }
 
-    .product-card {
-      border-radius: 14px;
-      border: 1px solid #ece6ff;
-      background: #f9f6ff;
-      padding: 10px 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    .product-box {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.10);
+      padding: 14px 14px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .product-name {
+    .product-image-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .product-image-wrapper img {
+      width: 80%;
+      max-width: 260px;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+    }
+
+    .product-title {
+      font-size: 19px;
       font-weight: 700;
-      font-size: 13px;
       margin-bottom: 4px;
-      color: #3a2775;
+      color: #3b2d77;
     }
 
-    .product-desc {
-      font-size: 11px;
-      color: #444;
-      line-height: 1.35;
+    .product-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 8px;
     }
 
-    .footer-note {
+    .product-text {
+      font-size: 14px;
+      line-height: 1.5;
+      text-align: left;
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .product-text ul {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .product-text li {
+      margin-bottom: 4px;
+    }
+
+    footer {
       margin-top: 18px;
-      font-size: 12px;
-      color: #444;
-      text-align: center;
+      font-size: 13px;
+      color: #555;
+      padding-bottom: 18px;
     }
-
-    .footer-note strong { color: #4a148c; }
   </style>
 </head>
-
 <body>
-  <div class="wrapper">
 
-    <!-- BÜYÜK LOGO + SİYAH SLOGAN -->
-    <div class="hero-logo">
-      <img src="femud_logo.png" alt="Femud Logo">
-      <div class="hero-logo-slogan">Doğadan gelen güç</div>
-    </div>
+  <!-- ÜST LOGO ve SLOGAN -->
+  <header>
+    <!-- Buraya gönderdiğin logo görselinin tam adını yaz -->
+    <img src="femud_logo_banner.png" alt="Femud Logo">
+    <h1>Doğadan Gelen Güç</h1>
+  </header>
 
-    <h1>Femud Şans Merkezi</h1>
-    <div class="subtitle">
-      Femud hediyeleri için <strong>Çarkıfelek</strong> veya <strong>Kazı Kazan</strong> oyununu seçin.
-    </div>
+  <div class="container">
 
-    <!-- OYUN KARTLARI -->
-    <div class="cards">
+    <div class="products-grid">
 
-      <!-- ÇARKIFELEK -->
-      <div class="card">
-        <div class="card-content">
-          <div class="card-title">
-            <span class="emoji">🎡</span> Femud Çarkıfelek
-          </div>
-          <div class="card-text">
-            Çarkı çevir, anında sürpriz indirimler ve hediyeler kazan.
-            <div class="pill">Canlı & hareketli çark animasyonu</div>
-          </div>
+      <!-- 1) MENTOLLÜ ŞAMPUAN -->
+      <div class="product-box">
+        <div class="product-image-wrapper">
+          <img src="sampuan_mentollu.png" alt="Mentollü Şampuan">
         </div>
-
-        <a class="btn-play" href="carkifelek.html">Çarkıfelek ile oyna</a>
+        <div class="product-title">Mentollü Şampuan</div>
+        <div class="product-subtitle">Kepeğe karşı etkili – 400&nbsp;ml</div>
+        <div class="product-text">
+          <ul>
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Egzama ve kepeğe karşı etkilidir.</li>
+            <li>Ferahlatıcı mentol etkisi sağlar.</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- KAZI KAZAN -->
-      <div class="card kazikazan">
-        <div class="card-content">
-          <div class="card-title">
-            <span class="emoji">🎁</span> Femud Kazı Kazan
-          </div>
-          <div class="card-text">
-            5x5 Femud kutularından 7 tanesini seç, 50 / 40 / 30 TL indirimlerden aynı olanı
-            3 kez yakalarsan kupon senin!
-            <div class="pill">Femud renklerinde premium kazı kazan</div>
-          </div>
+      <!-- 2) LAVANTA KÖPÜK SABUN -->
+      <div class="product-box">
+        <div class="product-image-wrapper">
+          <img src="kopuk_sabun_lavanta.png" alt="Lavanta Köpük Sabun">
         </div>
-
-        <a class="btn-play" href="kazikazan4x4.html">Kazı Kazan ile oyna</a>
+        <div class="product-title">Lavanta Köpük Sabun</div>
+        <div class="product-subtitle">Sıvı köpük el sabunu – 500&nbsp;ml</div>
+        <div class="product-text">
+          <ul>
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Krem etkisi ile ellerde kuruluk yapmaz.</li>
+            <li>Mantar için etkilidir.</li>
+          </ul>
+        </div>
       </div>
 
-    </div>
-
-    <!-- ÜRÜN KUTULARI -->
-    <div class="products">
-      <div class="products-title">Femud Ürünleri</div>
-      <div class="products-subtitle">Aşağıda kampanyalarda kullandığımız Femud ürünlerinin kısa açıklamalarını görebilirsiniz.</div>
-
-      <div class="product-grid">
-
-        <div class="product-card">
-          <div class="product-name">Femud Şampuan</div>
-          <div class="product-desc">
-            Termal su ile üretilmiştir. Egzama ve kepeğe karşı etkilidir.
-          </div>
+      <!-- 3) LAVANTA ODA PARFÜMÜ -->
+      <div class="product-box">
+        <div class="product-image-wrapper">
+          <img src="oda_parfumu_lavanta.png" alt="Lavanta Oda Parfümü">
         </div>
-
-        <div class="product-card">
-          <div class="product-name">Lavanta Özlü Oda Parfümü</div>
-          <div class="product-desc">
-            Lavanta özlüdür. Termal su ile üretilmiştir. Kıyafetlerde kullanılabilir.
-            KOAH, bronşit, astım hastaları kullanımlarında alerjik reaksiyonlar göstermediği görülmüştür.
-          </div>
+        <div class="product-title">Lavanta Oda Parfümü</div>
+        <div class="product-subtitle">Doğal esinti – 400&nbsp;ml</div>
+        <div class="product-text">
+          <ul>
+            <li>Lavanta özlüdür.</li>
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Kıyafetlerde kullanılabilir.</li>
+            <li>Kol, bronşit, astım hastalarında kullanımlarında<br>
+                alerjik reaksiyon göstermediği görülmüştür.</li>
+          </ul>
         </div>
-
-        <div class="product-card">
-          <div class="product-name">Sıvı Köpük El Sabunu</div>
-          <div class="product-desc">
-            Termal su ile üretilmiştir. Krem etkisi ile ellerde kuruluk yapmaz.
-            Mantar için etkilidir.
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-name">50 ml Kestane Özlü Vücut Kremi</div>
-          <div class="product-desc">
-            Termal su ile üretilmiştir. Kolay emilim sağlar, kadifemsi etki bırakır,
-            nemi artırır, kuruluğu azaltır.
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-name">250 ml Kestane Özlü Vücut Kremi</div>
-          <div class="product-desc">
-            Termal su ile üretilmiştir. Kolay emilim sağlar, kadifemsi etki bırakır,
-            nemi artırır, kuruluğu azaltır.
-          </div>
-        </div>
-
-        <div class="product-card">
-          <div class="product-name">80 Derece Limon Kolonyası</div>
-          <div class="product-desc">
-            Termal su ile üretilmiştir. 80 derece limon kolonyasıdır.
-            Ciltte çatlak oluşumu yapmaz.
-          </div>
-        </div>
-
       </div>
-    </div>
 
-    <div class="footer-note">
-      Tüm oyunlar <strong>Femud ödülleri</strong> içindir. Kazandığınız kuponları
-      <strong>@Femud_tr</strong> Instagram hesabına ekran görüntüsü göndererek talep edebilirsiniz.
-    </div>
+      <!-- 4) LİMON KOLONYASI -->
+      <div class="product-box">
+        <div class="product-image-wrapper">
+          <img src="limon_kolonyasi.png" alt="Limon Kolonyası">
+        </div>
+        <div class="product-title">Limon Kolonyası</div>
+        <div class="product-subtitle">80° termal su ile üretilmiş – 400&nbsp;ml</div>
+        <div class="product-text">
+          <ul>
+            <li>Termal su ile üretilmiştir.</li>
+            <li>80 derece limon kolonyasıdır.</li>
+            <li>Ciltte çatlak oluşumu yapmaz.</li>
+          </ul>
+        </div>
+      </div>
 
-  </div>
+      <!-- 5) 50 ML KESTANE ÖZLÜ KREM -->
+      <div class="product-box">
+        <div class="product-image-wrapper">
+          <img src="krem_50ml_kestane.png" alt="50 ml Kestane Özlü Nemlendirici Krem">
+        </div>
+        <div class="product-title">Kestane Özlü Nemlendirici Krem</div>
+        <div class="product-subtitle">Yoğun bakım – 50&nbsp;ml</div>
+        <div class="product-text">
+          <ul>
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Kolay emilim sağlar.</li>
+            <li>Kadifemsi bir etki bırakır.</li>
+            <li>Nemi artırır, kuruluğu azaltır.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- 6) 250 ML KESTANE ÖZLÜ KREM -->
+      <div class="product-box">
+        <div class="product-image-wrapper">
+          <img src="krem_250ml_kestane.png" alt="250 ml Kestane Özlü Nemlendirici Krem">
+        </div>
+        <div class="product-title">Kestane Özlü Nemlendirici Krem</div>
+        <div class="product-subtitle">Aile boyu nemlendirme – 250&nbsp;ml</div>
+        <div class="product-text">
+          <ul>
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Kolay emilim sağlar.</li>
+            <li>Kadifemsi bir etki bırakır.</li>
+            <li>Nemi artırır, kuruluğu azaltır.</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /.products-grid -->
+
+    <footer>
+      Tüm Femud ürünleri yerli üretimdir. Ayrıntılı bilgi ve kampanyalar için
+      <strong>@femud_tr</strong> Instagram hesabını takip edebilirsiniz.
+    </footer>
+
+  </div><!-- /.container -->
+
 </body>
 </html>
