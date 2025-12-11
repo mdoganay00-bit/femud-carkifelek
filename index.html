@@ -1,17 +1,208 @@
-<!-- BÜYÜK FEMUD LOGOSU & SLOGAN (GÜNCEL) -->
-<div class="hero-logo">
-  <img src="femud_logo.png" alt="Femud Logo" style="
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Femud Şans Merkezi – Çarkıfelek & Kazı Kazan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #d8c6f0, #9578d3);
+      color: #240046;
+      padding: 18px;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255,255,255,0.97);
+      border-radius: 26px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+      padding: 20px 18px 32px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ÜSTTE BÜYÜK FEMUD LOGOSU */
+    .hero-logo img {
       width: 260px;
-      max-width: 85%;
+      max-width: 90%;
       display: block;
-      margin: 0 auto 8px;
-  ">
-  <div class="hero-logo-slogan" style="
-      font-size: 15px;
+      margin: 0 auto;
+    }
+
+    /* SİYAH SLOGAN */
+    .hero-logo-slogan {
+      font-size: 16px;
       font-weight: 700;
+      margin-top: 8px;
       color: #000000;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 24px;
+      font-weight: 900;
+      color: #4a148c;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .subtitle strong { color: #004d40; }
+
+    .cards {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      border-radius: 18px;
+      padding: 14px 10px 18px;
+      background: linear-gradient(145deg, #8c10f5, #5a04c7);
+      color: #fff;
+      box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 150px;
+    }
+
+    .card.kazikazan {
+      background: linear-gradient(145deg, #00c8c8, #00716b);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .card-title span.emoji { font-size: 24px; }
+
+    .card-text {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.3);
+      font-size: 10px;
       margin-top: 4px;
-  ">
-      Doğadan gelen güç
+    }
+
+    .btn-play {
+      position: relative;
+      z-index: 1;
+      margin-top: 12px;
+      border-radius: 999px;
+      border: none;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+      color: #4a148c;
+      background: #ffeb3b;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+    }
+
+    .btn-play:active {
+      transform: translateY(1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #444;
+    }
+
+    .footer-note strong { color: #4a148c; }
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <!-- ===================== -->
+    <!--  BÜYÜK LOGO + SLOGAN  -->
+    <!-- ===================== -->
+    <div class="hero-logo">
+      <img src="femud_logo.png" alt="Femud Logo">
+      <div class="hero-logo-slogan">Doğadan gelen güç</div>
+    </div>
+
+    <h1>Femud Şans Merkezi</h1>
+    <div class="subtitle">
+      Femud hediyeleri için <strong>Çarkıfelek</strong> veya <strong>Kazı Kazan</strong> oyununu seçin.
+    </div>
+
+    <div class="cards">
+
+      <!-- ÇARKIFELEK -->
+      <div class="card">
+        <div class="card-content">
+          <div class="card-title">
+            <span class="emoji">🎡</span> Femud Çarkıfelek
+          </div>
+          <div class="card-text">
+            Çarkı çevir, anında sürpriz indirimler ve hediyeler kazan.
+            <div class="pill">Canlı & hareketli çark animasyonu</div>
+          </div>
+        </div>
+
+        <a class="btn-play" href="carkifelek.html">Çarkıfelek ile oyna</a>
+      </div>
+
+      <!-- KAZI KAZAN -->
+      <div class="card kazikazan">
+        <div class="card-content">
+          <div class="card-title">
+            <span class="emoji">🎁</span> Femud Kazı Kazan
+          </div>
+          <div class="card-text">
+            5x5 Femud kutularından 7 tanesini seç, 50 / 40 / 30 TL indirimlerden aynı olanı  
+            3 kez yakalarsan kupon senin!
+            <div class="pill">Femud renklerinde premium kazı kazan</div>
+          </div>
+        </div>
+
+        <a class="btn-play" href="kazikazan4x4.html">Kazı Kazan ile oyna</a>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Tüm oyunlar <strong>Femud ödülleri</strong> içindir.  
+      Kazandığınız kuponları <strong>@Femud_tr</strong> Instagram hesabına göndererek talep edebilirsiniz.
+    </div>
+
   </div>
-</div>
+</body>
+</html>
