@@ -17,11 +17,46 @@
 
     a { text-decoration: none; }
 
-    /* Genel düzen */
     .page {
       max-width: 1100px;
       margin: 0 auto;
       padding: 18px 16px 40px;
+    }
+
+    /* ÜSTTE BÜYÜK FEMUD LOGOSU + SLOGAN */
+    .hero-logo {
+      text-align: center;
+      margin-top: 12px;
+      margin-bottom: 10px;
+    }
+
+    .hero-logo-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+      color: #7a1fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.30);
+    }
+
+    .hero-logo-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-logo-slogan {
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffeb3b;
     }
 
     /* NAVBAR */
@@ -29,6 +64,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 16px;
       margin-bottom: 12px;
     }
 
@@ -38,9 +74,9 @@
       gap: 10px;
     }
 
-    .logo-circle {
-      width: 40px;
-      height: 40px;
+    .logo-circle-small {
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
       background: #ffffff;
       color: #7a1fff;
@@ -49,12 +85,12 @@
       align-items: center;
       justify-content: center;
       box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-      font-size: 18px;
+      font-size: 16px;
     }
 
     .brand-text-main {
       font-weight: 800;
-      font-size: 18px;
+      font-size: 16px;
       color: #ffffff;
     }
 
@@ -81,7 +117,7 @@
 
     /* HERO */
     .hero {
-      margin-top: 12px;
+      margin-top: 8px;
       background: rgba(255,255,255,0.97);
       border-radius: 26px;
       padding: 22px 20px 24px;
@@ -206,7 +242,41 @@
       margin-bottom: 12px;
     }
 
-    /* KART GRID (ürün / kampanya / şans merkezi vb.) */
+    /* ÜRÜN KUTULARI */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 720px) {
+      .product-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .product-box {
+      background: rgba(255,255,255,0.96);
+      border-radius: 16px;
+      padding: 12px 11px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+      font-size: 13px;
+      line-height: 1.35;
+      color: #2c2144;
+    }
+
+    .product-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #4a148c;
+    }
+
+    .product-text {
+      font-size: 12px;
+    }
+
+    /* GENEL CARD GRID (kampanya & şans merkezi) */
     .card-grid {
       display: grid;
       grid-template-columns: 1fr;
@@ -237,10 +307,6 @@
       background: linear-gradient(145deg, #06b3b8, #006064);
     }
 
-    .card.urun {
-      background: linear-gradient(145deg, #ff8a65, #d84315);
-    }
-
     .card::before {
       content: "";
       position: absolute;
@@ -263,6 +329,7 @@
       font-size: 18px;
       font-weight: 800;
       margin-bottom: 6px;
+      text-align: center;
     }
 
     .card-title span.emoji {
@@ -376,10 +443,17 @@
 <body id="anasayfa">
   <div class="page">
 
+    <!-- BÜYÜK FEMUD LOGOSU & SLOGAN -->
+    <div class="hero-logo">
+      <div class="hero-logo-circle">F</div>
+      <div class="hero-logo-name">Femud</div>
+      <div class="hero-logo-slogan">Doğadan gelen güç</div>
+    </div>
+
     <!-- NAVBAR -->
     <header class="nav">
       <div class="nav-left">
-        <div class="logo-circle">F</div>
+        <div class="logo-circle-small">F</div>
         <div>
           <div class="brand-text-main">Femud</div>
           <div class="brand-text-sub">Doğadan Gelen Güç</div>
@@ -425,35 +499,61 @@
     <section id="urunler" class="section">
       <h2 class="section-title">Femud Ürün Ailesi</h2>
       <p class="section-sub">
-        Şampuan, krem, sıvı köpük sabun, kolonya ve oda parfümü – hepsi Femud kalitesiyle.
+        Her ürün, termal su ile geliştirilmiş özel formüllerle hazırlanmıştır.
       </p>
 
-      <div class="card-grid two">
-        <article class="card urun">
-          <div class="card-content">
-            <div class="card-title">
-              <span class="emoji">🧴</span> Femud Şampuanlar
-            </div>
-            <p class="card-text">
-              Kepeğe karşı etkili, termal su ile üretilmiş, mentollü ve farklı saç tiplerine özel seçenekler.
-              Market raflarında ve seçili noktalarda.
-            </p>
-            <div class="pill">Termal su & güçlü formül</div>
+      <div class="product-grid">
+        <!-- ŞAMPUAN -->
+        <div class="product-box">
+          <div class="product-title">Femud Şampuan</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, egzama ve kepeğe karşı etkilidir.
           </div>
-        </article>
+        </div>
 
-        <article class="card urun">
-          <div class="card-content">
-            <div class="card-title">
-              <span class="emoji">✨</span> Kremler & Köpük Sabun
-            </div>
-            <p class="card-text">
-              Kestane özlü nemlendirici kremler, lavanta kokulu sıvı köpük sabunlar ve ferahlatıcı
-              el bakımı ürünleri.
-            </p>
-            <div class="pill">Yumuşacık & kadifemsi his</div>
+        <!-- ODA PARFÜMÜ -->
+        <div class="product-box">
+          <div class="product-title">Femud Oda Parfümü</div>
+          <div class="product-text">
+            Lavanta özlüdür, termal su ile üretilmiştir, kıyafetlerde kullanılabilir.  
+            kua, bronşit, astım hastaları kullanımlarında alerjik reaksiyonlar göstermediği görülmüştür.
           </div>
-        </article>
+        </div>
+
+        <!-- SIVI KÖPÜK SABUN -->
+        <div class="product-box">
+          <div class="product-title">Femud Sıvı Köpük Sabun</div>
+          <div class="product-text">
+            Termal su ile üretilmiş, krem etkisi ile ellerde kuruluk yapmaz, mantar için etkilidir.
+          </div>
+        </div>
+
+        <!-- 50 ML KESTANE ÖZLÜ KREM -->
+        <div class="product-box">
+          <div class="product-title">50 ml Kestane Özlü Vücut Kremi</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, kolay emilim sağlar, kadifemsi etki bırakır,  
+            nemi artırır, kuruluğu azaltır.
+          </div>
+        </div>
+
+        <!-- 250 ML KENE ÖZLÜ KREM -->
+        <div class="product-box">
+          <div class="product-title">250 ml Kene Özlü Vücut Kremi</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, kolay emilim sağlar, kedifemsi etki bırakır,  
+            nemi artırır, kuruluğu azaltır.
+          </div>
+        </div>
+
+        <!-- LİMON KOLONYASI -->
+        <div class="product-box">
+          <div class="product-title">80 Derece Limon Kolonyası</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, 80 derece limon kolonyasıdır,  
+            ciltte çatlak oluşumu yapmaz.
+          </div>
+        </div>
       </div>
     </section>
 
@@ -461,7 +561,7 @@
     <section id="kampanyalar" class="section">
       <h2 class="section-title">Kampanyalar & Hediyeler</h2>
       <p class="section-sub">
-        Dönemsel indirimler, market iş birlikleri ve Femud Şans Merkezi'ne özel kuponlar.
+        Market kampanyaları, promosyon setleri ve Femud Şans Merkezi'ne özel indirim kuponları.
       </p>
 
       <div class="card-grid">
@@ -471,7 +571,7 @@
               <span class="emoji">💳</span> Femud İndirim Kuponları
             </div>
             <p class="card-text">
-              Çarkıfelek veya Kazı Kazan oynayarak 30 / 40 / 50 TL indirim kuponları kazan.
+              Çarkıfelek veya Kazı Kazan oynayarak 30 / 40 / 50 TL indirim kuponları kazan.  
               Kazandığın kuponu ekran görüntüsü ile @Femud_tr hesabına göndererek talep edebilirsin.
             </p>
             <div class="pill">Tüm oyunlar Femud hediyeleri içindir</div>
@@ -500,7 +600,6 @@
               <div class="pill">Canlı & hareketli çark animasyonu</div>
             </p>
           </div>
-          <!-- HREF: ÇARKIFELEK SAYFAN -->
           <div class="card-actions">
             <a class="btn-play" href="carkifelek.html">
               Çarkıfelek ile oyna
@@ -516,12 +615,11 @@
               <span class="emoji">🎁</span> Femud Kazı Kazan
             </div>
             <p class="card-text">
-              5x5 Femud kutularından 7 tanesini seç.  
+              Femud kutularından seçim yap.  
               50 / 40 / 30 TL indirimlerden aynı olanı 3 kez yakalarsan kupon senin!
               <div class="pill">Femud renklerinde premium kazı kazan</div>
             </p>
           </div>
-          <!-- HREF: KAZI KAZAN SAYFAN -->
           <div class="card-actions">
             <a class="btn-play" href="kazikazan4x4.html">
               Kazı Kazan ile oyna
