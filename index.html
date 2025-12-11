@@ -2,107 +2,345 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8" />
-  <title>Femud Şans Merkezi – Çarkıfelek & Kazı Kazan</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Femud – Doğadan Gelen Güç</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #f4e8ff, #240046);
+      color: #1f1333;
       min-height: 100vh;
+    }
+
+    a { text-decoration: none; }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 18px 16px 40px;
+    }
+
+    /* ÜSTTE BÜYÜK FEMUD LOGOSU + SLOGAN */
+    .hero-logo {
+      text-align: center;
+      margin-top: 12px;
+      margin-bottom: 10px;
+    }
+
+    .hero-logo-circle {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 8px;
+      background: #ffffff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: radial-gradient(circle at top, #d8c6f0, #9578d3);
-      color: #240046;
-      padding: 18px;
+      font-size: 32px;
+      font-weight: 900;
+      color: #7a1fff;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.30);
     }
 
-    .wrapper {
-      width: 100%;
-      max-width: 520px;
+    .hero-logo-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: 0.04em;
+    }
+
+    .hero-logo-slogan {
+      margin-top: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #ffeb3b;
+    }
+
+    /* NAVBAR */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 16px;
+      margin-bottom: 12px;
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-circle-small {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #ffffff;
+      color: #7a1fff;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+      font-size: 16px;
+    }
+
+    .brand-text-main {
+      font-weight: 800;
+      font-size: 16px;
+      color: #ffffff;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: #ddd0ff;
+    }
+
+    .nav-right {
+      display: flex;
+      gap: 14px;
+      font-size: 13px;
+    }
+
+    .nav-right a {
+      color: #f3e6ff;
+      opacity: 0.85;
+    }
+
+    .nav-right a:hover {
+      opacity: 1;
+      text-decoration: underline;
+    }
+
+    /* HERO */
+    .hero {
+      margin-top: 8px;
       background: rgba(255,255,255,0.97);
       border-radius: 26px;
-      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
-      padding: 20px 18px 32px;
-      text-align: center;
+      padding: 22px 20px 24px;
+      box-shadow: 0 22px 45px rgba(0,0,0,0.35);
       position: relative;
       overflow: hidden;
     }
 
-    /* ÜSTTE BÜYÜK FEMUD LOGOSU */
-    .hero-logo img {
-      width: 260px;
-      max-width: 90%;
-      display: block;
-      margin: 0 auto;
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -35%;
+      background: conic-gradient(
+        from 120deg,
+        rgba(138,80,255,0.08),
+        rgba(255,255,255,0.9),
+        rgba(13,201,173,0.08),
+        rgba(138,80,255,0.08)
+      );
+      opacity: 0.6;
+      filter: blur(16px);
+      z-index: -1;
+      animation: rotate 18s linear infinite;
     }
 
-    /* SİYAH SLOGAN */
-    .hero-logo-slogan {
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 8px;
-      color: #000000;
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
     }
 
-    h1 {
-      margin-top: 20px;
-      font-size: 24px;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(122,31,255,0.09);
+      color: #5c16c8;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-size: 26px;
+      line-height: 1.2;
       font-weight: 900;
+      color: #240046;
+      text-shadow: 0 3px 6px rgba(0,0,0,0.16);
+      margin-bottom: 8px;
+    }
+
+    .hero-title span {
+      color: #7a1fff;
+    }
+
+    .hero-text {
+      font-size: 14px;
+      color: #4b3c67;
+      margin-bottom: 14px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .btn-main, .btn-secondary {
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 9px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.22);
+    }
+
+    .btn-main {
+      background: #ffeb3b;
       color: #4a148c;
     }
 
-    .subtitle {
-      margin-top: 6px;
-      font-size: 14px;
-      color: #555;
+    .btn-main:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 11px 24px rgba(0,0,0,0.28);
     }
 
-    .subtitle strong { color: #004d40; }
+    .btn-secondary {
+      background: rgba(255,255,255,0.3);
+      color: #4a148c;
+      box-shadow: none;
+      border: 1px solid rgba(122,31,255,0.25);
+    }
 
-    .cards {
-      margin-top: 18px;
+    .hero-note {
+      font-size: 11px;
+      color: #6b5a8d;
+    }
+
+    /* BÖLÜM BAŞLIKLARI */
+    .section {
+      margin-top: 26px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fef9ff;
+      margin-bottom: 8px;
+    }
+
+    .section-sub {
+      font-size: 12px;
+      color: #e6d8ff;
+      margin-bottom: 12px;
+    }
+
+    /* ÜRÜN KUTULARI */
+    .product-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 16px;
+      gap: 12px;
+    }
+
+    @media (min-width: 720px) {
+      .product-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .product-box {
+      background: rgba(255,255,255,0.96);
+      border-radius: 16px;
+      padding: 12px 11px;
+      box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+      font-size: 13px;
+      line-height: 1.35;
+      color: #2c2144;
+    }
+
+    .product-title {
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 4px;
+      color: #4a148c;
+    }
+
+    .product-text {
+      font-size: 12px;
+    }
+
+    /* GENEL CARD GRID (kampanya & şans merkezi) */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    @media (min-width: 720px) {
+      .card-grid.two {
+        grid-template-columns: 1fr 1fr;
+      }
     }
 
     .card {
       border-radius: 18px;
-      padding: 14px 10px 18px;
-      background: linear-gradient(145deg, #8c10f5, #5a04c7);
+      padding: 14px 12px 14px;
+      background: linear-gradient(145deg, #8b46ff, #4a148c);
       color: #fff;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.3);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.4);
       position: relative;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 150px;
+      min-height: 140px;
     }
 
     .card.kazikazan {
-      background: linear-gradient(145deg, #00c8c8, #00716b);
+      background: linear-gradient(145deg, #06b3b8, #006064);
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: -25%;
+      background: radial-gradient(circle at top, rgba(255,255,255,.35), transparent);
+      opacity: 0.7;
+      z-index: 0;
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
     }
 
     .card-title {
-      font-size: 18px;
-      font-weight: 800;
-      margin-bottom: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      font-size: 18px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      text-align: center;
     }
 
-    .card-title span.emoji { font-size: 24px; }
+    .card-title span.emoji {
+      font-size: 21px;
+    }
 
     .card-text {
       font-size: 13px;
       line-height: 1.35;
+      text-align: center;
+      margin-bottom: 8px;
     }
 
     .pill {
@@ -116,93 +354,315 @@
       margin-top: 4px;
     }
 
+    .card-actions {
+      position: relative;
+      z-index: 1;
+      margin-top: 10px;
+      display: flex;
+      justify-content: center;
+    }
+
     .btn-play {
       position: relative;
       z-index: 1;
-      margin-top: 12px;
       border-radius: 999px;
       border: none;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 800;
+      padding: 8px 18px;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
       color: #4a148c;
       background: #ffeb3b;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.35);
       text-decoration: none;
-      display: inline-block;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .btn-play:active {
-      transform: translateY(1px);
-      box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+    .btn-play:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.45);
+    }
+
+    .btn-play span.arrow {
+      font-size: 15px;
+    }
+
+    /* HAKKIMIZDA & İLETİŞİM */
+    .about-box, .contact-box {
+      background: rgba(15,10,35,0.85);
+      border-radius: 18px;
+      padding: 16px 14px;
+      color: #f4e8ff;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.45);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .about-box strong, .contact-box strong {
+      color: #ffeb3b;
+    }
+
+    .contact-list {
+      margin-top: 10px;
+      list-style: none;
+      font-size: 13px;
+    }
+
+    .contact-list li {
+      margin-bottom: 6px;
+    }
+
+    .contact-list a {
+      color: #8adfff;
+      text-decoration: underline;
     }
 
     .footer-note {
-      margin-top: 20px;
-      font-size: 12px;
-      color: #444;
+      margin-top: 18px;
+      font-size: 11px;
+      color: #d3c4ff;
+      text-align: center;
     }
 
-    .footer-note strong { color: #4a148c; }
+    .footer-note strong {
+      color: #ffeb3b;
+    }
+
+    @media (min-width: 720px) {
+      .hero {
+        padding: 26px 30px 26px;
+      }
+      .hero-title { font-size: 30px; }
+      .hero-text  { font-size: 15px; }
+    }
   </style>
 </head>
 
-<body>
-  <div class="wrapper">
+<body id="anasayfa">
+  <div class="page">
 
-    <!-- ===================== -->
-    <!--  BÜYÜK LOGO + SLOGAN  -->
-    <!-- ===================== -->
+    <!-- BÜYÜK FEMUD LOGOSU & SLOGAN -->
     <div class="hero-logo">
-      <img src="femud_logo.png" alt="Femud Logo">
+      <div class="hero-logo-circle">F</div>
+      <div class="hero-logo-name">Femud</div>
       <div class="hero-logo-slogan">Doğadan gelen güç</div>
     </div>
 
-    <h1>Femud Şans Merkezi</h1>
-    <div class="subtitle">
-      Femud hediyeleri için <strong>Çarkıfelek</strong> veya <strong>Kazı Kazan</strong> oyununu seçin.
-    </div>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <div class="logo-circle-small">F</div>
+        <div>
+          <div class="brand-text-main">Femud</div>
+          <div class="brand-text-sub">Doğadan Gelen Güç</div>
+        </div>
+      </div>
+      <nav class="nav-right">
+        <a href="#urunler">Ürünler</a>
+        <a href="#kampanyalar">Kampanyalar</a>
+        <a href="#sans-merkezi">Şans Merkezi</a>
+        <a href="#iletisim">İletişim</a>
+      </nav>
+    </header>
 
-    <div class="cards">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-badge">
+        🎁 Femud Şans Merkezi • Çarkıfelek & Kazı Kazan
+      </div>
+      <h1 class="hero-title">
+        Femud ile <span>eğlen, kazan,</span> indirimli alışveriş yap.
+      </h1>
+      <p class="hero-text">
+        Femud şampuan, kolonya, krem ve oda parfümlerini keşfet.  
+        Online kampanyalar, mağaza içi QR kodlar ve Femud Şans Merkezi ile
+        müşterilerine eğlenceli bir deneyim sun.
+      </p>
 
-      <!-- ÇARKIFELEK -->
-      <div class="card">
-        <div class="card-content">
-          <div class="card-title">
-            <span class="emoji">🎡</span> Femud Çarkıfelek
-          </div>
-          <div class="card-text">
-            Çarkı çevir, anında sürpriz indirimler ve hediyeler kazan.
-            <div class="pill">Canlı & hareketli çark animasyonu</div>
+      <div class="hero-actions">
+        <a href="#sans-merkezi" class="btn-main">
+          🎡 Femud Şans Merkezi'ne Git
+        </a>
+        <a href="#urunler" class="btn-secondary">
+          💜 Femud ürünlerini gör
+        </a>
+      </div>
+
+      <div class="hero-note">
+        Femud ürünleri yerli üretimdir. Kampanyalar stoklarla sınırlıdır.
+      </div>
+    </section>
+
+    <!-- ÜRÜNLER -->
+    <section id="urunler" class="section">
+      <h2 class="section-title">Femud Ürün Ailesi</h2>
+      <p class="section-sub">
+        Her ürün, termal su ile geliştirilmiş özel formüllerle hazırlanmıştır.
+      </p>
+
+      <div class="product-grid">
+        <!-- ŞAMPUAN -->
+        <div class="product-box">
+          <div class="product-title">Femud Şampuan</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, egzama ve kepeğe karşı etkilidir.
           </div>
         </div>
 
-        <a class="btn-play" href="carkifelek.html">Çarkıfelek ile oyna</a>
-      </div>
-
-      <!-- KAZI KAZAN -->
-      <div class="card kazikazan">
-        <div class="card-content">
-          <div class="card-title">
-            <span class="emoji">🎁</span> Femud Kazı Kazan
-          </div>
-          <div class="card-text">
-            5x5 Femud kutularından 7 tanesini seç, 50 / 40 / 30 TL indirimlerden aynı olanı  
-            3 kez yakalarsan kupon senin!
-            <div class="pill">Femud renklerinde premium kazı kazan</div>
+        <!-- ODA PARFÜMÜ -->
+        <div class="product-box">
+          <div class="product-title">Femud Oda Parfümü</div>
+          <div class="product-text">
+            Lavanta özlüdür, termal su ile üretilmiştir, kıyafetlerde kullanılabilir.  
+            kua, bronşit, astım hastaları kullanımlarında alerjik reaksiyonlar göstermediği görülmüştür.
           </div>
         </div>
 
-        <a class="btn-play" href="kazikazan4x4.html">Kazı Kazan ile oyna</a>
+        <!-- SIVI KÖPÜK SABUN -->
+        <div class="product-box">
+          <div class="product-title">Femud Sıvı Köpük Sabun</div>
+          <div class="product-text">
+            Termal su ile üretilmiş, krem etkisi ile ellerde kuruluk yapmaz, mantar için etkilidir.
+          </div>
+        </div>
+
+        <!-- 50 ML KESTANE ÖZLÜ KREM -->
+        <div class="product-box">
+          <div class="product-title">50 ml Kestane Özlü Vücut Kremi</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, kolay emilim sağlar, kadifemsi etki bırakır,  
+            nemi artırır, kuruluğu azaltır.
+          </div>
+        </div>
+
+        <!-- 250 ML KENE ÖZLÜ KREM -->
+        <div class="product-box">
+          <div class="product-title">250 ml Kene Özlü Vücut Kremi</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, kolay emilim sağlar, kedifemsi etki bırakır,  
+            nemi artırır, kuruluğu azaltır.
+          </div>
+        </div>
+
+        <!-- LİMON KOLONYASI -->
+        <div class="product-box">
+          <div class="product-title">80 Derece Limon Kolonyası</div>
+          <div class="product-text">
+            Termal su ile üretilmiştir, 80 derece limon kolonyasıdır,  
+            ciltte çatlak oluşumu yapmaz.
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- KAMPANYALAR -->
+    <section id="kampanyalar" class="section">
+      <h2 class="section-title">Kampanyalar & Hediyeler</h2>
+      <p class="section-sub">
+        Market kampanyaları, promosyon setleri ve Femud Şans Merkezi'ne özel indirim kuponları.
+      </p>
+
+      <div class="card-grid">
+        <article class="card">
+          <div class="card-content">
+            <div class="card-title">
+              <span class="emoji">💳</span> Femud İndirim Kuponları
+            </div>
+            <p class="card-text">
+              Çarkıfelek veya Kazı Kazan oynayarak 30 / 40 / 50 TL indirim kuponları kazan.  
+              Kazandığın kuponu ekran görüntüsü ile @Femud_tr hesabına göndererek talep edebilirsin.
+            </p>
+            <div class="pill">Tüm oyunlar Femud hediyeleri içindir</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ŞANS MERKEZİ -->
+    <section id="sans-merkezi" class="section">
+      <h2 class="section-title">Femud Şans Merkezi</h2>
+      <p class="section-sub">
+        Femud hediyeleri için Çarkıfelek veya Kazı Kazan oyunlarından birini seç.
+      </p>
+
+      <div class="card-grid">
+        <!-- ÇARKIFELEK -->
+        <article class="card">
+          <div class="card-content">
+            <div class="card-title">
+              <span class="emoji">🎡</span> Femud Çarkıfelek
+            </div>
+            <p class="card-text">
+              Çarkı çevir, anında sürpriz indirimler ve hediyeler kazan.  
+              Her turda farklı şans, farklı Femud hediyesi seni bekliyor.
+              <div class="pill">Canlı & hareketli çark animasyonu</div>
+            </p>
+          </div>
+          <div class="card-actions">
+            <a class="btn-play" href="carkifelek.html">
+              Çarkıfelek ile oyna
+              <span class="arrow">➜</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- KAZI KAZAN -->
+        <article class="card kazikazan">
+          <div class="card-content">
+            <div class="card-title">
+              <span class="emoji">🎁</span> Femud Kazı Kazan
+            </div>
+            <p class="card-text">
+              Femud kutularından seçim yap.  
+              50 / 40 / 30 TL indirimlerden aynı olanı 3 kez yakalarsan kupon senin!
+              <div class="pill">Femud renklerinde premium kazı kazan</div>
+            </p>
+          </div>
+          <div class="card-actions">
+            <a class="btn-play" href="kazikazan4x4.html">
+              Kazı Kazan ile oyna
+              <span class="arrow">➜</span>
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- HAKKIMIZDA & İLETİŞİM -->
+    <section id="iletisim" class="section">
+      <h2 class="section-title">Femud Hakkında & İletişim</h2>
+
+      <div class="card-grid two">
+        <div class="about-box">
+          <p>
+            <strong>Femud</strong>, termal su ve seçili özlerle geliştirilmiş kişisel bakım ve temizlik
+            ürünleri sunan yerli bir markadır. Amaç; hem Türkiye’de hem de yurt dışında
+            kaliteli, ulaşılabilir ve güvenilir ürünler üretmektir.
+          </p>
+          <p style="margin-top:10px;">
+            Şampuan, kolonya, kremler ve oda kokuları ile market raflarında ve seçili
+            iş ortaklarında yer alır. Femud Şans Merkezi ise müşterilere eğlenceli
+            bir deneyim ve ekstra indirimler sunar.
+          </p>
+        </div>
+
+        <div class="contact-box">
+          <p><strong>İletişim & Sosyal Medya</strong></p>
+          <ul class="contact-list">
+            <li>Instagram: <a href="https://instagram.com/Femud_tr" target="_blank">@Femud_tr</a></li>
+            <li>Kazandığın kuponları ekran görüntüsü ile DM üzerinden iletebilirsin.</li>
+            <li>Femud Şans Merkezi oyunları sadece Femud promosyonları içindir.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
 
     <div class="footer-note">
-      Tüm oyunlar <strong>Femud ödülleri</strong> içindir.  
-      Kazandığınız kuponları <strong>@Femud_tr</strong> Instagram hesabına göndererek talep edebilirsiniz.
+      Tüm oyunlar <strong>Femud hediyeleri</strong> içindir.  
+      Kazandığınız kuponlar için @Femud_tr Instagram hesabına ekran görüntüsü göndererek talepte bulunabilirsiniz.
     </div>
-
   </div>
 </body>
 </html>
