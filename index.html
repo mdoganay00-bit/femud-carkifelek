@@ -6,94 +6,96 @@
   <title>Femud | Doğadan Gelen Güç</title>
 
   <style>
+    * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
       background: radial-gradient(circle at top, #f3e9ff 0%, #f5f5f8 45%, #ececf5 100%);
+      color: #222;
       text-align: center;
     }
 
+    /* LOGO */
     .logo {
       width: 80%;
-      max-width: 300px;
-      margin: 20px auto 10px;
+      max-width: 260px;
+      margin: 20px auto 5px;
       display: block;
     }
 
     h1 {
+      margin: 0 0 20px;
       font-size: 24px;
-      margin: 5px 0 20px;
-      font-weight: bold;
-      color: #222;
+      font-weight: 700;
     }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 20px;
+    .container {
       max-width: 900px;
-      margin: auto;
-      padding: 20px;
+      margin: 0 auto;
+      padding: 0 15px 30px;
     }
 
-    @media (min-width: 700px) {
-      .grid {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    .box {
-      background: white;
-      padding: 15px;
+    .product {
+      background: #fff;
       border-radius: 14px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin-bottom: 18px;
     }
 
-    .box img {
-      width: 80%;
-      max-width: 260px;
+    .product img {
+      width: 85%;
+      max-width: 320px;
       border-radius: 12px;
-      margin-bottom: 12px;
+      display: block;
+      margin: 0 auto 10px;
     }
 
-    .title {
-      font-size: 19px;
-      font-weight: bold;
+    .product-title {
+      font-size: 20px;
+      font-weight: 700;
       color: #3b2d77;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
 
-    .sub {
+    .product-sub {
       font-size: 14px;
       font-weight: 600;
-      color: #333;
       margin-bottom: 10px;
     }
 
-    .box ul {
+    .product ul {
       text-align: left;
-      max-width: 300px;
-      margin: auto;
+      max-width: 320px;
+      margin: 0 auto;
       padding-left: 18px;
       font-size: 14px;
+      line-height: 1.5;
+    }
+
+    footer {
+      font-size: 13px;
+      color: #555;
+      margin-top: 10px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- LOGO -->
-  <img src="images/Photoroom_000_20251211_234333.jpeg" class="logo" alt="Femud Logo">
-
+  <!-- ÜST LOGO -->
+  <img src="femud_logo.png" alt="Femud Logo" class="logo">
   <h1>Doğadan Gelen Güç</h1>
 
-  <div class="grid">
+  <div class="container">
 
-    <!-- MENTOLLÜ ŞAMPUAN -->
-    <div class="box">
+    <!-- 1) Mentollü Şampuan -->
+    <div class="product">
+      <!-- BURADA ŞAMPUAN FOTOĞRAFINI KULLANIYORUZ -->
       <img src="images/Photoroom_001_20251211_234333.jpeg" alt="Mentollü Şampuan">
-      <div class="title">Mentollü Şampuan</div>
-      <div class="sub">Kepeğe karşı etkili – 400 ml</div>
+      <div class="product-title">Mentollü Şampuan</div>
+      <div class="product-sub">Kepeğe karşı etkili – 400 ml</div>
       <ul>
         <li>Termal su ile üretilmiştir.</li>
         <li>Egzamaya karşı önerilir.</li>
@@ -101,67 +103,77 @@
       </ul>
     </div>
 
-    <!-- LAVANTA KÖPÜK SABUN -->
-    <div class="box">
+    <!-- 2) Lavanta Köpük Sabun -->
+    <div class="product">
+      <!-- BURADA LAVANTA KÖPÜK SABUN FOTOĞRAFINI KULLANIYORUZ -->
       <img src="images/Photoroom_002_20251211_234333.jpeg" alt="Lavanta Köpük Sabun">
-      <div class="title">Lavanta Köpük Sabun</div>
-      <div class="sub">500 ml</div>
+      <div class="product-title">Lavanta Köpük Sabun</div>
+      <div class="product-sub">Sıvı köpük el sabunu – 500 ml</div>
       <ul>
         <li>Termal su ile üretilmiştir.</li>
-        <li>Hızlı emilim – Kadifemsi etki.</li>
+        <li>Eller için yumuşak bakım sağlar.</li>
         <li>Mantar için önerilir.</li>
       </ul>
     </div>
 
-    <!-- LAVANTA ODA PARFÜMÜ -->
-    <div class="box">
+    <!-- 3) Lavanta Oda Parfümü -->
+    <div class="product">
+      <!-- BURADA LAVANTA ODA PARFÜMÜ FOTOĞRAFINI KULLANIYORUZ -->
       <img src="images/Photoroom_003_20251211_234333.jpeg" alt="Lavanta Oda Parfümü">
-      <div class="title">Lavanta Oda Parfümü</div>
-      <div class="sub">400 ml – Doğal esinti</div>
+      <div class="product-title">Lavanta Oda Parfümü</div>
+      <div class="product-sub">Doğal esinti – 400 ml</div>
       <ul>
-        <li>Kıyafet ve oda kullanımı uygun.</li>
-        <li>Alerjik reaksiyon göstermez.</li>
+        <li>Lavanta özlüdür.</li>
+        <li>Oda ve tekstilde kullanılabilir.</li>
         <li>Termal su ile üretilmiştir.</li>
       </ul>
     </div>
 
-    <!-- LİMON KOLONYASI -->
-    <div class="box">
+    <!-- 4) Limon Kolonyası -->
+    <div class="product">
+      <!-- BURADA LİMON KOLONYASI FOTOĞRAFINI KULLANIYORUZ -->
       <img src="images/Photoroom_005_20251211_234333.jpeg" alt="Limon Kolonyası">
-      <div class="title">Limon Kolonyası</div>
-      <div class="sub">80° – 400 ml</div>
+      <div class="product-title">Limon Kolonyası</div>
+      <div class="product-sub">80° limon kolonyası – 400 ml</div>
       <ul>
         <li>Termal su ile üretilmiştir.</li>
-        <li>Çatlak yapmaz.</li>
-        <li>Yoğun limon ferahlığı.</li>
+        <li>Ciltte çatlak yapmaz.</li>
+        <li>Yoğun limon ferahlığı sağlar.</li>
       </ul>
     </div>
 
-    <!-- 50 ML KESTANE KREM -->
-    <div class="box">
-      <img src="images/Photoroom_006_20251211_234333.jpeg" alt="50 ml Kestane Krem">
-      <div class="title">Kestane Özlü Nemlendirici Krem</div>
-      <div class="sub">50 ml – Yoğun bakım</div>
+    <!-- 5) 50 ml Kestane Özlü Krem -->
+    <div class="product">
+      <!-- KÜÇÜK KREM FOTOĞRAFINI BURAYA KOYDUK -->
+      <img src="images/Photoroom_008_20251211_234333.jpeg" alt="50 ml Kestane Özlü Krem">
+      <div class="product-title">Kestane Özlü Nemlendirici Krem</div>
+      <div class="product-sub">Hızlı emilim – 50 ml</div>
       <ul>
         <li>Termal su ile üretilmiştir.</li>
-        <li>Kadifemsi etki bırakır.</li>
-        <li>Hızlı emilim sağlar.</li>
+        <li>Hızlı emilir, yağlı his bırakmaz.</li>
+        <li>Egzamaya sahip bölgeler için önerilir.</li>
       </ul>
     </div>
 
-    <!-- 250 ML KESTANE KREM -->
-    <div class="box">
-      <img src="images/Photoroom_007_20251211_234333.jpeg" alt="250 ml Kestane Krem">
-      <div class="title">Kestane Özlü Nemlendirici Krem</div>
-      <div class="sub">250 ml – Aile boyu</div>
+    <!-- 6) 250 ml Kestane Özlü Krem -->
+    <div class="product">
+      <!-- BÜYÜK KREM FOTOĞRAFINI BURAYA KOYDUK -->
+      <img src="images/Photoroom_000_20251211_234333.jpeg" alt="250 ml Kestane Özlü Krem">
+      <div class="product-title">Kestane Özlü Nemlendirici Krem</div>
+      <div class="product-sub">Aile boyu bakım – 250 ml</div>
       <ul>
-        <li>Nemi artırır.</li>
-        <li>Kuruluğu azaltır.</li>
         <li>Termal su ile üretilmiştir.</li>
+        <li>Kadifemsi bir his bırakır.</li>
+        <li>Nemi artırır, kuruluğu azaltır.</li>
       </ul>
     </div>
 
   </div>
+
+  <footer>
+    Tüm Femud ürünleri yerli üretimdir. Ayrıntılı bilgi ve kampanyalar için
+    <strong>@femud_tr</strong> Instagram hesabını takip edebilirsiniz.
+  </footer>
 
 </body>
 </html>
