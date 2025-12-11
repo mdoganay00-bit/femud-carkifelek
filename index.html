@@ -1,568 +1,205 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEMUD | Şans Oyun Merkezi</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Femud | Doğadan Gelen Güç</title>
 
-  <style>
-    :root{
-      --bg1:#2a0a57;
-      --bg2:#5a2bd6;
-      --bg3:#ffb300;
-      --card:#ffffff;
-      --text:#0f0f14;
-      --muted:#5a5a6b;
-      --shadow: 0 18px 55px rgba(0,0,0,.32);
-      --shadow2: 0 10px 28px rgba(0,0,0,.18);
-      --r:18px;
-    }
+<style>
+body{
+  margin:0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: radial-gradient(circle at top, #efe7ff, #f6f6fa);
+  text-align:center;
+  color:#222;
+}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Arial, sans-serif;
-      color:var(--text);
-      background: radial-gradient(1200px 700px at 15% 0%, rgba(255,255,255,.14), transparent 60%),
-                  radial-gradient(900px 600px at 85% 10%, rgba(255,179,0,.22), transparent 55%),
-                  linear-gradient(140deg, var(--bg1), var(--bg2));
-      min-height:100vh;
-      overflow-x:hidden;
-    }
+/* ÜST ALAN */
+header{
+  padding:25px 10px 10px;
+}
 
-    /* premium animated glow */
-    .glow{
-      position:fixed; inset:-40%;
-      background: conic-gradient(from 180deg,
-        rgba(255,255,255,.12),
-        rgba(255,179,0,.20),
-        rgba(255,255,255,.10),
-        rgba(124,77,255,.18),
-        rgba(255,255,255,.12)
-      );
-      filter: blur(22px);
-      animation: spin 14s linear infinite;
-      opacity:.55;
-      z-index:-2;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
+header img{
+  width:280px;
+  max-width:90%;
+  height:auto;
+}
 
-    .wrap{
-      width:min(1080px, 92vw);
-      margin:0 auto;
-      padding:26px 0 34px;
-    }
+header h1{
+  margin:10px 0 4px;
+  font-size:26px;
+  font-weight:800;
+}
 
-    /* HERO */
-    .hero{
-      border-radius: calc(var(--r) + 8px);
-      padding: 22px 18px 18px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before{
-      content:"";
-      position:absolute; inset:-30%;
-      background: radial-gradient(circle at 25% 15%, rgba(255,179,0,.40), transparent 55%),
-                  radial-gradient(circle at 75% 20%, rgba(255,255,255,.22), transparent 60%);
-      opacity:.85;
-      z-index:-1;
-    }
+header h2{
+  margin:0;
+  font-size:15px;
+  font-weight:600;
+  color:#444;
+}
 
-    .toprow{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      text-align:center;
-    }
+/* AÇIKLAMA */
+.intro{
+  max-width:750px;
+  margin:20px auto;
+  font-size:15px;
+  line-height:1.6;
+  padding:0 12px;
+}
 
-    .logoCircle{
-      width:150px; height:150px;
-      border-radius:50%;
-      background: rgba(255,255,255,.92);
-      box-shadow: 0 14px 34px rgba(0,0,0,.35);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      overflow:hidden;
-      border: 2px solid rgba(255,255,255,.65);
-    }
-    .logoCircle img{
-      width:88%;
-      height:88%;
-      object-fit:contain;   /* LOGO TAM GÖRÜNÜR */
-      display:block;
-    }
+/* OYUN BUTONLARI */
+.games{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:25px 0;
+}
 
-    .brandText{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-      align-items:center;
-    }
+.game-btn{
+  width:240px;
+  padding:18px 10px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#7b4de8,#4b2fa6);
+  color:white;
+  text-decoration:none;
+  font-size:17px;
+  font-weight:700;
+  box-shadow:0 10px 25px rgba(0,0,0,.25);
+  transition:transform .2s;
+}
 
-    .brandText h1{
-      margin:0;
-      font-size: clamp(26px, 3.5vw, 38px);
-      font-weight: 900;
-      letter-spacing:.2px;
-      color:#fff;
-      text-shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
+.game-btn:hover{
+  transform:scale(1.05);
+}
 
-    .brandText .sub{
-      color: rgba(255,255,255,.92);
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing:.2px;
-    }
+/* ÜRÜN METİNLERİ */
+.products{
+  max-width:900px;
+  margin:20px auto;
+  display:grid;
+  grid-template-columns:1fr;
+  gap:16px;
+  padding:0 12px;
+}
 
-    .pillRow{
-      margin-top:14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 12px;
-      border-radius:999px;
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.20);
-      color:#fff;
-      font-weight:700;
-      font-size: 13px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.18);
-    }
-    .pill b{color:#fff}
+@media(min-width:700px){
+  .products{ grid-template-columns:1fr 1fr; }
+}
 
-    .headline{
-      margin: 14px auto 0;
-      width:min(860px, 92%);
-      color:#fff;
-      font-weight:800;
-      font-size: clamp(15px, 2.2vw, 18px);
-      line-height:1.45;
-      text-shadow: 0 10px 28px rgba(0,0,0,.25);
-    }
+.product{
+  background:white;
+  border-radius:16px;
+  padding:16px;
+  text-align:left;
+  box-shadow:0 6px 18px rgba(0,0,0,.12);
+}
 
-    /* GAME CARDS */
-    .grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:14px;
-    }
-    @media(min-width:860px){
-      .grid{grid-template-columns: 1fr 1fr;}
-    }
+.product h3{
+  margin:0 0 6px;
+  font-size:18px;
+  color:#4b2fa6;
+}
 
-    .card{
-      background: rgba(255,255,255,.96);
-      border-radius: calc(var(--r) + 6px);
-      box-shadow: var(--shadow2);
-      overflow:hidden;
-      border: 1px solid rgba(0,0,0,.06);
-      position:relative;
-    }
+.product ul{
+  margin:0;
+  padding-left:18px;
+  font-size:14px;
+}
 
-    .cardHeader{
-      padding:16px 16px 12px;
-      display:flex;
-      gap:12px;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:8px 10px;
-      border-radius: 999px;
-      font-weight:900;
-      font-size: 12px;
-      color:#2b1b4a;
-      background: linear-gradient(135deg, rgba(255,179,0,.35), rgba(124,77,255,.20));
-      border: 1px solid rgba(0,0,0,.06);
-    }
-
-    .cardTitle{
-      margin:0;
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing:.2px;
-      color:#2a0a57;
-    }
-
-    .cardBody{
-      padding:0 16px 14px;
-      color: var(--muted);
-      font-size: 14px;
-      line-height:1.55;
-    }
-
-    .how{
-      margin-top:10px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:8px;
-    }
-    .step{
-      border-radius: 14px;
-      padding:10px 12px;
-      background:#f6f3ff;
-      border:1px solid rgba(0,0,0,.05);
-      color:#2a0a57;
-      font-weight:700;
-      font-size: 13px;
-    }
-
-    .ctaRow{
-      padding: 0 16px 16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-    }
-
-    .btn{
-      appearance:none;
-      border:none;
-      cursor:pointer;
-      border-radius: 14px;
-      padding: 12px 14px;
-      font-weight: 950;
-      font-size: 14px;
-      color:#fff;
-      flex: 1 1 220px;
-      text-align:center;
-      text-decoration:none;
-      position:relative;
-      overflow:hidden;
-      box-shadow: 0 12px 24px rgba(0,0,0,.22);
-      transform: translateZ(0);
-    }
-
-    .btn.primary{
-      background: linear-gradient(135deg, #ff9800, #ffb300, #ff6d00);
-    }
-    .btn.secondary{
-      background: linear-gradient(135deg, #7c4dff, #512da8, #2a0a57);
-    }
-
-    .btn::after{
-      content:"";
-      position:absolute;
-      inset:-60% -20%;
-      background: radial-gradient(circle at 20% 30%, rgba(255,255,255,.55), transparent 55%);
-      opacity:.35;
-      transform: rotate(20deg);
-      transition: opacity .25s ease;
-    }
-    .btn:hover::after{opacity:.55}
-    .btn:hover{transform: translateY(-1px)}
-    .btn:active{transform: translateY(1px)}
-
-    .fine{
-      flex: 1 1 240px;
-      font-size: 12px;
-      color: #6b6b78;
-      line-height: 1.4;
-    }
-
-    /* PRODUCTS (text only) */
-    .section{
-      margin-top: 16px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: calc(var(--r) + 8px);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-    }
-    .sectionHead{
-      padding: 14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .sectionHead h2{
-      margin:0;
-      color:#fff;
-      font-size: 18px;
-      font-weight: 950;
-      letter-spacing:.2px;
-    }
-    .sectionHead .mini{
-      color: rgba(255,255,255,.88);
-      font-weight:700;
-      font-size: 13px;
-    }
-
-    .productGrid{
-      padding: 0 14px 16px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media(min-width:860px){
-      .productGrid{grid-template-columns: 1fr 1fr;}
-    }
-    .pCard{
-      background: rgba(255,255,255,.96);
-      border-radius: calc(var(--r) + 2px);
-      box-shadow: var(--shadow2);
-      padding: 14px;
-      border: 1px solid rgba(0,0,0,.06);
-    }
-    .pTitle{
-      margin:0 0 6px;
-      font-size: 16px;
-      font-weight: 950;
-      color:#2a0a57;
-    }
-    .pMeta{
-      font-size: 12px;
-      font-weight:800;
-      color:#6a1b9a;
-      margin-bottom: 8px;
-    }
-    .pList{
-      margin:0;
-      padding-left: 18px;
-      color:#515163;
-      font-weight:650;
-      font-size: 13px;
-      line-height: 1.55;
-    }
-    .pList li{margin: 4px 0}
-
-    /* Fun sparkle */
-    .spark{
-      position:fixed;
-      pointer-events:none;
-      width:10px;height:10px;
-      border-radius:50%;
-      background: rgba(255,255,255,.9);
-      box-shadow: 0 0 18px rgba(255,179,0,.9);
-      animation: pop 700ms ease-out forwards;
-      z-index: 99;
-    }
-    @keyframes pop{
-      0%{transform:translate(-50%,-50%) scale(.6); opacity:0}
-      30%{opacity:1}
-      100%{transform:translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0); opacity:0}
-    }
-
-    footer{
-      margin-top: 16px;
-      color: rgba(255,255,255,.85);
-      font-size: 12px;
-      text-align:center;
-      padding: 10px 0 6px;
-    }
-    footer b{color:#fff}
-  </style>
+footer{
+  margin:30px 0 20px;
+  font-size:13px;
+  color:#555;
+}
+</style>
 </head>
 
 <body>
-  <div class="glow" aria-hidden="true"></div>
 
-  <div class="wrap">
+<header>
+  <!-- FEMUD LOGO -->
+  <img src="femud_logo.png" alt="Femud Logo">
 
-    <div class="hero">
-      <div class="toprow">
-        <div class="logoCircle">
-          <!-- LOGO DOSYAN: femud_logo.png -->
-          <img src="femud_logo.png" alt="FEMUD Logo">
-        </div>
+  <h1>Doğadan Gelen Güç</h1>
+  <h2>Doğanay Şirketler Grubu</h2>
+</header>
 
-        <div class="brandText">
-          <h1>Doğadan Gelen Güç</h1>
-          <div class="sub">Doğanay Şirketler Grubu</div>
+<div class="intro">
+  Femud ürünlerini <strong>indirimli</strong> almak için ücretsiz
+  <strong>Femud Şans Oyunları</strong>nı deneyin.
+  Çarkıfelek ve Kazı Kazan oyunlarıyla anında hediye kazanın.
+</div>
 
-          <div class="pillRow">
-            <div class="pill">🎁 <b>İndirim Avı</b> • Ücretsiz Oyun Merkezi</div>
-            <div class="pill">⏱️ <b>24 Saat</b> • Hediye Geçerliliği</div>
-            <div class="pill">📩 <b>Kazanınca</b> • Ekran görüntüsü @Femud_tr</div>
-          </div>
-        </div>
-      </div>
+<!-- OYUNLAR -->
+<div class="games">
+  <a class="game-btn" href="carkifelek.html">🎡 FEMUD ÇARKIFELEK</a>
 
-      <div class="headline">
-        Femud ürünlerini <b>indirimli</b> almak için aşağıdaki <b>Şans Oyun Merkezini</b> deneyin.
-        Çarkı çevir veya kazı kazan yap — kazandığında ekran görüntünü alıp <b>@Femud_tr</b> hesabına DM gönder.
-      </div>
+  <!-- 🔴 DÜZELTİLEN KISIM -->
+  <a class="game-btn" href="kazikazan4x4.html">💣 FEMUD KAZI KAZAN</a>
+</div>
 
-      <div class="grid">
-        <!-- ÇARKIFELEK -->
-        <div class="card">
-          <div class="cardHeader">
-            <div>
-              <div class="badge">🎡 Hızlı Ödül</div>
-              <div class="cardTitle">Femud Çarkıfelek</div>
-            </div>
-          </div>
+<!-- ÜRÜN AÇIKLAMALARI -->
+<div class="products">
 
-          <div class="cardBody">
-            Çarkı çevir, şansına çıkan indirim kuponunu yakala. Kısa, hızlı ve “bir tur daha” dedirten oyun.
-            <div class="how">
-              <div class="step">1) Çarkıfelek’e gir</div>
-              <div class="step">2) Çarkı çevir</div>
-              <div class="step">3) Kazandıysan ekran görüntüsü al → @Femud_tr DM</div>
-            </div>
-          </div>
-
-          <div class="ctaRow">
-            <a class="btn primary" id="btnCark" href="carkifelek.html">Çarkıfelek’e Gir</a>
-            <div class="fine">İpucu: DM’de “Kupon kazandım” yazıp ekran görüntüsünü ekleyin.</div>
-          </div>
-        </div>
-
-        <!-- KAZI KAZAN -->
-        <div class="card">
-          <div class="cardHeader">
-            <div>
-              <div class="badge">💥 Sürpriz & Heyecan</div>
-              <div class="cardTitle">Femud Kazı Kazan</div>
-            </div>
-          </div>
-
-          <div class="cardBody">
-            Kutucukları aç, aynı ödülü 3 kez yakalarsan kupon senin! Daha çok heyecan, daha çok “hadi bir daha”.
-            <div class="how">
-              <div class="step">1) Kazı Kazan’a gir</div>
-              <div class="step">2) Kutuları aç</div>
-              <div class="step">3) Kazandıysan ekran görüntüsü al → @Femud_tr DM</div>
-            </div>
-          </div>
-
-          <div class="ctaRow">
-            <a class="btn secondary" id="btnKazi" href="kazikazan.html">Kazı Kazan’a Gir</a>
-            <div class="fine">Not: Hediye/kuponlar 24 saat içinde geçerlidir.</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ÜRÜN AÇIKLAMALARI (fotoğrafsız, premium kartlar) -->
-    <div class="section">
-      <div class="sectionHead">
-        <h2>Femud Ürün Özellikleri</h2>
-        <div class="mini">Fotoğrafsız katalog • net • okunaklı • premium</div>
-      </div>
-
-      <div class="productGrid">
-        <div class="pCard">
-          <div class="pTitle">Mentollü Şampuan</div>
-          <div class="pMeta">Termal su • Egzama • Kepek</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>Egzama ve kepeğe karşı etkilidir.</li>
-            <li>Ferahlatıcı mentol etkisi sağlar.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Lavanta Köpük Sabun</div>
-          <div class="pMeta">Termal su • Krem etkisi • Kuruluk yapmaz</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>Krem etkisi ile ellerde kuruluk yapmaz.</li>
-            <li>Mantar için etkilidir.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Lavanta Oda Parfümü</div>
-          <div class="pMeta">Lavanta özlü • Termal su • Kıyafette kullanılabilir</div>
-          <ul class="pList">
-            <li>Lavanta özlüdür, termal su ile üretilmiştir.</li>
-            <li>Kıyafetlerde kullanılabilir.</li>
-            <li>Bronşit/astım kullanımında alerjik reaksiyonlar göstermediği görülmüştür.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Limon Kolonyası (80°)</div>
-          <div class="pMeta">Termal su • 80 derece • Çatlak yapmaz</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>80 derece limon kolonyasıdır.</li>
-            <li>Ciltte çatlak oluşumu yapmaz.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Kestane Özlü Vücut Kremi (50 ml)</div>
-          <div class="pMeta">Termal su • Kolay emilim • Kadifemsi etki</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>Kolay emilim sağlar, kadifemsi etki bırakır.</li>
-            <li>Nemi artırır, kuruluğu azaltır.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Kestane Özlü Vücut Kremi (250 ml)</div>
-          <div class="pMeta">Termal su • Kolay emilim • Nem artırır</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>Kolay emilim sağlar, kadifemsi etki bırakır.</li>
-            <li>Nemi artırır, kuruluğu azaltır.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      © <b>FEMUD</b> • Kampanya/kupon için ekran görüntüsü ile <b>@Femud_tr</b> DM
-    </footer>
+  <div class="product">
+    <h3>Mentollü Şampuan</h3>
+    <ul>
+      <li>Termal su ile üretilmiştir</li>
+      <li>Egzama ve kepeğe karşı etkilidir</li>
+      <li>Ferahlık ve temizlik sağlar</li>
+    </ul>
   </div>
 
-  <script>
-    // Linkleri buradan kolayca değiştir
-    const CARK_LINK = "carkifelek.html";
-    const KAZI_LINK = "kazikazan.html";
+  <div class="product">
+    <h3>Lavanta Oda Parfümü</h3>
+    <ul>
+      <li>Lavanta özlüdür</li>
+      <li>Termal su ile üretilmiştir</li>
+      <li>Kıyafetlerde kullanılabilir</li>
+      <li>Alerjik reaksiyon gözlemlenmemiştir</li>
+    </ul>
+  </div>
 
-    document.getElementById("btnCark").setAttribute("href", CARK_LINK);
-    document.getElementById("btnKazi").setAttribute("href", KAZI_LINK);
+  <div class="product">
+    <h3>Sıvı Köpük Sabun</h3>
+    <ul>
+      <li>Termal su ile üretilmiştir</li>
+      <li>Krem etkisiyle kuruluk yapmaz</li>
+      <li>Mantar için etkilidir</li>
+    </ul>
+  </div>
 
-    // minik “heyecan” efekti: butona gelince parıltı
-    function sparkAt(x,y){
-      for(let i=0;i<10;i++){
-        const s=document.createElement("div");
-        s.className="spark";
-        s.style.left=x+"px";
-        s.style.top=y+"px";
-        s.style.setProperty("--dx", (Math.random()*120-60)+"px");
-        s.style.setProperty("--dy", (Math.random()*120-60)+"px");
-        s.style.background = Math.random()>.5 ? "rgba(255,179,0,.95)" : "rgba(255,255,255,.95)";
-        document.body.appendChild(s);
-        setTimeout(()=>s.remove(), 750);
-      }
-    }
+  <div class="product">
+    <h3>Limon Kolonyası (80°)</h3>
+    <ul>
+      <li>Termal su ile üretilmiştir</li>
+      <li>Ciltte çatlak oluşumu yapmaz</li>
+    </ul>
+  </div>
 
-    ["btnCark","btnKazi"].forEach(id=>{
-      const el=document.getElementById(id);
-      el.addEventListener("mouseenter",(e)=>{
-        const r=e.target.getBoundingClientRect();
-        sparkAt(r.left + r.width/2, r.top + r.height/2);
-      });
-    });
-  </script>
+  <div class="product">
+    <h3>50 ml Kestane Özlü Krem</h3>
+    <ul>
+      <li>Kolay emilim sağlar</li>
+      <li>Kadifemsi etki bırakır</li>
+      <li>Nemi artırır, kuruluğu azaltır</li>
+    </ul>
+  </div>
+
+  <div class="product">
+    <h3>250 ml Kestane Özlü Krem</h3>
+    <ul>
+      <li>Aile boyu kullanım</li>
+      <li>Yoğun nemlendirme sağlar</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  © Femud • Tüm hakları saklıdır • Instagram: <strong>@femud_tr</strong>
+</footer>
+
 </body>
 </html>
