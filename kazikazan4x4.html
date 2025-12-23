@@ -160,7 +160,6 @@
         inset 0 3px 5px rgba(255, 255, 255, 0.25);
     }
 
-    /* Femud tonlarında çeşit çeşit kartlar */
     .card-style-1 { background: radial-gradient(circle at top left, #8e24aa, #4a148c); }
     .card-style-2 { background: radial-gradient(circle at top left, #26a69a, #004d40); }
     .card-style-3 { background: radial-gradient(circle at top left, #29b6f6, #01579b); }
@@ -345,7 +344,6 @@
       font-size: 11px;
       color: #555;
       margin-top: 4px;
-      line-height: 1.35;
     }
 
     .modal-btn {
@@ -359,61 +357,6 @@
       cursor: pointer;
       background: linear-gradient(135deg, #7e57c2, #26c6da);
       box-shadow: 0 7px 14px rgba(94, 53, 177, 0.6);
-    }
-
-    /* ✅ EKLENDİ: Modal buton satırı */
-    .modal-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:10px;
-    }
-
-    .modal-copy{
-      flex: 1 1 160px;
-      border-radius: 999px;
-      border: none;
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 800;
-      cursor: pointer;
-      color:#fff;
-      background: linear-gradient(135deg, #ff9800, #f57c00);
-      box-shadow: 0 7px 14px rgba(245, 124, 0, 0.55);
-    }
-    .modal-copy:active{transform:translateY(1px)}
-    .modal-copy:disabled{opacity:.65; cursor:default; box-shadow:none}
-
-    /* ✅ EKLENDİ: DM butonu ok efektli / ayrı */
-    .modal-dm{
-      flex: 1 1 160px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      text-decoration:none;
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 13px;
-      font-weight: 900;
-      color:#fff;
-      background: linear-gradient(135deg, #4a148c, #26c6da);
-      box-shadow: 0 7px 14px rgba(38, 198, 218, 0.55);
-      position:relative;
-      overflow:hidden;
-    }
-    .modal-dm .arrow{
-      width: 0;
-      height: 0;
-      border-top: 7px solid transparent;
-      border-bottom: 7px solid transparent;
-      border-left: 10px solid rgba(255,255,255,.95);
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,.25));
-      animation: nudge 1.1s ease-in-out infinite;
-    }
-    @keyframes nudge{
-      0%,100%{transform:translateX(0)}
-      50%{transform:translateX(4px)}
     }
 
     /* Konfeti */
@@ -448,25 +391,98 @@
       100% { transform: scale(1.3); opacity: 0; }
     }
 
-    /* ✅ EKLENDİ: Kopyalandı bildirimi */
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 18px;
-      transform: translateX(-50%);
-      background: rgba(20, 10, 40, 0.92);
-      color: #fff;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-size: 12px;
-      font-weight: 700;
-      box-shadow: 0 12px 26px rgba(0,0,0,.35);
-      z-index: 999;
-      max-width: min(92vw, 520px);
-      line-height: 1.35;
-      display:none;
+    /* ===========================
+       ✅ ÇARKIFELEKTEKİ GİBİ DM PANELİ + TOAST (EK)
+       =========================== */
+    .dm-panel{
+      margin-top:10px;
+      padding:10px 10px;
+      border-radius:14px;
+      background:#f6f3ff;
+      border:1px solid rgba(0,0,0,.06);
+      text-align:left;
     }
-    .toast.show{display:block}
+    .dm-panel-title{
+      font-size:12px;
+      font-weight:900;
+      color:#4a148c;
+      margin:0 0 6px;
+    }
+    .dm-text{
+      width:100%;
+      border-radius:12px;
+      border:1px dashed rgba(74,20,140,.35);
+      padding:10px 10px;
+      font-size:12px;
+      background:#fff;
+      color:#2a0a57;
+      outline:none;
+    }
+    .dm-actions{
+      margin-top:8px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .btn-copy{
+      flex:1 1 140px;
+      border:none;
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:13px;
+      font-weight:900;
+      cursor:pointer;
+      color:#fff;
+      background:linear-gradient(135deg,#ff9800,#f57c00);
+      box-shadow:0 7px 14px rgba(245,124,0,.55);
+    }
+    .btn-dm{
+      flex:1 1 160px;
+      border:none;
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:13px;
+      font-weight:900;
+      cursor:pointer;
+      color:#fff;
+      background:linear-gradient(135deg,#7e57c2,#26c6da);
+      box-shadow:0 7px 14px rgba(38,198,218,.55);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      white-space:nowrap;
+    }
+    .btn-dm .arrow{
+      font-size:16px;
+      line-height:1;
+      filter:drop-shadow(0 2px 2px rgba(0,0,0,.18));
+    }
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(20,20,35,.92);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:12px;
+      font-weight:800;
+      box-shadow:0 14px 30px rgba(0,0,0,.35);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+      z-index:999;
+      width:min(520px, 92vw);
+      text-align:center;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-2px);
+    }
 
     @media (max-width: 480px) {
       .container {
@@ -491,7 +507,7 @@
     </div>
 
     <div class="subtitle">
-      5x5 karttan <strong>7 kare</strong> aç.
+      5x5 karttan <strong>7 kare</strong> aç.  
       50 / 40 / 30 TL ödüllerden aynı olanı <strong>3 kez yakalarsan</strong> o indirimi kazanırsın.
     </div>
 
@@ -532,21 +548,25 @@
       <div id="modalText" class="modal-text"></div>
       <div id="modalNote" class="modal-note"></div>
 
-      <!-- ✅ EKLENDİ: Kopyala + DM butonları -->
-      <div class="modal-actions">
-        <button id="copyMsgBtn" class="modal-copy">Mesajı Kopyala</button>
+      <!-- ✅ ÇARKIFELEKTEKİ GİBİ: KOPYALA + DM BUTONU (EK) -->
+      <div class="dm-panel">
+        <div class="dm-panel-title">DM için kopyala (kısa mesaj)</div>
+        <textarea id="dmMessage" class="dm-text" rows="2" readonly></textarea>
+        <div class="dm-actions">
+          <button id="btnCopy" class="btn-copy" type="button">Mesajı Kopyala</button>
 
-        <!-- ✅ En garanti DM linki -->
-        <a id="dmBtn" class="modal-dm" href="https://ig.me/m/femud_tr" target="_blank" rel="noopener">
-          @Femud_tr’ye DM Gönder <span class="arrow"></span>
-        </a>
+          <!-- ayrı + ok ile -->
+          <button id="btnOpenDm" class="btn-dm" type="button">
+            @Femud_tr DM’ye Git <span class="arrow">➜</span>
+          </button>
+        </div>
       </div>
 
       <button id="modalCloseBtn" class="modal-btn">Tamam</button>
     </div>
   </div>
 
-  <!-- ✅ EKLENDİ: toast -->
+  <!-- ✅ Toast (EK) -->
   <div id="toast" class="toast"></div>
 
   <script>
@@ -566,10 +586,11 @@
     const modalNote     = document.getElementById("modalNote");
     const modalCloseBtn = document.getElementById("modalCloseBtn");
 
-    // ✅ EKLENDİ
-    const copyMsgBtn = document.getElementById("copyMsgBtn");
-    const toastEl = document.getElementById("toast");
-    let lastDmMessage = "";
+    // ✅ EK: DM panel elemanları
+    const dmMessageEl = document.getElementById("dmMessage");
+    const btnCopy     = document.getElementById("btnCopy");
+    const btnOpenDm   = document.getElementById("btnOpenDm");
+    const toastEl     = document.getElementById("toast");
 
     const MAX_CLICKS = 7;
     const DAILY_LIMIT = 3; // 24 saatte 3 oyun hakkı
@@ -669,7 +690,6 @@
 
       const canPlay = canPlayToday();
       if (!canPlay) {
-        // Oyun kilitli, grid yine çizilsin ama tıklanmasın
         statusBar.innerHTML =
           `Günlük hakkınız doldu. 24 saat içinde en fazla <strong>${DAILY_LIMIT}</strong> oyun oynayabilirsiniz.`;
       }
@@ -740,7 +760,6 @@
         updateCounters();
       }
 
-      // Kazanma kontrolü
       let winningPrize = null;
       if (counts["50 TL İndirim"] >= 3) {
         winningPrize = "50 TL İndirim";
@@ -761,11 +780,9 @@
       if (gameFinished) return;
       gameFinished = true;
 
-      // Kartları kilitle
       const allCards = gridEl.querySelectorAll(".card");
       allCards.forEach(c => c.classList.add("disabled"));
 
-      // Günlük oyun sayısını kaydet
       recordPlay();
 
       if (isWin && winningPrize) {
@@ -799,76 +816,32 @@
       }
     }
 
-    function showModalWin(name, ig, prize) {
-      modalTitle.textContent = `Tebrikler! ${prize} kazandınız 🎉`;
-      modalText.innerHTML = `
-        Kazandığınız indirim kuponu: <span class="modal-highlight">${prize}</span><br>
-        Bu kuponu Femud ürün alışverişlerinizde kullanabilirsiniz.
-      `;
-      modalNote.innerHTML = `
-        İndirim hediyenizi almak için bu ekranın <strong>ekran görüntüsünü</strong> alıp
-        <strong>@Femud_tr</strong> Instagram hesabına DM (mesaj) olarak gönderin.<br>
-        Bu hediye <strong>24 saat</strong> için geçerlidir.<br>
-        (Instagram hesabınız: <strong>${ig}</strong>)
-      `;
-
-      // ✅ EKLENDİ: Instagram "Mesaj çok uzun" hatası olmaması için KISA mesaj
-      lastDmMessage = `Kazı Kazan 5x5 kazandım ✅ Ödül: ${prize} | IG: ${ig} | Ad: ${name}. Ekran görüntüsü ektedir.`;
-
-      modalBackdrop.style.display = "flex";
+    // ✅ EK: kısa DM mesajı üret (Instagram "mesaj uzun" hatasına karşı)
+    function buildShortDmMessage(name, ig, prizeOrText){
+      const cleanName = (name || "").trim().slice(0, 20);
+      const cleanIg   = (ig || "").trim().slice(0, 30);
+      const prize = (prizeOrText || "").trim().replace(/\s+/g," ").slice(0, 24);
+      // Kısa, tek satır:
+      return `KK:${prize} Ad:${cleanName} IG:${cleanIg}`;
     }
 
-    function showModalLose(name, ig) {
-      modalTitle.textContent = "Bu turda kupon çıkmadı 😇";
-      modalText.innerHTML = `
-        Açtığınız 7 kutuda 50 / 40 / 30 TL ödüllerinden
-        <span class="modal-highlight">3 aynı ödülü yakalayamadınız.</span>
-      `;
-      modalNote.innerHTML = `
-        Dilerseniz tekrar deneyebilirsiniz. Kazandığınızda indirim hediyenizi almak için
-        bu ekranın ekran görüntüsünü alıp <strong>@Femud_tr</strong> hesabına DM olarak
-        göndermeniz ve hediyenizi <strong>24 saat içinde</strong> talep etmeniz gerekir.<br>
-        (Instagram hesabınız: <strong>${ig}</strong>)
-      `;
-
-      // ✅ EKLENDİ: Kısa mesaj (uzunluk hatası yapmaz)
-      lastDmMessage = `Kazı Kazan 5x5 oynadım. IG: ${ig} | Ad: ${name}. Ekran görüntüsü ektedir.`;
-
-      modalBackdrop.style.display = "flex";
-    }
-
-    modalCloseBtn.addEventListener("click", () => {
-      modalBackdrop.style.display = "none";
-    });
-
-    modalBackdrop.addEventListener("click", (e) => {
-      if (e.target === modalBackdrop) {
-        modalBackdrop.style.display = "none";
-      }
-    });
-
-    btnReset.addEventListener("click", () => {
-      modalBackdrop.style.display = "none";
-      initGame();
-    });
-
-    // ✅ EKLENDİ: toast
+    // ✅ EK: toast
+    let toastTimer = null;
     function showToast(msg){
       toastEl.textContent = msg;
       toastEl.classList.add("show");
-      clearTimeout(showToast._t);
-      showToast._t = setTimeout(()=>toastEl.classList.remove("show"), 3200);
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toastEl.classList.remove("show"), 2600);
     }
 
-    // ✅ EKLENDİ: kopyalama (iOS uyumlu fallback)
+    // ✅ EK: kopyalama (iOS Safari uyumlu fallback)
     async function copyText(text){
       try{
-        if(navigator.clipboard && window.isSecureContext){
+        if (navigator.clipboard && navigator.clipboard.writeText){
           await navigator.clipboard.writeText(text);
           return true;
         }
       }catch(e){}
-
       try{
         const ta = document.createElement("textarea");
         ta.value = text;
@@ -886,18 +859,73 @@
       }
     }
 
-    // ✅ EKLENDİ: Mesajı kopyala butonu
-    copyMsgBtn.addEventListener("click", async ()=>{
-      if(!lastDmMessage){
-        showToast("Kopyalanacak mesaj yok. Önce oyunu bitir.");
-        return;
-      }
-      const ok = await copyText(lastDmMessage);
+    // ✅ EK: en garanti DM link (ig.me)
+    const IG_DM_LINK = "https://ig.me/m/femud_tr";
+
+    btnOpenDm.addEventListener("click", ()=>{
+      window.open(IG_DM_LINK, "_blank");
+    });
+
+    btnCopy.addEventListener("click", async ()=>{
+      const ok = await copyText(dmMessageEl.value || "");
       if(ok){
-        showToast("Mesajınız kopyalanmıştır. Instagram’dan @Femud_tr sayfasını açıp DM bölümünden Yapıştır yapınız.");
+        showToast("Mesajınız kopyalanmıştır. Instagram’dan @Femud_tr hesabını açıp DM bölümüne YAPIŞTIRıp GÖNDERİN.");
       }else{
-        showToast("Kopyalama başarısız. Uzun bas → Kopyala deneyin.");
+        showToast("Kopyalama olmadı. Mesajı basılı tutup kopyalayın, sonra Instagram DM’ye yapıştırın.");
       }
+    });
+
+    function showModalWin(name, ig, prize) {
+      modalTitle.textContent = `Tebrikler! ${prize} kazandınız 🎉`;
+      modalText.innerHTML = `
+        Kazandığınız indirim kuponu: <span class="modal-highlight">${prize}</span><br>
+        Bu kuponu Femud ürün alışverişlerinizde kullanabilirsiniz.
+      `;
+      modalNote.innerHTML = `
+        İndirim hediyenizi almak için bu ekranın <strong>ekran görüntüsünü</strong> alıp
+        <strong>@Femud_tr</strong> Instagram hesabına DM (mesaj) olarak gönderin.<br>
+        Bu hediye <strong>24 saat</strong> için geçerlidir.<br>
+        (Instagram hesabınız: <strong>${ig}</strong>)
+      `;
+
+      // ✅ EK: DM mesajını doldur
+      dmMessageEl.value = buildShortDmMessage(name, ig, prize);
+
+      modalBackdrop.style.display = "flex";
+    }
+
+    function showModalLose(name, ig) {
+      modalTitle.textContent = "Bu turda kupon çıkmadı 😇";
+      modalText.innerHTML = `
+        Açtığınız 7 kutuda 50 / 40 / 30 TL ödüllerinden
+        <span class="modal-highlight">3 aynı ödülü yakalayamadınız.</span>
+      `;
+      modalNote.innerHTML = `
+        Dilerseniz tekrar deneyebilirsiniz. Kazandığınızda indirim hediyenizi almak için
+        bu ekranın ekran görüntüsünü alıp <strong>@Femud_tr</strong> hesabına DM olarak
+        göndermeniz ve hediyenizi <strong>24 saat içinde</strong> talep etmeniz gerekir.<br>
+        (Instagram hesabınız: <strong>${ig}</strong>)
+      `;
+
+      // ✅ EK: DM mesajını doldur (kısa)
+      dmMessageEl.value = buildShortDmMessage(name, ig, "Katılım");
+
+      modalBackdrop.style.display = "flex";
+    }
+
+    modalCloseBtn.addEventListener("click", () => {
+      modalBackdrop.style.display = "none";
+    });
+
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) {
+        modalBackdrop.style.display = "none";
+      }
+    });
+
+    btnReset.addEventListener("click", () => {
+      modalBackdrop.style.display = "none";
+      initGame();
     });
 
     // Google Sheet’e gönder
@@ -924,7 +952,6 @@
       }
     }
 
-    // Sayfa açılır açılmaz oyunu başlat
     initGame();
   </script>
 </body>
