@@ -225,7 +225,7 @@
       margin-bottom: 2px;
     }
 
-    /* Modal (kare kutu) */
+    /* Modal */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -278,8 +278,8 @@
       font-size: 15px;
       padding: 10px 18px;
     }
-    
-    /* ✅ EKLENDİ: DM kutusu (modal içi) */
+
+    /* DM kutusu */
     .dmBox {
       width: 100%;
       min-height: 92px;
@@ -291,12 +291,15 @@
       margin: 10px 0 8px;
       outline: none;
     }
+
+    /* ✅ Burayı istediğin metin için kullanıyoruz */
     .copyInfo {
       display: none;
       margin-top: 8px;
       font-size: 12px;
       color: #2e7d32;
-      font-weight: 700;
+      font-weight: 800;
+      line-height: 1.35;
     }
 
     @media (max-width: 480px) {
@@ -354,16 +357,16 @@
       <h2>Tebrikler!</h2>
       <p class="prize" id="modalPrize"></p>
 
-      <!-- ✅ EKLENDİ: otomatik DM mesajı -->
       <textarea id="dmText" class="dmBox" readonly></textarea>
 
-      <!-- ✅ EKLENDİ: kopyala butonu -->
       <button id="copyDmBtn" class="btn-spin modal-btn" style="margin-top:0;background:linear-gradient(135deg,#111,#333);">
         Mesajı Kopyala
       </button>
 
-      <!-- ✅ EKLENDİ: kopyalandı bilgisi -->
-      <div id="copyInfo" class="copyInfo">✅ Mesaj kopyalandı. Instagram’da DM’ye yapıştır.</div>
+      <!-- ✅ İSTEDİĞİN CÜMLE BURADA -->
+      <div id="copyInfo" class="copyInfo">
+        Mesajınız kopyalanmıştır. Instagramdan <b>@Femud_tr</b> sayfasını açarak mesaj gönderme bölümünden DM olarak mesaj atınız.
+      </div>
 
       <p class="modal-note-strong">
         Lütfen ekran görüntüsü alarak Instagram'da
@@ -378,74 +381,15 @@
     // Google Apps Script web app adresin
     const API_URL = "https://script.google.com/macros/s/AKfycbyplhi6pahLt8N68gKHnNbBn4cYJhbqLUlM81UHqHYLNzZEUsaSXLE0n5dc91-dc66z/exec";
 
-    // =========================
-    //  DİLİMLER (Senin son ayarın)
-    // =========================
     const slices = [
-      {
-        id: 1,
-        text: "2 Ürün alana\n40 TL indirim",
-        radius: 100,
-        fontSize: 9,
-        maxWidth: 90,
-        angleOffset: -26
-      },
-      {
-        id: 2,
-        text: "2 ürün alana\n60TL Femud\nÜrün Çeki",
-        radius: 58,
-        fontSize: 8,
-        maxWidth: 110,
-        angleOffset: -13
-      },
-      {
-        id: 3,
-        text: "Tüm Ürünlerde\n%30 İndirim",
-        radius: 59,
-        fontSize: 7.5,
-        maxWidth: 90,
-        angleOffset: -3
-      },
-      {
-        id: 4,
-        text: "2 ürün alana\n70 TL Femud\nÜrün Çeki",
-        radius: 90,
-        fontSize: 10,
-        maxWidth: 100,
-        angleOffset: 23
-      },
-      {
-        id: 5,
-        text: "6 ürün alana\n100 TL İndirim",
-        radius: 132,
-        fontSize: 12,
-        maxWidth: 110,
-        angleOffset: 26
-      },
-      {
-        id: 6,
-        text: "Tüm ürünlerde\n%30 indirim",
-        radius: 162,
-        fontSize: 9,
-        maxWidth: 110,
-        angleOffset: 15
-      },
-      {
-        id: 7,
-        text: "2 Ürün alana\n40 TL indirim",
-        radius: 150,
-        fontSize: 7,
-        maxWidth: 90,
-        angleOffset: 0
-      },
-      {
-        id: 8,
-        text: "3 Ürün alana\n70 TL İndirim",
-        radius: 140,
-        fontSize: 8,
-        maxWidth: 110,
-        angleOffset: -18
-      }
+      { id: 1, text: "2 Ürün alana\n40 TL indirim", radius: 100, fontSize: 9, maxWidth: 90, angleOffset: -26 },
+      { id: 2, text: "2 ürün alana\n60TL Femud\nÜrün Çeki", radius: 58, fontSize: 8, maxWidth: 110, angleOffset: -13 },
+      { id: 3, text: "Tüm Ürünlerde\n%30 İndirim", radius: 59, fontSize: 7.5, maxWidth: 90, angleOffset: -3 },
+      { id: 4, text: "2 ürün alana\n70 TL Femud\nÜrün Çeki", radius: 90, fontSize: 10, maxWidth: 100, angleOffset: 23 },
+      { id: 5, text: "6 ürün alana\n100 TL İndirim", radius: 132, fontSize: 12, maxWidth: 110, angleOffset: 26 },
+      { id: 6, text: "Tüm ürünlerde\n%30 indirim", radius: 162, fontSize: 9, maxWidth: 110, angleOffset: 15 },
+      { id: 7, text: "2 Ürün alana\n40 TL indirim", radius: 150, fontSize: 7, maxWidth: 90, angleOffset: 0 },
+      { id: 8, text: "3 Ürün alana\n70 TL İndirim", radius: 140, fontSize: 8, maxWidth: 110, angleOffset: -18 }
     ];
 
     const wheel       = document.getElementById("wheel");
@@ -462,7 +406,6 @@
     const sliceCount    = slices.length;
     const anglePerSlice = 360 / sliceCount;
 
-    // DİLİM YAZILARINI OLUŞTUR
     slices.forEach((slice, index) => {
       const label = document.createElement("div");
       label.className = "slice-label";
@@ -493,7 +436,6 @@
       });
     }
 
-    // 24 SAAT KONTROLÜ (Instagram hesabına göre)
     const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
     function canSpin(ig) {
@@ -509,30 +451,22 @@
       localStorage.setItem(key, Date.now().toString());
     }
 
-    // Ödüle göre puan (Femud Oyun Merkezi mantığı için)
     function getPointsForSlice(sliceId) {
       switch (sliceId) {
         case 1:
-        case 7:
-          return 5;   // 2 ürün alana 40 TL
-        case 8:
-          return 8;   // 3 ürün alana 70 TL
-        case 5:
-          return 10;  // 6 ürün alana 100 TL
+        case 7: return 5;
+        case 8: return 8;
+        case 5: return 10;
         case 2:
-        case 4:
-          return 12;  // 50 TL ürün çeki
+        case 4: return 12;
         case 3:
-        case 6:
-          return 15;  // %30 indirim
-        default:
-          return 0;
+        case 6: return 15;
+        default: return 0;
       }
     }
 
-    // Google Sheet’e kayıt gönder
     function sendToSheet(name, ig, prize, sliceId) {
-      const gameName = "Çark"; // ileride başka oyunlar da olacak
+      const gameName = "Çark";
       const points   = getPointsForSlice(sliceId);
 
       try {
@@ -540,22 +474,13 @@
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: name,
-            ig: ig,
-            prize: prize,
-            game: gameName,
-            points: points
-          })
-        }).catch(err => {
-          console.log("Kayıt gönderilirken hata:", err);
-        });
+          body: JSON.stringify({ name, ig, prize, game: gameName, points })
+        }).catch(err => console.log("Kayıt gönderilirken hata:", err));
       } catch (err) {
         console.log("Kayıt gönderilemedi:", err);
       }
     }
 
-    // Basit konfeti animasyonu
     function launchConfetti() {
       const duration = 6000;
       const end = Date.now() + duration;
@@ -576,10 +501,7 @@
       window.addEventListener("resize", resize);
 
       const colors = ["#ffeb3b", "#ff4081", "#7c4dff", "#4caf50", "#ff9800"];
-
-      function random(min, max) {
-        return Math.random() * (max - min) + min;
-      }
+      const random = (min, max) => Math.random() * (max - min) + min;
 
       const pieces = Array.from({ length: 180 }).map(() => ({
         x: random(0, canvas.width),
@@ -615,22 +537,22 @@
           ctx.restore();
         });
 
-        if (now < end) {
-          requestAnimationFrame(frame);
-        } else {
+        if (now < end) requestAnimationFrame(frame);
+        else {
           window.removeEventListener("resize", resize);
           canvas.remove();
         }
       }
-
       frame();
     }
 
-    // Modal aç/kapat
     function openResultModal(prizeText, name, ig) {
       modalPrizeEl.textContent = `${name} – ${prizeText}`;
 
-      // ✅ EKLENDİ: DM mesajını otomatik doldur
+      // ✅ Her açılışta “kopyalandı” yazısını kapat
+      const info = document.getElementById("copyInfo");
+      if (info) info.style.display = "none";
+
       const now = new Date();
       const tarih = now.toLocaleString("tr-TR");
 
@@ -652,38 +574,33 @@ Ekran görüntüsünü ekliyorum.`;
       modal.classList.add("is-visible");
     }
 
-    modalCloseBtn.addEventListener("click", () => {
-      modal.classList.remove("is-visible");
-    });
+    modalCloseBtn.addEventListener("click", () => modal.classList.remove("is-visible"));
+    modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("is-visible"); });
 
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("is-visible");
-      }
-    });
-
-    // ✅ EKLENDİ: DM mesajı kopyala butonu
+    // ✅ DÜZELTİLDİ: sadece mesaj kopyalanır (ekran değil)
     const copyBtn = document.getElementById("copyDmBtn");
     if (copyBtn) {
-      copyBtn.addEventListener("click", () => {
+      copyBtn.addEventListener("click", async () => {
         const dmText = document.getElementById("dmText");
         if (!dmText) return;
 
-        dmText.select();
-        dmText.setSelectionRange(0, 99999);
-
-        try { document.execCommand("copy"); }
-        catch(e) { navigator.clipboard?.writeText(dmText.value); }
+        try {
+          await navigator.clipboard.writeText(dmText.value);
+        } catch (e) {
+          dmText.focus();
+          dmText.select();
+          dmText.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+        }
 
         const info = document.getElementById("copyInfo");
         if (info) {
           info.style.display = "block";
-          setTimeout(()=> info.style.display="none", 3500);
+          setTimeout(() => (info.style.display = "none"), 6000);
         }
       });
     }
 
-    // ÇARKI ÇEVİR
     spinBtn.addEventListener("click", () => {
       if (isSpinning) return;
 
@@ -695,9 +612,7 @@ Ekran görüntüsünü ekliyorum.`;
         return;
       }
 
-      if (!igRaw.startsWith("@")) {
-        igRaw = "@" + igRaw;
-      }
+      if (!igRaw.startsWith("@")) igRaw = "@" + igRaw;
 
       const igClean = igRaw.replace(/^@/, "").trim();
 
@@ -710,7 +625,7 @@ Ekran görüntüsünü ekliyorum.`;
       spinBtn.disabled = true;
       resultEl.innerHTML = "";
 
-      const extra = Math.floor(Math.random() * 360) + 1080; // en az 3 tur
+      const extra = Math.floor(Math.random() * 360) + 1080;
       currentRotation += extra;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
@@ -722,7 +637,6 @@ Ekran görüntüsünü ekliyorum.`;
 
         const prizeText = selectedSlice.text.replace(/\n/g, " ");
 
-        // ✅ EKLENDİ: Kazanılan ödülü global değişkene yaz (isteğin)
         window.FEMUD_ODUL = prizeText;
 
         resultEl.innerHTML = `
@@ -732,23 +646,18 @@ Ekran görüntüsünü ekliyorum.`;
           </span>
         `;
 
-        winners.push({
-          name: nameRaw,
-          ig: igClean,
-          prize: prizeText
-        });
+        winners.push({ name: nameRaw, ig: igClean, prize: prizeText });
         renderWinners();
 
         markSpun(igClean);
         sendToSheet(nameRaw, igClean, prizeText, selectedSlice.id);
 
-        // Çark durduktan sonra konfeti ve modal
         launchConfetti();
         openResultModal(prizeText, nameRaw, igClean);
 
         isSpinning = false;
         spinBtn.disabled = false;
-      }, 4000); // animasyon süresiyle aynı
+      }, 4000);
     });
   </script>
 </body>
