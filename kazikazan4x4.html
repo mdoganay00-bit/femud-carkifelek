@@ -358,33 +358,69 @@
       cursor: pointer;
       background: linear-gradient(135deg, #7e57c2, #26c6da);
       box-shadow: 0 7px 14px rgba(94, 53, 177, 0.6);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-decoration: none;
+      width: 100%;
     }
 
-    /* ✅ Kopyala Butonu (çarkıfelek ile aynı mantık) */
-    .modal-btn.copy {
-      background: linear-gradient(135deg, #ff9800, #f57c00);
-      box-shadow: 0 7px 14px rgba(245, 124, 0, 0.6);
+    /* Modal buton grubu */
+    .modal-actions{
       margin-top: 10px;
+      display: grid;
+      gap: 8px;
     }
 
-    .copy-status {
-      display: none;
-      margin-top: 8px;
+    /* ÇARKTAKİ GİBİ: Okla gösterilen Femud_tr butonu */
+    .femud-dm-btn{
+      background: linear-gradient(135deg, #ff9800, #ffb300, #ff6d00);
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      box-shadow: 0 10px 24px rgba(255,152,0,.55);
+    }
+    .femud-dm-btn::before{
+      content: "👉";
+      font-size: 18px;
+      animation: nudge 1.2s infinite;
+    }
+    @keyframes nudge{
+      0%,100%{transform: translateX(0)}
+      50%{transform: translateX(6px)}
+    }
+
+    /* Kopyalama butonu */
+    .copy-btn{
+      background: linear-gradient(135deg, #512da8, #7c4dff);
+      box-shadow: 0 10px 22px rgba(124,77,255,.35);
+    }
+
+    /* Toast: “Mesajınız kopyalanmıştır…” */
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: rgba(20, 12, 40, 0.92);
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 999px;
       font-size: 12px;
       font-weight: 700;
-      color: #2e7d32;
-      background: #e8f5e9;
-      border: 1px solid #c8e6c9;
-      padding: 8px 10px;
-      border-radius: 12px;
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease, transform .25s ease;
+      z-index: 50;
+      max-width: min(92vw, 520px);
       line-height: 1.35;
-      text-align: left;
+      text-align: center;
     }
-
-    .copy-status a{
-      color:#1b5e20;
-      font-weight:900;
-      text-decoration: underline;
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-6px);
     }
 
     /* Konfeti */
@@ -483,19 +519,25 @@
       <div id="modalText" class="modal-text"></div>
       <div id="modalNote" class="modal-note"></div>
 
-      <!-- ✅ ÇARKIFELEKTEKİ GİBİ: Mesajı Kopyala -->
-      <button id="copyBtn" class="modal-btn copy">Mesajı Kopyala</button>
+      <!-- ✅ EKLENEN: KOPYALA + DM BUTONU (AYRI) -->
+      <div class="modal-actions">
+        <button id="copyMsgBtn" class="modal-btn copy-btn">📋 Mesajı Kopyala</button>
 
-      <!-- ✅ Kopyalayınca çıkacak yazı -->
-      <div id="copyStatus" class="copy-status">
-        ✅ <b>Mesajınız kopyalanmıştır.</b><br>
-        Instagram’dan <b>@Femud_tr</b> sayfasını açarak “Mesaj Gönder” bölümünden DM olarak mesaj atınız.<br>
-        <a id="igLink" href="https://www.instagram.com/femud_tr/" target="_blank" rel="noopener">Instagram @femud_tr’yi Aç</a>
+        <a id="dmBtn"
+           class="modal-btn femud-dm-btn"
+           href="https://ig.me/m/femud_tr"
+           target="_blank"
+           rel="noopener">
+          ➜ @Femud_tr’ye DM Gönder
+        </a>
+
+        <button id="modalCloseBtn" class="modal-btn">Tamam</button>
       </div>
-
-      <button id="modalCloseBtn" class="modal-btn">Tamam</button>
     </div>
   </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
 
   <script>
     // ✅ Çalışan Google Apps Script URL'in
@@ -514,10 +556,9 @@
     const modalNote     = document.getElementById("modalNote");
     const modalCloseBtn = document.getElementById("modalCloseBtn");
 
-    // ✅ Kopyalama elemanları
-    const copyBtn = document.getElementById("copyBtn");
-    const copyStatus = document.getElementById("copyStatus");
-    const igLink = document.getElementById("igLink");
+    // ✅ EKLENEN
+    const copyMsgBtn = document.getElementById("copyMsgBtn");
+    const toastEl = document.getElementById("toast");
 
     const MAX_CLICKS = 7;
     const DAILY_LIMIT = 3; // 24 saatte 3 oyun hakkı
@@ -541,8 +582,8 @@
     let gameFinished = false;
     let counts;
 
-    // ✅ Modal için son mesaj metni (kopyalanacak)
-    let lastCopyMessage = "";
+    // ✅ EKLENEN: kopyalanacak mesajı burada tutacağız
+    let lastDmMessage = "";
 
     // Basit karıştırma
     function shuffle(array) {
@@ -605,6 +646,37 @@
       setTimeout(() => boom.remove(), 450);
     }
 
+    // ✅ EKLENEN: Toast
+    function showToast(text){
+      toastEl.textContent = text;
+      toastEl.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toastEl.classList.remove("show"), 2200);
+    }
+
+    // ✅ EKLENEN: Kopyala
+    async function copyText(text){
+      try{
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          ta.style.top = "-9999px";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+        showToast("Mesajınız kopyalanmıştır. Instagram’dan @Femud_tr sayfasını açarak Mesaj gönderme bölümünden DM olarak mesaj atınız.");
+      } catch (e){
+        showToast("Kopyalama yapılamadı. Mesajı elle kopyalayabilirsiniz.");
+      }
+    }
+
     function initGame() {
       gridEl.innerHTML = "";
       clicksLeft = MAX_CLICKS;
@@ -615,17 +687,12 @@
         "40 TL İndirim": 0,
         "30 TL İndirim": 0
       };
-
-      // ✅ modal kopya alanını sıfırla
-      lastCopyMessage = "";
-      copyStatus.style.display = "none";
-      copyBtn.disabled = false;
-
       updateStatusBar();
       updateCounters();
 
       const canPlay = canPlayToday();
       if (!canPlay) {
+        // Oyun kilitli, grid yine çizilsin ama tıklanmasın
         statusBar.innerHTML =
           `Günlük hakkınız doldu. 24 saat içinde en fazla <strong>${DAILY_LIMIT}</strong> oyun oynayabilirsiniz.`;
       }
@@ -755,20 +822,6 @@
       }
     }
 
-    function buildCopyMessage(name, ig, prizeText) {
-      const igClean = (ig || "").trim();
-      const p = prizeText || "—";
-      return (
-        "Merhaba Femud_tr 👋\n\n" +
-        "Kazı Kazan 5x5 oyunundan ödül kazandım.\n\n" +
-        "Ad: " + name + "\n" +
-        "Instagram: " + igClean + "\n" +
-        "Kazanılan Ödül: " + p + "\n\n" +
-        "Hediyemi/indirimimi 24 saat içinde talep ediyorum.\n" +
-        "Teşekkürler."
-      );
-    }
-
     function showModalWin(name, ig, prize) {
       modalTitle.textContent = `Tebrikler! ${prize} kazandınız 🎉`;
       modalText.innerHTML = `
@@ -782,10 +835,11 @@
         (Instagram hesabınız: <strong>${ig}</strong>)
       `;
 
-      // ✅ Kopyalanacak mesajı hazırla
-      lastCopyMessage = buildCopyMessage(name, ig, prize);
-      copyStatus.style.display = "none";
-      copyBtn.disabled = false;
+      // ✅ EKLENEN: kopyalanacak DM mesajı
+      lastDmMessage =
+        `Merhaba @femud_tr, Femud Kazı Kazan 5x5 oyununda kazandım.\n` +
+        `Ad: ${name}\nInstagram: ${ig}\nÖdül: ${prize}\n` +
+        `Ekran görüntüsünü ekliyorum. Teşekkürler.`;
 
       modalBackdrop.style.display = "flex";
     }
@@ -803,13 +857,24 @@
         (Instagram hesabınız: <strong>${ig}</strong>)
       `;
 
-      // ✅ Kaybedince de hazır mesaj üret (isterse kopyalayıp yazabilir)
-      lastCopyMessage = buildCopyMessage(name, ig, "Kazanan yok (Bu turda çıkmadı)");
-      copyStatus.style.display = "none";
-      copyBtn.disabled = false;
+      // ✅ EKLENEN: kopyalanacak DM mesajı (kaybetse bile)
+      lastDmMessage =
+        `Merhaba @femud_tr,\n` +
+        `Femud Kazı Kazan 5x5 oyununu oynadım.\n` +
+        `Ad: ${name}\nInstagram: ${ig}\n` +
+        `Bilgi amaçlı ekran görüntüsü ekliyorum. Teşekkürler.`;
 
       modalBackdrop.style.display = "flex";
     }
+
+    // ✅ EKLENEN: Kopyala butonu
+    copyMsgBtn.addEventListener("click", () => {
+      if (!lastDmMessage) {
+        showToast("Kopyalanacak mesaj bulunamadı.");
+        return;
+      }
+      copyText(lastDmMessage);
+    });
 
     modalCloseBtn.addEventListener("click", () => {
       modalBackdrop.style.display = "none";
@@ -824,36 +889,6 @@
     btnReset.addEventListener("click", () => {
       modalBackdrop.style.display = "none";
       initGame();
-    });
-
-    // ✅ Mesajı Kopyala (çarkıfelek ile aynı mantık)
-    copyBtn.addEventListener("click", async () => {
-      try {
-        if (!lastCopyMessage) {
-          alert("Kopyalanacak mesaj bulunamadı. Lütfen önce oyunu tamamlayın.");
-          return;
-        }
-
-        // Modern kopyalama
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(lastCopyMessage);
-        } else {
-          // Eski yöntem (fallback)
-          const ta = document.createElement("textarea");
-          ta.value = lastCopyMessage;
-          ta.style.position = "fixed";
-          ta.style.left = "-9999px";
-          document.body.appendChild(ta);
-          ta.focus();
-          ta.select();
-          document.execCommand("copy");
-          ta.remove();
-        }
-
-        copyStatus.style.display = "block";
-      } catch (err) {
-        alert("Kopyalama başarısız oldu. Lütfen elle kopyalayın.");
-      }
     });
 
     // Google Sheet’e gönder
