@@ -278,6 +278,26 @@
       font-size: 15px;
       padding: 10px 18px;
     }
+    
+    /* ✅ EKLENDİ: DM kutusu (modal içi) */
+    .dmBox {
+      width: 100%;
+      min-height: 92px;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font-size: 13px;
+      resize: none;
+      margin: 10px 0 8px;
+      outline: none;
+    }
+    .copyInfo {
+      display: none;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #2e7d32;
+      font-weight: 700;
+    }
 
     @media (max-width: 480px) {
       .container {
@@ -333,6 +353,18 @@
     <div class="modal">
       <h2>Tebrikler!</h2>
       <p class="prize" id="modalPrize"></p>
+
+      <!-- ✅ EKLENDİ: otomatik DM mesajı -->
+      <textarea id="dmText" class="dmBox" readonly></textarea>
+
+      <!-- ✅ EKLENDİ: kopyala butonu -->
+      <button id="copyDmBtn" class="btn-spin modal-btn" style="margin-top:0;background:linear-gradient(135deg,#111,#333);">
+        Mesajı Kopyala
+      </button>
+
+      <!-- ✅ EKLENDİ: kopyalandı bilgisi -->
+      <div id="copyInfo" class="copyInfo">✅ Mesaj kopyalandı. Instagram’da DM’ye yapıştır.</div>
+
       <p class="modal-note-strong">
         Lütfen ekran görüntüsü alarak Instagram'da
         <strong>@femud_tr</strong> hesabına mesaj gönderin.
@@ -597,6 +629,26 @@
     // Modal aç/kapat
     function openResultModal(prizeText, name, ig) {
       modalPrizeEl.textContent = `${name} – ${prizeText}`;
+
+      // ✅ EKLENDİ: DM mesajını otomatik doldur
+      const now = new Date();
+      const tarih = now.toLocaleString("tr-TR");
+
+      const msg =
+`Merhaba @femud_tr 👋
+
+Femud Çarkıfelek'ten kazandım.
+
+🎁 Ödül: ${prizeText}
+👤 Ad: ${name}
+📱 Instagram: @${ig}
+🕒 Tarih: ${tarih}
+
+Ekran görüntüsünü ekliyorum.`;
+
+      const dmBox = document.getElementById("dmText");
+      if (dmBox) dmBox.value = msg;
+
       modal.classList.add("is-visible");
     }
 
@@ -609,6 +661,27 @@
         modal.classList.remove("is-visible");
       }
     });
+
+    // ✅ EKLENDİ: DM mesajı kopyala butonu
+    const copyBtn = document.getElementById("copyDmBtn");
+    if (copyBtn) {
+      copyBtn.addEventListener("click", () => {
+        const dmText = document.getElementById("dmText");
+        if (!dmText) return;
+
+        dmText.select();
+        dmText.setSelectionRange(0, 99999);
+
+        try { document.execCommand("copy"); }
+        catch(e) { navigator.clipboard?.writeText(dmText.value); }
+
+        const info = document.getElementById("copyInfo");
+        if (info) {
+          info.style.display = "block";
+          setTimeout(()=> info.style.display="none", 3500);
+        }
+      });
+    }
 
     // ÇARKI ÇEVİR
     spinBtn.addEventListener("click", () => {
@@ -648,6 +721,9 @@
         const selectedSlice = slices[selectedIndex];
 
         const prizeText = selectedSlice.text.replace(/\n/g, " ");
+
+        // ✅ EKLENDİ: Kazanılan ödülü global değişkene yaz (isteğin)
+        window.FEMUD_ODUL = prizeText;
 
         resultEl.innerHTML = `
           Kazanan: <strong>${nameRaw}</strong> – <strong>${prizeText}</strong><br>
