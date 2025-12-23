@@ -360,6 +360,33 @@
       box-shadow: 0 7px 14px rgba(94, 53, 177, 0.6);
     }
 
+    /* ✅ Kopyala Butonu (çarkıfelek ile aynı mantık) */
+    .modal-btn.copy {
+      background: linear-gradient(135deg, #ff9800, #f57c00);
+      box-shadow: 0 7px 14px rgba(245, 124, 0, 0.6);
+      margin-top: 10px;
+    }
+
+    .copy-status {
+      display: none;
+      margin-top: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #2e7d32;
+      background: #e8f5e9;
+      border: 1px solid #c8e6c9;
+      padding: 8px 10px;
+      border-radius: 12px;
+      line-height: 1.35;
+      text-align: left;
+    }
+
+    .copy-status a{
+      color:#1b5e20;
+      font-weight:900;
+      text-decoration: underline;
+    }
+
     /* Konfeti */
     .confetti {
       position: fixed;
@@ -455,6 +482,17 @@
       <div id="modalTitle" class="modal-title"></div>
       <div id="modalText" class="modal-text"></div>
       <div id="modalNote" class="modal-note"></div>
+
+      <!-- ✅ ÇARKIFELEKTEKİ GİBİ: Mesajı Kopyala -->
+      <button id="copyBtn" class="modal-btn copy">Mesajı Kopyala</button>
+
+      <!-- ✅ Kopyalayınca çıkacak yazı -->
+      <div id="copyStatus" class="copy-status">
+        ✅ <b>Mesajınız kopyalanmıştır.</b><br>
+        Instagram’dan <b>@Femud_tr</b> sayfasını açarak “Mesaj Gönder” bölümünden DM olarak mesaj atınız.<br>
+        <a id="igLink" href="https://www.instagram.com/femud_tr/" target="_blank" rel="noopener">Instagram @femud_tr’yi Aç</a>
+      </div>
+
       <button id="modalCloseBtn" class="modal-btn">Tamam</button>
     </div>
   </div>
@@ -475,6 +513,11 @@
     const modalText     = document.getElementById("modalText");
     const modalNote     = document.getElementById("modalNote");
     const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    // ✅ Kopyalama elemanları
+    const copyBtn = document.getElementById("copyBtn");
+    const copyStatus = document.getElementById("copyStatus");
+    const igLink = document.getElementById("igLink");
 
     const MAX_CLICKS = 7;
     const DAILY_LIMIT = 3; // 24 saatte 3 oyun hakkı
@@ -497,6 +540,9 @@
     let clicksLeft = MAX_CLICKS;
     let gameFinished = false;
     let counts;
+
+    // ✅ Modal için son mesaj metni (kopyalanacak)
+    let lastCopyMessage = "";
 
     // Basit karıştırma
     function shuffle(array) {
@@ -569,12 +615,17 @@
         "40 TL İndirim": 0,
         "30 TL İndirim": 0
       };
+
+      // ✅ modal kopya alanını sıfırla
+      lastCopyMessage = "";
+      copyStatus.style.display = "none";
+      copyBtn.disabled = false;
+
       updateStatusBar();
       updateCounters();
 
       const canPlay = canPlayToday();
       if (!canPlay) {
-        // Oyun kilitli, grid yine çizilsin ama tıklanmasın
         statusBar.innerHTML =
           `Günlük hakkınız doldu. 24 saat içinde en fazla <strong>${DAILY_LIMIT}</strong> oyun oynayabilirsiniz.`;
       }
@@ -675,10 +726,10 @@
 
       if (isWin && winningPrize) {
         launchConfetti();
-        showModalWin(ig, winningPrize);
+        showModalWin(name, ig, winningPrize);
         sendToSheet(name, ig, winningPrize);
       } else {
-        showModalLose(ig);
+        showModalLose(name, ig);
         sendToSheet(name, ig, "Kazanan yok (Femud 5x5 Kazı Kazan)");
       }
     }
@@ -704,7 +755,21 @@
       }
     }
 
-    function showModalWin(ig, prize) {
+    function buildCopyMessage(name, ig, prizeText) {
+      const igClean = (ig || "").trim();
+      const p = prizeText || "—";
+      return (
+        "Merhaba Femud_tr 👋\n\n" +
+        "Kazı Kazan 5x5 oyunundan ödül kazandım.\n\n" +
+        "Ad: " + name + "\n" +
+        "Instagram: " + igClean + "\n" +
+        "Kazanılan Ödül: " + p + "\n\n" +
+        "Hediyemi/indirimimi 24 saat içinde talep ediyorum.\n" +
+        "Teşekkürler."
+      );
+    }
+
+    function showModalWin(name, ig, prize) {
       modalTitle.textContent = `Tebrikler! ${prize} kazandınız 🎉`;
       modalText.innerHTML = `
         Kazandığınız indirim kuponu: <span class="modal-highlight">${prize}</span><br>
@@ -716,10 +781,16 @@
         Bu hediye <strong>24 saat</strong> için geçerlidir.<br>
         (Instagram hesabınız: <strong>${ig}</strong>)
       `;
+
+      // ✅ Kopyalanacak mesajı hazırla
+      lastCopyMessage = buildCopyMessage(name, ig, prize);
+      copyStatus.style.display = "none";
+      copyBtn.disabled = false;
+
       modalBackdrop.style.display = "flex";
     }
 
-    function showModalLose(ig) {
+    function showModalLose(name, ig) {
       modalTitle.textContent = "Bu turda kupon çıkmadı 😇";
       modalText.innerHTML = `
         Açtığınız 7 kutuda 50 / 40 / 30 TL ödüllerinden
@@ -731,6 +802,12 @@
         göndermeniz ve hediyenizi <strong>24 saat içinde</strong> talep etmeniz gerekir.<br>
         (Instagram hesabınız: <strong>${ig}</strong>)
       `;
+
+      // ✅ Kaybedince de hazır mesaj üret (isterse kopyalayıp yazabilir)
+      lastCopyMessage = buildCopyMessage(name, ig, "Kazanan yok (Bu turda çıkmadı)");
+      copyStatus.style.display = "none";
+      copyBtn.disabled = false;
+
       modalBackdrop.style.display = "flex";
     }
 
@@ -747,6 +824,36 @@
     btnReset.addEventListener("click", () => {
       modalBackdrop.style.display = "none";
       initGame();
+    });
+
+    // ✅ Mesajı Kopyala (çarkıfelek ile aynı mantık)
+    copyBtn.addEventListener("click", async () => {
+      try {
+        if (!lastCopyMessage) {
+          alert("Kopyalanacak mesaj bulunamadı. Lütfen önce oyunu tamamlayın.");
+          return;
+        }
+
+        // Modern kopyalama
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(lastCopyMessage);
+        } else {
+          // Eski yöntem (fallback)
+          const ta = document.createElement("textarea");
+          ta.value = lastCopyMessage;
+          ta.style.position = "fixed";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.focus();
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
+        }
+
+        copyStatus.style.display = "block";
+      } catch (err) {
+        alert("Kopyalama başarısız oldu. Lütfen elle kopyalayın.");
+      }
     });
 
     // Google Sheet’e gönder
