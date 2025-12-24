@@ -406,6 +406,76 @@
       padding: 10px 0 6px;
     }
     footer b{color:#fff}
+
+    /* ===== ABOUT PREMIUM CARDS (EKLENDİ) ===== */
+    .aboutCards{
+      margin-top:12px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media(min-width:860px){
+      .aboutCards{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+    .aCard{
+      background:#ffffff;
+      border:1px solid rgba(0,0,0,.06);
+      box-shadow: 0 14px 28px rgba(0,0,0,.12);
+      border-radius:18px;
+      padding:14px 14px 12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .aCard::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle at 20% 20%, rgba(255,179,0,.22), transparent 55%),
+                radial-gradient(circle at 80% 30%, rgba(124,77,255,.16), transparent 60%);
+      filter: blur(10px);
+      opacity:.9;
+    }
+    .aCard h3{
+      position:relative;
+      margin:0 0 8px;
+      font-size:14px;
+      font-weight: 980;
+      color:#2a0a57;
+      display:flex;
+      align-items:center;
+      gap:8px;
+    }
+    .aCard p{
+      position:relative;
+      margin:0;
+      font-size:12.8px;
+      line-height:1.65;
+      color:#515163;
+      font-weight:760;
+    }
+    .aMiniRow{
+      position:relative;
+      margin-top:10px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .aMini{
+      display:inline-flex;
+      align-items:center;
+      gap:7px;
+      padding:7px 9px;
+      border-radius:999px;
+      background: rgba(124,77,255,.10);
+      border:1px solid rgba(124,77,255,.14);
+      color:#2a0a57;
+      font-weight:900;
+      font-size:11.5px;
+    }
+    .aMini .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: linear-gradient(135deg,#ffb300,#7c4dff);
+    }
   </style>
 </head>
 
@@ -419,13 +489,14 @@
         <div class="logoCircle">
           <img src="femud_logo.png" alt="FEMUD Logo">
         </div>
+
         <div style="max-width:1100px;margin:40px auto;text-align:center;">
-  <img 
-    src="images/femud-urunler.jpg"
-    alt="Femud Ürünleri"
-    style="width:100%;height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.25);"
-  >
-</div>
+          <img
+            src="images/femud-urunler.jpg"
+            alt="Femud Ürünleri"
+            style="width:100%;height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.25);"
+          >
+        </div>
 
         <div class="brandText">
           <h1>Doğadan Gelen Güç</h1>
@@ -434,14 +505,14 @@
           <div class="pillRow">
             <div class="pill">🎁 Ücretsiz Hediye Oyun Merkezi</div>
             <div class="pill">⏱️ Hediye 24 Saat Geçerli</div>
-            <div class="pill">📩 Kazanınca: Kopyala Butonuna bas otomatik  Kopyala → @Femud_tr DM</div>
+            <div class="pill">📩 Kazanınca: ekran görüntüsü → @Femud_tr DM</div>
           </div>
         </div>
       </div>
 
       <div class="headline">
         Femud ürünlerini <b>indirimli</b> almak için aşağıdaki oyunlardan birini seç:
-        <b>Çarkıfelek</b> veya <b>Kazı Kazan</b>. Kazandığında Kopyala Butonuna bas otomatik kopyala sonra. 
+        <b>Çarkıfelek</b> veya <b>Kazı Kazan</b>. Kazandığında ekran görüntüsünü alıp
         <b>@Femud_tr</b> hesabına DM ile gönder — hediyen <b>24 saat</b> içinde geçerlidir.
       </div>
 
@@ -461,13 +532,13 @@
             <div class="how">
               <div class="step">1) Çarkıfelek’e gir</div>
               <div class="step">2) Çarkı çevir</div>
-              <div class="step">3) Kazandıysan Kopyala Butonuna bas → @Femud_tr DM</div>
+              <div class="step">3) Kazandıysan ekran görüntüsü al → @Femud_tr DM</div>
             </div>
           </div>
 
           <div class="ctaRow">
             <a class="btn primary" id="btnCark" href="#">Çarkıfelek’e Gir</a>
-            <div class="fine">DM’de: “@femud_tr” yazıp ekran görüntüsünü Dm ye ekleyin.</div>
+            <div class="fine">DM’de: “Kupon kazandım” yazıp ekran görüntüsünü ekleyin.</div>
           </div>
         </div>
 
@@ -582,60 +653,65 @@
       </div>
     </div>
 
+    <!-- HAKKIMIZDA (PREMIUM EKLENDİ) -->
+    <div class="section" id="hakkimizda">
+      <div class="sectionHead">
+        <h2>Hakkımızda</h2>
+        <div class="mini">Termal su • Yerli üretim • Natürel çizgi</div>
+      </div>
+
+      <div style="padding:0 14px 16px;">
+        <div class="aboutCards">
+          <div class="aCard">
+            <h3>🎯 Vizyon</h3>
+            <p>
+              Termal su temelli yaklaşımı, yerli üretim güvencesiyle birleştirip
+              günlük bakımda <b>premium</b> kaliteyi herkes için ulaşılabilir kılmak.
+              Femud; natürel çizgide, güven veren ve modern bir bakım markasıdır.
+            </p>
+            <div class="aMiniRow">
+              <span class="aMini"><span class="dot"></span> Termal su</span>
+              <span class="aMini"><span class="dot"></span> Kalite</span>
+              <span class="aMini"><span class="dot"></span> Erişilebilir</span>
+            </div>
+          </div>
+
+          <div class="aCard">
+            <h3>🧭 Misyon</h3>
+            <p>
+              Ürünleri sade ve anlaşılır bir dille sunmak; şeffaf, müşteri odaklı
+              bir iletişim kurmak. Oyun merkezimiz de bu yüzden var:
+              kullanıcıya <b>eğlenceli</b> şekilde indirim fırsatı oluşturmak.
+            </p>
+            <div class="aMiniRow">
+              <span class="aMini"><span class="dot"></span> Şeffaflık</span>
+              <span class="aMini"><span class="dot"></span> Müşteri odaklı</span>
+              <span class="aMini"><span class="dot"></span> Eğlenceli</span>
+            </div>
+          </div>
+
+          <div class="aCard">
+            <h3>🛡️ Kalite Sözü</h3>
+            <p>
+              Femud’da hedef; güven, süreklilik ve memnuniyettir.
+              Kupon/ödül süreçleri nettir: kazanınca <b>ekran görüntüsü</b> ile
+              <b>@Femud_tr</b> hesabından doğrulanır, <b>24 saat</b> içinde kullanılır.
+            </p>
+            <div class="aMiniRow">
+              <span class="aMini"><span class="dot"></span> Güven</span>
+              <span class="aMini"><span class="dot"></span> Net süreç</span>
+              <span class="aMini"><span class="dot"></span> Hızlı doğrulama</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer>
       © <b>FEMUD</b> • Kupon için ekran görüntüsü ile <b>@Femud_tr</b> DM
     </footer>
 
   </div>
-  <!-- HAKKIMIZDA BÖLÜMÜ -->
-<section id="hakkimizda" style="
-  margin-top:24px;
-  background: rgba(255,255,255,.10);
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 22px;
-  padding:18px 16px;
-  box-shadow: 0 18px 40px rgba(0,0,0,.35);
-  backdrop-filter: blur(10px);
-">
-
-  <h2 style="
-    margin:0 0 10px;
-    font-size:20px;
-    font-weight:900;
-    color:#ffffff;
-    text-align:center;
-  ">
-    Femud Hakkımızda
-  </h2>
-
-  <p style="
-    margin:0 0 10px;
-    font-size:14px;
-    line-height:1.6;
-    color:rgba(255,255,255,.95);
-    font-weight:600;
-    text-align:center;
-  ">
-    <strong>Femud</strong>, termal su ile üretilen, yerli üretim anlayışını
-    kalite ve doğallıkla birleştiren bir bakım markasıdır.
-    Ürünlerimizde doğadan gelen gücü, güvenilir içeriklerle
-    günlük yaşama taşımayı hedefleriz.
-  </p>
-
-  <p style="
-    margin:0;
-    font-size:13px;
-    line-height:1.6;
-    color:rgba(255,255,255,.85);
-    font-weight:600;
-    text-align:center;
-  ">
-    Hedefimiz; ulaşılabilir fiyatlarla, etkili, natürel ve
-    kullanıcı dostu ürünler sunarak Femud’u
-    güvenle tercih edilen bir marka haline getirmektir.
-  </p>
-
-</section>
 
   <script>
     // ✅ BURAYI DOLDUR: dosya adların neyse onu yaz
