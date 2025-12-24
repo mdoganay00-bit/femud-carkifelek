@@ -171,16 +171,8 @@
       box-shadow: 0 10px 20px rgba(94, 53, 177, 0.6);
     }
 
-    .btn-spin:active {
-      transform: translateY(1px);
-      box-shadow: 0 4px 12px rgba(94, 53, 177, 0.7);
-    }
-
-    .btn-spin:disabled {
-      opacity: 0.65;
-      cursor: not-allowed;
-      box-shadow: 0 5px 12px rgba(94, 53, 177, 0.4);
-    }
+    .btn-spin:active { transform: translateY(1px); }
+    .btn-spin:disabled { opacity: 0.65; cursor: not-allowed; }
 
     #result {
       margin-top: 10px;
@@ -215,15 +207,8 @@
       margin-bottom: 4px;
     }
 
-    #winnersList {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    #winnersList li {
-      margin-bottom: 2px;
-    }
+    #winnersList { list-style: none; padding: 0; margin: 0; }
+    #winnersList li { margin-bottom: 2px; }
 
     /* Modal */
     .modal-backdrop {
@@ -235,10 +220,7 @@
       justify-content: center;
       z-index: 100;
     }
-
-    .modal-backdrop.is-visible {
-      display: flex;
-    }
+    .modal-backdrop.is-visible { display: flex; }
 
     .modal {
       background: #ffffff;
@@ -250,26 +232,41 @@
       text-align: center;
     }
 
-    .modal h2 {
-      margin: 0 0 8px;
-      font-size: 19px;
-      color: #4a148c;
-    }
+    .modal h2 { margin: 0 0 8px; font-size: 19px; color: #4a148c; }
+    .modal p { margin: 6px 0; font-size: 13px; color: #444; }
+    .modal .prize { font-weight: 800; color: #7e57c2; }
 
-    .modal p {
-      margin: 4px 0;
-      font-size: 13px;
-      color: #444;
+    .copy-panel{
+      margin-top:10px;
+      padding:10px;
+      border-radius:14px;
+      background:#f6f3ff;
+      border:1px solid rgba(0,0,0,.06);
+      text-align:left;
     }
-
-    .modal .prize {
-      font-weight: 700;
-      color: #7e57c2;
+    .copy-title{
+      font-size:12px;
+      font-weight:900;
+      color:#4a148c;
+      margin:0 0 6px;
     }
-
-    .modal-note-strong {
-      font-weight: 600;
-      margin-top: 6px;
+    .copy-text{
+      width:100%;
+      border-radius:12px;
+      border:1px dashed rgba(74,20,140,.35);
+      padding:10px;
+      font-size:12px;
+      background:#fff;
+      color:#2a0a57;
+      outline:none;
+      resize:none;
+    }
+    .copy-hint{
+      margin-top:8px;
+      font-size:12px;
+      font-weight:800;
+      color:#333;
+      line-height:1.35;
     }
 
     .modal-btn {
@@ -277,37 +274,42 @@
       width: 100%;
       font-size: 15px;
       padding: 10px 18px;
-    }
-
-    /* DM kutusu */
-    .dmBox {
-      width: 100%;
-      min-height: 92px;
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 13px;
-      resize: none;
-      margin: 10px 0 8px;
-      outline: none;
-    }
-
-    /* ✅ Burayı istediğin metin için kullanıyoruz */
-    .copyInfo {
-      display: none;
-      margin-top: 8px;
-      font-size: 12px;
-      color: #2e7d32;
+      border-radius: 999px;
+      border: none;
       font-weight: 800;
-      line-height: 1.35;
+      color:#fff;
+      cursor:pointer;
+      background: linear-gradient(135deg, #7e57c2, #5e35b1);
+      box-shadow: 0 10px 20px rgba(94, 53, 177, 0.6);
+    }
+
+    /* Toast */
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      background:rgba(20,20,35,.92);
+      color:#fff;
+      padding:10px 12px;
+      border-radius:14px;
+      font-size:12px;
+      font-weight:800;
+      box-shadow:0 14px 30px rgba(0,0,0,.35);
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .2s ease, transform .2s ease;
+      z-index:999;
+      width:min(560px, 92vw);
+      text-align:center;
+    }
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(-2px);
     }
 
     @media (max-width: 480px) {
-      .container {
-        border-radius: 0;
-        max-width: 100%;
-        min-height: 100vh;
-      }
+      .container { border-radius: 0; max-width: 100%; min-height: 100vh; }
       .wheel-wrapper {
         width: 78vw;
         height: 78vw;
@@ -357,49 +359,32 @@
       <h2>Tebrikler!</h2>
       <p class="prize" id="modalPrize"></p>
 
-      <textarea id="dmText" class="dmBox" readonly></textarea>
-
-      <button id="copyDmBtn" class="btn-spin modal-btn" style="margin-top:0;background:linear-gradient(135deg,#111,#333);">
-        Mesajı Kopyala
-      </button>
-
-      <!-- ✅ İSTEDİĞİN CÜMLE BURADA -->
-      <div id="copyInfo" class="copyInfo">
-        Mesajınız kopyalanmıştır. Instagramdan <b>@Femud_tr</b> sayfasını açarak mesaj gönderme bölümünden DM olarak mesaj atınız.
+      <div class="copy-panel">
+        <div class="copy-title">Kopyalanan Bilgi (otomatik)</div>
+        <textarea id="copiedMessage" class="copy-text" rows="2" readonly></textarea>
+        <div class="copy-hint" id="copyHint"></div>
       </div>
 
-      <p class="modal-note-strong">
-        Femud ürünlerini seçtiğiniz için Teşekkür ederiz😇 Kopyala butonuna basarak otomatik kopyalanan Hediyenizi Instagram'da
-        <strong>@femud_tr</strong> hesabına mesaj gönderin.
-      </p>
-      <p>Mesajda istediğiniz hediyeyi mutlaka belirtin.</p>
-      <a href="https://www.instagram.com/femud_tr/"
-   target="_blank"
-   class="btn-spin modal-btn"
-   style="text-decoration:none;display:block;">
-  Instagram’da @Femud_tr Aç
-</a>
-
-<p style="font-size:12px;color:#555;margin-top:6px;">
-  Mesaj kopyalandıysa Instagram açıldıktan sonra DM alanına yapıştırın.
-</p>
-      <button id="modalCloseBtn" class="btn-spin modal-btn">Tamam</button>
+      <button id="modalCloseBtn" class="modal-btn">Tamam</button>
     </div>
   </div>
 
+  <div id="toast" class="toast"></div>
+
   <script>
-    // Google Apps Script web app adresin
+    // Google Apps Script web app adresin (aynı kaldı)
     const API_URL = "https://script.google.com/macros/s/AKfycbyplhi6pahLt8N68gKHnNbBn4cYJhbqLUlM81UHqHYLNzZEUsaSXLE0n5dc91-dc66z/exec";
 
+    // DİLİMLER (senin ayarın)
     const slices = [
-      { id: 1, text: "2 Ürün alana\n40 TL indirim", radius: 100, fontSize: 9, maxWidth: 90, angleOffset: -26 },
-      { id: 2, text: "2 ürün alana\n60TL Femud\nÜrün Çeki", radius: 58, fontSize: 8, maxWidth: 110, angleOffset: -13 },
-      { id: 3, text: "Tüm Ürünlerde\n%30 İndirim", radius: 59, fontSize: 7.5, maxWidth: 90, angleOffset: -3 },
-      { id: 4, text: "2 ürün alana\n70 TL Femud\nÜrün Çeki", radius: 90, fontSize: 10, maxWidth: 100, angleOffset: 23 },
-      { id: 5, text: "6 ürün alana\n100 TL İndirim", radius: 132, fontSize: 12, maxWidth: 110, angleOffset: 26 },
-      { id: 6, text: "Tüm ürünlerde\n%30 indirim", radius: 162, fontSize: 9, maxWidth: 110, angleOffset: 15 },
-      { id: 7, text: "2 Ürün alana\n40 TL indirim", radius: 150, fontSize: 7, maxWidth: 90, angleOffset: 0 },
-      { id: 8, text: "3 Ürün alana\n70 TL İndirim", radius: 140, fontSize: 8, maxWidth: 110, angleOffset: -18 }
+      { id: 1, text: "2 Ürün alana\n40 TL indirim", radius: 100, fontSize: 9,  maxWidth: 90,  angleOffset: -26 },
+      { id: 2, text: "2 ürün alana\n60TL Femud\nÜrün Çeki", radius: 58,  fontSize: 8,  maxWidth: 110, angleOffset: -13 },
+      { id: 3, text: "Tüm Ürünlerde\n%30 İndirim", radius: 59,  fontSize: 7.5,maxWidth: 90,  angleOffset: -3  },
+      { id: 4, text: "2 ürün alana\n70 TL Femud\nÜrün Çeki", radius: 90,  fontSize: 10, maxWidth: 100, angleOffset: 23  },
+      { id: 5, text: "6 ürün alana\n100 TL İndirim", radius: 132, fontSize: 12, maxWidth: 110, angleOffset: 26  },
+      { id: 6, text: "Tüm ürünlerde\n%30 indirim", radius: 162, fontSize: 9,  maxWidth: 110, angleOffset: 15  },
+      { id: 7, text: "2 Ürün alana\n40 TL indirim", radius: 150, fontSize: 7,  maxWidth: 90,  angleOffset: 0   },
+      { id: 8, text: "3 Ürün alana\n70 TL İndirim", radius: 140, fontSize: 8,  maxWidth: 110, angleOffset: -18 }
     ];
 
     const wheel       = document.getElementById("wheel");
@@ -409,13 +394,18 @@
     const igInput     = document.getElementById("igInput");
     const winnersList = document.getElementById("winnersList");
 
-    const modal          = document.getElementById("resultModal");
-    const modalPrizeEl   = document.getElementById("modalPrize");
-    const modalCloseBtn  = document.getElementById("modalCloseBtn");
+    const modal         = document.getElementById("resultModal");
+    const modalPrizeEl  = document.getElementById("modalPrize");
+    const modalCloseBtn = document.getElementById("modalCloseBtn");
+
+    const copiedMessageEl = document.getElementById("copiedMessage");
+    const copyHintEl      = document.getElementById("copyHint");
+    const toastEl         = document.getElementById("toast");
 
     const sliceCount    = slices.length;
     const anglePerSlice = 360 / sliceCount;
 
+    // DİLİM YAZILARINI OLUŞTUR
     slices.forEach((slice, index) => {
       const label = document.createElement("div");
       label.className = "slice-label";
@@ -432,6 +422,55 @@
       wheel.appendChild(label);
     });
 
+    // Toast
+    let toastTimer=null;
+    function showToast(msg){
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(()=>toastEl.classList.remove("show"), 2600);
+    }
+
+    // iOS uyumlu kopyalama
+    async function copyText(text){
+      try{
+        if (navigator.clipboard && navigator.clipboard.writeText){
+          await navigator.clipboard.writeText(text);
+          return true;
+        }
+      }catch(e){}
+      try{
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        ta.style.top = "-9999px";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        const ok = document.execCommand("copy");
+        ta.remove();
+        return ok;
+      }catch(e){
+        return false;
+      }
+    }
+
+    function fmtDateTR(d){
+      const pad=n=>String(n).padStart(2,"0");
+      return `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+    }
+
+    // KISA MESAJ: Tarih + Ödül + Ad + IG
+    function buildCopyMessage(name, ig, prize){
+      const dt = fmtDateTR(new Date());
+      const n  = (name||"").trim().replace(/\s+/g," ").slice(0,22);
+      let i    = (ig||"").trim().replace(/\s+/g," ").slice(0,32);
+      if(i && !i.startsWith("@")) i="@"+i;
+      const p  = (prize||"").trim().replace(/\s+/g," ").slice(0,40);
+      return `Tarih:${dt} | Ödül:${p} | Ad:${n} | IG:${i}`;
+    }
+
     let currentRotation = 0;
     let isSpinning      = false;
     const winners       = [];
@@ -446,21 +485,7 @@
       });
     }
 
-    const ONE_DAY_MS = 24 * 60 * 60 * 1000;
-
-    function canSpin(ig) {
-      const key = "femud_spin_" + ig.toLowerCase();
-      const last = localStorage.getItem(key);
-      if (!last) return true;
-      const diff = Date.now() - Number(last);
-      return diff >= ONE_DAY_MS;
-    }
-
-    function markSpun(ig) {
-      const key = "femud_spin_" + ig.toLowerCase();
-      localStorage.setItem(key, Date.now().toString());
-    }
-
+    // Ödüle göre puan
     function getPointsForSlice(sliceId) {
       switch (sliceId) {
         case 1:
@@ -475,6 +500,7 @@
       }
     }
 
+    // Google Sheet’e kayıt gönder
     function sendToSheet(name, ig, prize, sliceId) {
       const gameName = "Çark";
       const points   = getPointsForSlice(sliceId);
@@ -484,13 +510,18 @@
           method: "POST",
           mode: "no-cors",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, ig, prize, game: gameName, points })
-        }).catch(err => console.log("Kayıt gönderilirken hata:", err));
-      } catch (err) {
-        console.log("Kayıt gönderilemedi:", err);
-      }
+          body: JSON.stringify({
+            name: name,
+            ig: ig,
+            prize: prize,
+            game: gameName,
+            points: points
+          })
+        }).catch(()=>{});
+      } catch (err) {}
     }
 
+    // Basit konfeti
     function launchConfetti() {
       const duration = 6000;
       const end = Date.now() + duration;
@@ -511,7 +542,8 @@
       window.addEventListener("resize", resize);
 
       const colors = ["#ffeb3b", "#ff4081", "#7c4dff", "#4caf50", "#ff9800"];
-      const random = (min, max) => Math.random() * (max - min) + min;
+
+      function random(min, max) { return Math.random() * (max - min) + min; }
 
       const pieces = Array.from({ length: 180 }).map(() => ({
         x: random(0, canvas.width),
@@ -530,15 +562,8 @@
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         pieces.forEach(p => {
-          p.y += p.vy;
-          p.x += p.vx;
-          p.angle += p.va;
-
-          if (p.y > canvas.height) {
-            p.y = -10;
-            p.x = random(0, canvas.width);
-          }
-
+          p.y += p.vy; p.x += p.vx; p.angle += p.va;
+          if (p.y > canvas.height) { p.y = -10; p.x = random(0, canvas.width); }
           ctx.save();
           ctx.translate(p.x, p.y);
           ctx.rotate(p.angle);
@@ -548,69 +573,39 @@
         });
 
         if (now < end) requestAnimationFrame(frame);
-        else {
-          window.removeEventListener("resize", resize);
-          canvas.remove();
-        }
+        else { window.removeEventListener("resize", resize); canvas.remove(); }
       }
       frame();
     }
 
-    function openResultModal(prizeText, name, ig) {
+    async function openResultModalAndAutoCopy(prizeText, name, ig) {
       modalPrizeEl.textContent = `${name} – ${prizeText}`;
+      const msg = buildCopyMessage(name, ig, prizeText);
+      copiedMessageEl.value = msg;
 
-      // ✅ Her açılışta “kopyalandı” yazısını kapat
-      const info = document.getElementById("copyInfo");
-      if (info) info.style.display = "none";
-
-      const now = new Date();
-      const tarih = now.toLocaleString("tr-TR");
-
-      const msg =
-`Merhaba @femud_tr 👋
-
-Femud Çarkıfelek'ten kazandım.
-
-🎁 Ödül: ${prizeText}
-👤 Ad: ${name}
-📱 Instagram: @${ig}
-🕒 Tarih: ${tarih}
-
-Ekran görüntüsünü ekliyorum.`;
-
-      const dmBox = document.getElementById("dmText");
-      if (dmBox) dmBox.value = msg;
+      const ok = await copyText(msg);
+      if(ok){
+        copyHintEl.textContent =
+          "Mesajınız kopyalanmıştır. Instagram’dan @Femud_tr sayfasını açarak Mesaj Gönder bölümünden DM olarak mesaj atınız.";
+        showToast("Mesaj kopyalandı ✅");
+      }else{
+        copyHintEl.textContent =
+          "Otomatik kopyalama izin vermedi. Kutunun içinden basılı tutup kopyalayın, sonra Instagram’dan @Femud_tr’ye DM atın.";
+        showToast("Kopyalama olmadı. Mesaj kutusundan basılı tutup kopyalayın.");
+      }
 
       modal.classList.add("is-visible");
     }
 
-    modalCloseBtn.addEventListener("click", () => modal.classList.remove("is-visible"));
-    modal.addEventListener("click", (e) => { if (e.target === modal) modal.classList.remove("is-visible"); });
+    modalCloseBtn.addEventListener("click", () => {
+      modal.classList.remove("is-visible");
+    });
 
-    // ✅ DÜZELTİLDİ: sadece mesaj kopyalanır (ekran değil)
-    const copyBtn = document.getElementById("copyDmBtn");
-    if (copyBtn) {
-      copyBtn.addEventListener("click", async () => {
-        const dmText = document.getElementById("dmText");
-        if (!dmText) return;
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.remove("is-visible");
+    });
 
-        try {
-          await navigator.clipboard.writeText(dmText.value);
-        } catch (e) {
-          dmText.focus();
-          dmText.select();
-          dmText.setSelectionRange(0, 99999);
-          document.execCommand("copy");
-        }
-
-        const info = document.getElementById("copyInfo");
-        if (info) {
-          info.style.display = "block";
-          setTimeout(() => (info.style.display = "none"), 6000);
-        }
-      });
-    }
-
+    // ÇARKI ÇEVİR
     spinBtn.addEventListener("click", () => {
       if (isSpinning) return;
 
@@ -622,24 +617,19 @@ Ekran görüntüsünü ekliyorum.`;
         return;
       }
 
-      if (!igRaw.startsWith("@")) igRaw = "@" + igRaw;
+      if (!igRaw.startsWith("@")) { igRaw = "@" + igRaw; igInput.value = igRaw; }
 
       const igClean = igRaw.replace(/^@/, "").trim();
-
-      if (!canSpin(igClean)) {
-        alert("Bu Instagram hesabı son 24 saat içinde çarkı çevirdi. Lütfen 24 saat sonra tekrar deneyin.");
-        return;
-      }
 
       isSpinning = true;
       spinBtn.disabled = true;
       resultEl.innerHTML = "";
 
-      const extra = Math.floor(Math.random() * 360) + 1080;
+      const extra = Math.floor(Math.random() * 360) + 1080; // en az 3 tur
       currentRotation += extra;
       wheel.style.transform = `rotate(${currentRotation}deg)`;
 
-      setTimeout(() => {
+      setTimeout(async () => {
         const normalized   = ((currentRotation % 360) + 360) % 360;
         const indexFromTop = Math.floor((sliceCount - normalized / anglePerSlice)) % sliceCount;
         const selectedIndex = (indexFromTop + sliceCount) % sliceCount;
@@ -647,23 +637,18 @@ Ekran görüntüsünü ekliyorum.`;
 
         const prizeText = selectedSlice.text.replace(/\n/g, " ");
 
-        window.FEMUD_ODUL = prizeText;
-
         resultEl.innerHTML = `
           Kazanan: <strong>${nameRaw}</strong> – <strong>${prizeText}</strong><br>
-          <span class="note">
-            Ekran görüntüsü alıp @femud_tr hesabına mesaj göndererek hediyenizi talep edebilirsiniz.
-          </span>
+          <span class="note">Kazanınca mesaj otomatik kopyalanır.</span>
         `;
 
         winners.push({ name: nameRaw, ig: igClean, prize: prizeText });
         renderWinners();
 
-        markSpun(igClean);
         sendToSheet(nameRaw, igClean, prizeText, selectedSlice.id);
 
         launchConfetti();
-        openResultModal(prizeText, nameRaw, igClean);
+        await openResultModalAndAutoCopy(prizeText, nameRaw, igRaw);
 
         isSpinning = false;
         spinBtn.disabled = false;
