@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FEMUD | Hediye Oyun Merkezi</title>
 
+  <!-- Grafik kütüphanesi -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
   <style>
     :root{
       --p1:#2a0a57;
@@ -100,7 +103,7 @@
     .logoCircle img{
       width:88%;
       height:88%;
-      object-fit:contain; /* LOGO KESİLMEZ */
+      object-fit:contain;
       display:block;
     }
 
@@ -407,7 +410,7 @@
     }
     footer b{color:#fff}
 
-    /* ===== ABOUT PREMIUM CARDS (EKLENDİ) ===== */
+    /* ===== ABOUT PREMIUM CARDS ===== */
     .aboutCards{
       margin-top:12px;
       display:grid;
@@ -476,6 +479,140 @@
       width:8px;height:8px;border-radius:50%;
       background: linear-gradient(135deg,#ffb300,#7c4dff);
     }
+
+    /* ===== PİYASA PANELİ (EKLENDİ) ===== */
+    .marketWrap{
+      margin-top:16px;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: calc(var(--r) + 10px);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+    .marketHead{
+      padding: 14px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+    .marketHead h2{
+      margin:0;
+      color:#fff;
+      font-size: 18px;
+      font-weight: 980;
+      letter-spacing:.2px;
+    }
+    .marketHead .mini{
+      color: rgba(255,255,255,.88);
+      font-weight:800;
+      font-size: 13px;
+    }
+    .mBtn{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      border-radius: 14px;
+      padding: 10px 12px;
+      font-weight: 980;
+      font-size: 13px;
+      color:#fff;
+      background: linear-gradient(135deg, #22c55e, #2563eb);
+      box-shadow: 0 12px 24px rgba(0,0,0,.22);
+      white-space:nowrap;
+    }
+    .marketBody{
+      padding: 0 14px 16px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
+    }
+    @media(min-width:860px){
+      .marketBody{grid-template-columns: 1fr 1fr;}
+    }
+    .mCard{
+      background: rgba(255,255,255,.96);
+      border-radius: calc(var(--r) + 6px);
+      box-shadow: var(--shadow2);
+      padding: 14px;
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .kpis{
+      display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;
+    }
+    .kpi{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      background:#f6f3ff;
+      border:1px solid rgba(0,0,0,.05);
+      color:#2a0a57;
+      font-weight:900;
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .noteBox{
+      margin-top:10px;
+      font-size:12.8px;
+      line-height:1.6;
+      color:#525265;
+      font-weight:760;
+      background:#fbf9ff;
+      border:1px solid rgba(0,0,0,.05);
+      border-radius:14px;
+      padding:10px 12px;
+    }
+    .canvasBox{
+      margin-top:10px;
+      background:#fff;
+      border-radius:14px;
+      border:1px solid rgba(0,0,0,.06);
+      overflow:hidden;
+      padding:10px;
+    }
+    .mSmall{
+      font-size:12px;
+      color:#6b6b78;
+      font-weight:800;
+    }
+    .inputRow{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-top:10px;
+    }
+    .mInput{
+      flex:1 1 260px;
+      border-radius:14px;
+      padding:10px 12px;
+      border:1px solid rgba(0,0,0,.10);
+      font-weight:800;
+      outline:none;
+    }
+    .fileInput{
+      flex:1 1 260px;
+    }
+    .mTable{
+      width:100%; border-collapse:collapse; margin-top:10px; overflow:hidden; border-radius:14px;
+    }
+    .mTable th,.mTable td{
+      padding:10px; border-bottom:1px solid rgba(0,0,0,.08); font-size:13px;
+    }
+    .mTable th{background:#f6f3ff; text-align:left}
+    .tag{
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-weight:950;
+      font-size:12px;
+      border:1px solid rgba(0,0,0,.06);
+      background: linear-gradient(135deg, rgba(255,179,0,.25), rgba(124,77,255,.15));
+      color:#2a0a57;
+      white-space:nowrap;
+    }
   </style>
 </head>
 
@@ -514,6 +651,72 @@
         Femud ürünlerini <b>indirimli</b> almak için aşağıdaki oyunlardan birini seç:
         <b>Çarkıfelek</b> veya <b>Kazı Kazan</b>. Kazandığında ekran görüntüsünü alıp
         <b>@Femud_tr</b> hesabına DM ile gönder — hediyen <b>24 saat</b> içinde geçerlidir.
+      </div>
+
+      <!-- ✅ PİYASA PANELİ (SAYFA AÇILINCA ÇALIŞIR) -->
+      <div class="marketWrap" id="piyasaPanel">
+        <div class="marketHead">
+          <div>
+            <h2>Femud Piyasa Paneli</h2>
+            <div class="mini">Dolar • Euro • Altın • Gümüş • Grafik + Sebep Özeti • 5 dk yenileme (sayfa açıkken)</div>
+          </div>
+          <button class="mBtn" id="btnRefreshAll">Bilgileri Güncelle</button>
+        </div>
+
+        <div style="padding:0 14px 8px;">
+          <div class="kpis" id="kpiRow">
+            <span class="kpi">Yükleniyor…</span>
+          </div>
+          <div class="mSmall" id="lastUpdate" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="marketBody">
+          <div class="mCard">
+            <b>USD/TRY (Dolar)</b>
+            <div class="mSmall">Son 30 gün</div>
+            <div class="canvasBox"><canvas id="chUsd" height="140"></canvas></div>
+            <div class="noteBox" id="noteUsd">—</div>
+          </div>
+
+          <div class="mCard">
+            <b>EUR/TRY (Euro)</b>
+            <div class="mSmall">Son 30 gün</div>
+            <div class="canvasBox"><canvas id="chEur" height="140"></canvas></div>
+            <div class="noteBox" id="noteEur">—</div>
+          </div>
+
+          <div class="mCard">
+            <b>Altın (XAU/TRY)</b>
+            <div class="mSmall">Kaynak desteklerse otomatik gelir</div>
+            <div class="canvasBox"><canvas id="chXau" height="140"></canvas></div>
+            <div class="noteBox" id="noteXau">—</div>
+          </div>
+
+          <div class="mCard">
+            <b>Gümüş (XAG/TRY)</b>
+            <div class="mSmall">Kaynak desteklerse otomatik gelir</div>
+            <div class="canvasBox"><canvas id="chXag" height="140"></canvas></div>
+            <div class="noteBox" id="noteXag">—</div>
+          </div>
+
+          <!-- HİSSE ANALİZ -->
+          <div class="mCard" style="grid-column:1/-1;">
+            <b>Hisse Analiz (BİST) — CSV ile güçlü analiz</b>
+            <div class="mSmall">Sembol yaz → CSV yükle (date,open,high,low,close,volume). Sonra analiz.</div>
+
+            <div class="inputRow">
+              <input class="mInput" id="symInput" placeholder="Örn: ASELS, THYAO, SASA" />
+              <input class="fileInput" id="csvFile" type="file" accept=".csv" />
+              <button class="mBtn" id="btnAnalyze">Analiz Et</button>
+            </div>
+
+            <div class="noteBox" id="stockInfo">
+              Not: Tarayıcıdan lisanssız şekilde canlı BİST verisi çekmek sağlıklı değildir. Bu yüzden “kendi CSV’n ile” analiz en sağlam yöntemdir.
+            </div>
+
+            <div id="stockOut"></div>
+          </div>
+        </div>
       </div>
 
       <div class="grid">
@@ -653,7 +856,7 @@
       </div>
     </div>
 
-    <!-- HAKKIMIZDA (PREMIUM EKLENDİ) -->
+    <!-- HAKKIMIZDA -->
     <div class="section" id="hakkimizda">
       <div class="sectionHead">
         <h2>Hakkımızda</h2>
@@ -714,17 +917,13 @@
   </div>
 
   <script>
-    // ✅ BURAYI DOLDUR: dosya adların neyse onu yaz
-    // Örnek:
-    // const CARK_LINK = "carkifelek.html";
-    // const KAZI_LINK = "kazikazan4x4.html";
+    // Oyun linkleri
     const CARK_LINK = "carkifelek.html";
-    const KAZI_LINK = "kazikazan4x4.html";  // <-- SENDE HANGİ DOSYA ÇALIŞIYORSA ONU YAZ
-
+    const KAZI_LINK = "kazikazan4x4.html";
     document.getElementById("btnCark").setAttribute("href", CARK_LINK);
     document.getElementById("btnKazi").setAttribute("href", KAZI_LINK);
 
-    // Mini “premium heyecan” parıltı efekti (sayfayı bozmaz)
+    // Mini “premium heyecan” parıltı efekti
     function sparkAt(x,y){
       for(let i=0;i<10;i++){
         const s=document.createElement("div");
@@ -738,13 +937,313 @@
         setTimeout(()=>s.remove(), 750);
       }
     }
-
     ["btnCark","btnKazi"].forEach(id=>{
       const el=document.getElementById(id);
       el.addEventListener("mouseenter",(e)=>{
         const r=e.target.getBoundingClientRect();
         sparkAt(r.left + r.width/2, r.top + r.height/2);
       });
+    });
+
+    /* ===========================
+       PİYASA PANELİ — 5 dk yenileme
+       Kaynak: exchangerate.host (latest + timeseries)
+       Not: XAU/XAG her zaman desteklenmeyebilir.
+    =========================== */
+
+    let chUsd=null, chEur=null, chXau=null, chXag=null;
+
+    function fmt(n, d=4){
+      if(n==null || !Number.isFinite(n)) return "-";
+      return n.toFixed(d);
+    }
+    function fmt2(n){
+      if(n==null || !Number.isFinite(n)) return "-";
+      return n.toFixed(2);
+    }
+    function pct(a,b){
+      if(a==null||b==null||a===0) return null;
+      return (b/a-1)*100;
+    }
+
+    function buildNote(series){
+      const s = series.filter(v=>v!=null);
+      if(s.length<5) return "Veri yok veya kaynak cevap vermedi.";
+      const first=s[0], last=s[s.length-1];
+      const p = pct(first,last);
+      const direction = p>0 ? "yükseliş" : (p<0 ? "düşüş" : "yatay");
+
+      // Basit “sebep” kartı: makro etkenler (genel)
+      const drivers = [
+        "Faiz beklentileri / risk iştahı",
+        "Jeopolitik haber akışı",
+        "ABD Dolar Endeksi ve küresel akış",
+        "Enflasyon verileri ve merkez bankası mesajları"
+      ];
+
+      return `<b>Özet:</b> Son 30 günde <b>${direction}</b> (${p!=null ? p.toFixed(2) : "—"}%).<br/>
+              <b>Muhtemel sebepler:</b> ${drivers.join(" • ")}<br/>
+              <b>Not:</b> Bu bölüm yatırım tavsiyesi değildir.`;
+    }
+
+    function mkLine(canvasId, labels, data){
+      const ctx=document.getElementById(canvasId);
+      return new Chart(ctx,{
+        type:"line",
+        data:{labels, datasets:[{data, tension:0.25, pointRadius:0}]},
+        options:{
+          plugins:{legend:{display:false}},
+          scales:{x:{ticks:{maxTicksLimit:6}}, y:{ticks:{maxTicksLimit:6}}},
+          responsive:true
+        }
+      });
+    }
+
+    async function fetchTimeseries(symbol){
+      // Son 35 gün çekip 30 gün gösteriyoruz (tatil/boş gün toleransı)
+      const end = new Date();
+      const start = new Date(end.getTime() - 35*24*3600*1000);
+      const fmtD = d => d.toISOString().slice(0,10);
+
+      // TRY baz alıp USD/EUR/XAU/XAG istiyoruz.
+      // Eğer XAU/XAG desteklenmezse sonuç null gelecektir.
+      const url = `https://api.exchangerate.host/timeseries?start_date=${fmtD(start)}&end_date=${fmtD(end)}&base=TRY&symbols=${encodeURIComponent(symbol)}`;
+      const r = await fetch(url);
+      if(!r.ok) throw new Error("Kur servisi cevap vermedi.");
+      const js = await r.json();
+      if(!js || !js.rates) throw new Error("Beklenmeyen cevap.");
+      const dates = Object.keys(js.rates).sort();
+      const vals = dates.map(d=>{
+        const v = js.rates[d]?.[symbol];
+        // base=TRY & symbol=USD => 1 TRY kaç USD eder. Biz USD/TRY istiyoruz => tersini alacağız.
+        const n = Number(v);
+        if(!Number.isFinite(n) || n===0) return null;
+        return 1/n; // USD/TRY gibi ters çevir
+      });
+      // Son 30 gün
+      const sliceDates = dates.slice(-30);
+      const sliceVals = vals.slice(-30);
+      return {dates:sliceDates, values:sliceVals};
+    }
+
+    function setKpis(obj){
+      const el=document.getElementById("kpiRow");
+      el.innerHTML = "";
+      const items = [
+        ["USD/TRY", obj.usd],
+        ["EUR/TRY", obj.eur],
+        ["Altın", obj.xau],
+        ["Gümüş", obj.xag],
+      ];
+      for(const [k,v] of items){
+        el.innerHTML += `<span class="kpi"><b>${k}</b>: ${v}</span>`;
+      }
+    }
+
+    async function refreshMarkets(){
+      // USD, EUR, XAU, XAG
+      const [usd, eur, xau, xag] = await Promise.allSettled([
+        fetchTimeseries("USD"),
+        fetchTimeseries("EUR"),
+        fetchTimeseries("XAU"),
+        fetchTimeseries("XAG"),
+      ]);
+
+      function ok(p){ return p.status==="fulfilled" ? p.value : null; }
+
+      const usdTS=ok(usd), eurTS=ok(eur), xauTS=ok(xau), xagTS=ok(xag);
+
+      // destroy old charts
+      [chUsd,chEur,chXau,chXag].forEach(c=>{ if(c) c.destroy(); });
+
+      if(usdTS){
+        chUsd = mkLine("chUsd", usdTS.dates, usdTS.values);
+        document.getElementById("noteUsd").innerHTML = buildNote(usdTS.values);
+      } else {
+        document.getElementById("noteUsd").innerHTML = "Kur servisi USD için cevap vermedi.";
+      }
+
+      if(eurTS){
+        chEur = mkLine("chEur", eurTS.dates, eurTS.values);
+        document.getElementById("noteEur").innerHTML = buildNote(eurTS.values);
+      } else {
+        document.getElementById("noteEur").innerHTML = "Kur servisi EUR için cevap vermedi.";
+      }
+
+      if(xauTS){
+        chXau = mkLine("chXau", xauTS.dates, xauTS.values);
+        document.getElementById("noteXau").innerHTML = buildNote(xauTS.values);
+      } else {
+        document.getElementById("noteXau").innerHTML =
+          "Altın verisi (XAU) kaynakta desteklenmiyor olabilir. İstersen 1 API anahtarı ile %100 canlı yaparız.";
+      }
+
+      if(xagTS){
+        chXag = mkLine("chXag", xagTS.dates, xagTS.values);
+        document.getElementById("noteXag").innerHTML = buildNote(xagTS.values);
+      } else {
+        document.getElementById("noteXag").innerHTML =
+          "Gümüş verisi (XAG) kaynakta desteklenmiyor olabilir. İstersen 1 API anahtarı ile %100 canlı yaparız.";
+      }
+
+      // Latest values
+      const lastUsd = usdTS?.values?.slice(-1)[0] ?? null;
+      const lastEur = eurTS?.values?.slice(-1)[0] ?? null;
+      const lastXau = xauTS?.values?.slice(-1)[0] ?? null;
+      const lastXag = xagTS?.values?.slice(-1)[0] ?? null;
+
+      setKpis({
+        usd: lastUsd ? fmt(lastUsd,4) : "-",
+        eur: lastEur ? fmt(lastEur,4) : "-",
+        xau: lastXau ? (fmt2(lastXau)+" TRY") : "-",
+        xag: lastXag ? (fmt2(lastXag)+" TRY") : "-",
+      });
+
+      document.getElementById("lastUpdate").textContent =
+        "Son güncelleme: " + new Date().toLocaleString("tr-TR") + " (Sayfa açıkken 5 dk’da bir yeniler)";
+    }
+
+    document.getElementById("btnRefreshAll").addEventListener("click", async ()=>{
+      const btn = document.getElementById("btnRefreshAll");
+      const old = btn.textContent;
+      btn.textContent = "Güncelleniyor…";
+      btn.disabled = true;
+      try{ await refreshMarkets(); }
+      catch(e){ alert("Güncelleme hatası: " + (e?.message||e)); }
+      finally{ btn.textContent = old; btn.disabled = false; }
+    });
+
+    // 5 dk otomatik yenileme (sayfa görünürken)
+    setInterval(()=>{ if(!document.hidden) refreshMarkets().catch(()=>{}); }, 5*60*1000);
+    document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) refreshMarkets().catch(()=>{}); });
+
+    // İlk açılışta otomatik
+    refreshMarkets().catch(()=>{});
+
+    /* ===========================
+       HİSSE ANALİZ — CSV ile
+    =========================== */
+    function parseCSV(text){
+      const lines = text.trim().split(/\r?\n/);
+      const header = lines[0].split(",").map(s=>s.trim());
+      const rows=[];
+      for(let i=1;i<lines.length;i++){
+        const parts = lines[i].split(",").map(s=>s.trim());
+        const o={};
+        for(let j=0;j<header.length;j++) o[header[j]]=parts[j];
+        rows.push(o);
+      }
+      return rows;
+    }
+    function toNum(x){ const n=Number(x); return Number.isFinite(n)?n:null; }
+    function ema(values, period){
+      const k=2/(period+1);
+      let prev=values[0];
+      const out=[prev];
+      for(let i=1;i<values.length;i++){
+        const v = values[i]*k + prev*(1-k);
+        out.push(v); prev=v;
+      }
+      return out;
+    }
+    function rsi(values, period=14){
+      const out=new Array(values.length).fill(50);
+      let gains=0, losses=0;
+      for(let i=1;i<=period && i<values.length;i++){
+        const d=values[i]-values[i-1]; if(d>=0) gains+=d; else losses+=-d;
+      }
+      let avgGain=gains/period, avgLoss=losses/period;
+      out[period]=avgLoss===0?70:100-(100/(1+(avgGain/avgLoss)));
+      for(let i=period+1;i<values.length;i++){
+        const d=values[i]-values[i-1];
+        const gain=d>0?d:0, loss=d<0?-d:0;
+        avgGain=(avgGain*(period-1)+gain)/period;
+        avgLoss=(avgLoss*(period-1)+loss)/period;
+        const rs=avgLoss===0?999:(avgGain/avgLoss);
+        out[i]=100-(100/(1+rs));
+      }
+      return out;
+    }
+
+    function renderStock(symbol, bars){
+      const out = document.getElementById("stockOut");
+      out.innerHTML = "";
+      if(!bars || bars.length<120){
+        out.innerHTML = `<div class="noteBox">CSV verisi yetersiz. En az 6 ay (120+ satır) önerilir.</div>`;
+        return;
+      }
+      bars.sort((a,b)=>a.date.localeCompare(b.date));
+      const close = bars.map(b=>b.close);
+      const EMA20 = ema(close,20);
+      const EMA50 = ema(close,50);
+      const RSI14 = rsi(close,14);
+
+      const last = close[close.length-1];
+      const trendUp = last>EMA20[EMA20.length-1] && last>EMA50[EMA50.length-1];
+      const r = RSI14[RSI14.length-1];
+
+      const plan = trendUp
+        ? "Trend pozitif. Kademeli alım + net stop mantığı uygundur."
+        : "Trend zayıf. Dönüş teyidi olmadan agresif işlem risklidir.";
+
+      const reasons = [
+        `EMA20/EMA50 durumu: ${trendUp ? "Üstünde (pozitif)" : "Altında/karışık (zayıf)"}`,
+        `RSI(14): ${r.toFixed(1)} (55-70 arası güçlü rejim sayılır)`,
+        "Döviz, faiz ve sektör haberleri hisseyi etkileyebilir (genel etkenler)."
+      ];
+
+      const stopPct = 3.6;
+      const tgt1 = 4.8;
+      const tgt2 = 8.2;
+
+      out.innerHTML = `
+        <table class="mTable">
+          <thead><tr><th>Sembol</th><th>Son</th><th>Trend</th><th>RSI</th><th>Plan</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>${symbol}</b></td>
+              <td>${last.toFixed(2)}</td>
+              <td><span class="tag">${trendUp ? "POZİTİF" : "ZAYIF"}</span></td>
+              <td>${r.toFixed(1)}</td>
+              <td>${plan}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="noteBox">
+          <b>İşlem Disiplini (örnek):</b><br/>
+          Stop: <b>%${stopPct}</b> • Hedef: <b>%${tgt1}</b> / <b>%${tgt2}</b><br/>
+          <b>Neden?</b> ${reasons.join(" • ")}<br/>
+          <b>Haber taraması:</b> Tarayıcı CORS kısıtları nedeniyle haberleri direkt çekmek her zaman mümkün olmayabilir.
+          Bu yüzden hızlı link: <a href="https://www.google.com/search?q=${encodeURIComponent(symbol+" hisse haberleri")}" target="_blank" rel="noopener">Google’da ara</a>
+        </div>
+      `;
+    }
+
+    document.getElementById("btnAnalyze").addEventListener("click", async ()=>{
+      const sym = (document.getElementById("symInput").value || "").trim().toUpperCase();
+      const file = document.getElementById("csvFile").files?.[0];
+
+      if(!sym){
+        alert("Önce sembol yaz (ör: ASELS).");
+        return;
+      }
+      if(!file){
+        alert("CSV yüklemen lazım. Kolonlar: date,open,high,low,close,volume");
+        return;
+      }
+
+      const text = await file.text();
+      const rows = parseCSV(text);
+      const bars = rows.map(r=>({
+        date: r.date,
+        open: toNum(r.open),
+        high: toNum(r.high),
+        low: toNum(r.low),
+        close: toNum(r.close),
+        volume: toNum(r.volume),
+      })).filter(b=>b.date && b.close!=null);
+
+      renderStock(sym, bars);
     });
   </script>
 </body>
