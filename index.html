@@ -33,6 +33,7 @@
       --shadowY:0 10px 26px rgba(0,0,0,.18);
     }
     *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family: system-ui,-apple-system,Segoe UI,Arial,sans-serif;
@@ -199,30 +200,13 @@
       line-height:1.55;
     }
 
-    .mainGrid{
+    .reasonGrid{
       margin-top:12px;
       display:grid;
       grid-template-columns: 1fr;
       gap:12px;
     }
-    @media(min-width:1020px){ .mainGrid{grid-template-columns: 1.35fr .65fr;} }
-
-    .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
-    .tab{
-      cursor:pointer;
-      border-radius:999px;
-      padding:9px 11px;
-      font-weight:950;
-      font-size:12.6px;
-      color: rgba(234,242,255,.92);
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      user-select:none;
-    }
-    .tab.active{
-      border-color: rgba(102,214,255,.35);
-      background: linear-gradient(135deg, rgba(102,214,255,.16), rgba(124,77,255,.16));
-    }
+    @media(min-width:920px){ .reasonGrid{grid-template-columns: 1fr 1fr;} }
 
     .disclaimer{
       margin-top:12px;
@@ -238,7 +222,7 @@
     .disclaimer b{color:#fff}
 
     /* =========================
-       OYUN SAYFASI (senin css)
+       OYUN + ÜRÜN SAYFASI (senin css)
        ========================= */
     .wrap{
       width:min(1120px, 92vw);
@@ -265,15 +249,12 @@
       opacity:.85;
       z-index:-1;
     }
-    .toprow{
-      display:flex; gap:18px; align-items:center; justify-content:center;
-      flex-wrap:wrap; text-align:center;
-    }
+    .toprow{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;}
     .logoCircle{
-      width:150px; height:150px; border-radius:50%;
+      width:150px;height:150px;border-radius:50%;
       background: rgba(255,255,255,.95);
       box-shadow: 0 14px 34px rgba(0,0,0,.35);
-      display:flex; align-items:center; justify-content:center;
+      display:flex;align-items:center;justify-content:center;
       overflow:hidden;
       border: 2px solid rgba(255,255,255,.70);
       flex: 0 0 auto;
@@ -338,6 +319,7 @@
       flex: 1 1 240px;text-align:center;text-decoration:none;
       position:relative;overflow:hidden;
       box-shadow: 0 12px 24px rgba(0,0,0,.22);
+      display:block;
     }
     .btnGame.primary{background: linear-gradient(135deg, #ff9800, #ffb300, #ff6d00);}
     .btnGame.secondary{background: linear-gradient(135deg, #7c4dff, #512da8, #2a0a57);}
@@ -471,7 +453,7 @@
   <div class="glowHold" aria-hidden="true"></div>
 
   <!-- =========================
-       FEMUD HOLDING PİYASA PANELİ
+       PİYASA PANELİ
        ========================= -->
   <div class="wrapHold" id="piyasa">
 
@@ -479,8 +461,8 @@
       <div class="brandRow">
         <div class="logoBox">F</div>
         <div class="brandTxt">
-          <h1>FEMUD Holding Piyasa Paneli</h1>
-          <p>USD • EUR • Altın • Gümüş — Canlı fiyat + grafik + teknik</p>
+          <h1>FEMUD Piyasa Paneli</h1>
+          <p>USD • EUR • Altın • Gümüş — 5 dk güncellenir + Güncelle butonu</p>
         </div>
       </div>
       <div class="navRow">
@@ -497,11 +479,10 @@
       <div class="statusBox" id="statusBox">Son güncelleme: - • Otomatik yenileme: 05:00</div>
     </div>
 
-    <!-- Ticker tape -->
     <div class="panel">
       <div class="panelHead">
         <h2>Canlı Piyasa Bandı</h2>
-        <p>4 temel enstrüman</p>
+        <p>İnternet olan her yerde canlı görünür (TradingView)</p>
       </div>
       <div class="panelBody">
         <div class="tvBox">
@@ -524,8 +505,9 @@
             </script>
           </div>
         </div>
+
         <div class="disclaimer">
-          <b>Not:</b> Bu panel bilgilendirme amaçlıdır.
+          <b>Not:</b> Bu panel bilgilendirme amaçlıdır. Yatırım tavsiyesi değildir.
         </div>
       </div>
     </div>
@@ -543,7 +525,7 @@
               </script>
             </div>
           </div>
-          <div class="miniNote"><b>Özet:</b> DXY + risk algısı + faiz beklentisi.</div>
+          <div class="miniNote"><b>Yükselebilir:</b> DXY artışı / risk artışı. <br><b>Düşebilir:</b> risk azalması / faiz beklentisi.</div>
         </div>
       </div>
 
@@ -558,7 +540,7 @@
               </script>
             </div>
           </div>
-          <div class="miniNote"><b>Özet:</b> EURUSD yönü + bölgesel risk.</div>
+          <div class="miniNote"><b>Yükselebilir:</b> EURUSD güçlenmesi. <br><b>Düşebilir:</b> Avrupa zayıf veri / risk düşüşü.</div>
         </div>
       </div>
 
@@ -573,7 +555,7 @@
               </script>
             </div>
           </div>
-          <div class="miniNote"><b>Özet:</b> Reel faiz + jeopolitik risk.</div>
+          <div class="miniNote"><b>Yükselebilir:</b> jeopolitik risk / faiz düşüşü. <br><b>Düşebilir:</b> reel faiz yükselişi.</div>
         </div>
       </div>
 
@@ -588,50 +570,41 @@
               </script>
             </div>
           </div>
-          <div class="miniNote"><b>Özet:</b> Altın + sanayi talebi (daha oynak).</div>
+          <div class="miniNote"><b>Yükselebilir:</b> sanayi talebi + altın rüzgârı. <br><b>Düşebilir:</b> büyüme endişesi.</div>
         </div>
       </div>
     </div>
 
-    <!-- Büyük grafik + teknik -->
-    <div class="mainGrid">
+    <!-- Sebep kutuları (holding tarzı) -->
+    <div class="reasonGrid">
       <div class="panel">
         <div class="panelHead">
-          <h2>Profesyonel Grafik</h2>
-          <p>Enstrüman seç → grafik değişir</p>
+          <h2>Bugün Kurları Etkileyen 3 Ana Parametre</h2>
+          <p>Dolar/Euro için</p>
         </div>
         <div class="panelBody">
-          <div class="tabs" id="tabs">
-            <div class="tab active" data-symbol="FX_IDC:USDTRY">USD/TRY</div>
-            <div class="tab" data-symbol="FX_IDC:EURTRY">EUR/TRY</div>
-            <div class="tab" data-symbol="OANDA:XAUUSD">ALTIN</div>
-            <div class="tab" data-symbol="OANDA:XAGUSD">GÜMÜŞ</div>
-          </div>
-
-          <div class="tvBox">
-            <iframe id="tvChart" style="width:100%;height:520px;border:0;display:block" loading="lazy" allowfullscreen></iframe>
+          <div class="miniNote">
+            1) <b>Küresel dolar endeksi (DXY)</b> <br>
+            2) <b>Risk algısı</b> (jeopolitik / piyasa stres) <br>
+            3) <b>Faiz beklentileri</b> (TL faiz yönü / küresel faiz yönü)
           </div>
         </div>
       </div>
 
       <div class="panel">
         <div class="panelHead">
-          <h2>Teknik Analiz</h2>
-          <p>Seçtiğin enstrümana göre otomatik</p>
+          <h2>Altın & Gümüş Neden Hareketlenir?</h2>
+          <p>Güvenli liman + sanayi etkisi</p>
         </div>
         <div class="panelBody">
-          <div class="tvBox">
-            <div class="tradingview-widget-container" id="tvTechContainer">
-              <div class="tradingview-widget-container__widget"></div>
-            </div>
+          <div class="miniNote">
+            <b>Altın:</b> güvenli liman + reel faiz <br>
+            <b>Gümüş:</b> altın + <b>sanayi talebi</b> (daha oynak)
           </div>
         </div>
       </div>
     </div>
 
-    <div class="disclaimer">
-      <b>Yasal not:</b> Bu sayfa yatırım tavsiyesi değildir.
-    </div>
   </div>
 
   <!-- =========================
@@ -666,8 +639,7 @@
 
       <div class="headline">
         Femud ürünlerini <b>indirimli</b> almak için aşağıdaki oyunlardan birini seç:
-        <b>Çarkıfelek</b> veya <b>Kazı Kazan</b>. Kazandığında ekran görüntüsünü alıp
-        <b>@Femud_tr</b> hesabına DM ile gönder — hediyen <b>24 saat</b> içinde geçerlidir.
+        <b>Çarkıfelek</b> veya <b>Kazı Kazan</b>.
       </div>
 
       <div class="grid">
@@ -681,7 +653,6 @@
 
           <div class="cardBody">
             1 tıkla oyuna gir, çarkı çevir ve anında indirim şansı yakala.
-            🍀🍀🎁
             <div class="how">
               <div class="step">1) Çarkıfelek’e gir</div>
               <div class="step">2) Çarkı çevir</div>
@@ -690,8 +661,8 @@
           </div>
 
           <div class="ctaRow">
-            <a class="btnGame primary" id="btnCark" href="#">Çarkıfelek’e Gir</a>
-            <div class="fine">DM’de: “Kupon kazandım” yazıp ekran görüntüsünü ekleyin.</div>
+            <a class="btnGame primary" id="btnCark" href="carkifelek.html">Çarkıfelek’e Gir</a>
+            <div class="fine">Eğer açılmıyorsa: dosya adı/klasör yolu farklıdır.</div>
           </div>
         </div>
 
@@ -705,7 +676,6 @@
 
           <div class="cardBody">
             Kutucukları aç, aynı ödülü 3 kez yakalarsan kupon senin!
-            🍀🍀🎁
             <div class="how">
               <div class="step">1) Kazı Kazan’a gir</div>
               <div class="step">2) Kutuları aç, aynı ödülü yakala</div>
@@ -714,7 +684,7 @@
           </div>
 
           <div class="ctaRow">
-            <a class="btnGame secondary" id="btnKazi" href="#">Kazı Kazan’a Gir</a>
+            <a class="btnGame secondary" id="btnKazi" href="kazikazan4x4.html">Kazı Kazan’a Gir</a>
             <div class="fine">Not: Hediyeler 24 saat geçerlidir. Ücretsizdir.</div>
           </div>
         </div>
@@ -726,13 +696,12 @@
           <li>Oyunlar <b>ücretsizdir</b>; amaç müşteriye indirim fırsatı sunmaktır.</li>
           <li>Kazananlar hediyeyi almak için <b>ekran görüntüsü</b> ile <b>@Femud_tr</b> hesabına DM atar.</li>
           <li>Kupon/hediye <b>24 saat</b> içinde geçerlidir.</li>
-          <li>İsim & Instagram bilgisi sadece kupon doğrulama amacıyla alınır.</li>
         </ul>
       </div>
     </div>
 
     <!-- =========================
-         ÜRÜN ÖZELLİKLERİ (EKLENDİ)
+         ÜRÜN ÖZELLİKLERİ
          ========================= -->
     <div class="section" id="urunler">
       <div class="sectionHead">
@@ -807,7 +776,7 @@
     </div>
 
     <!-- =========================
-         HAKKIMIZDA
+         HAKKIMIZDA (ID GARANTİ)
          ========================= -->
     <div class="section" id="hakkimizda">
       <div class="sectionHead">
@@ -822,7 +791,6 @@
             <p>
               Termal su temelli yaklaşımı, yerli üretim güvencesiyle birleştirip
               günlük bakımda <b>premium</b> kaliteyi herkes için ulaşılabilir kılmak.
-              Femud; natürel çizgide, güven veren ve modern bir bakım markasıdır.
             </p>
             <div class="aMiniRow">
               <span class="aMini"><span class="dot"></span> Termal su</span>
@@ -840,7 +808,7 @@
             <div class="aMiniRow">
               <span class="aMini"><span class="dot"></span> Şeffaflık</span>
               <span class="aMini"><span class="dot"></span> Müşteri odaklı</span>
-              <span class="aMini"><span class="dot"></span> Eğlenceli</span>
+              <span class="aMini"><span class="dot"></span> Güven</span>
             </div>
           </div>
 
@@ -851,9 +819,9 @@
               Kupon/ödül süreçleri nettir.
             </p>
             <div class="aMiniRow">
-              <span class="aMini"><span class="dot"></span> Güven</span>
               <span class="aMini"><span class="dot"></span> Net süreç</span>
-              <span class="aMini"><span class="dot"></span> Hızlı doğrulama</span>
+              <span class="aMini"><span class="dot"></span> Memnuniyet</span>
+              <span class="aMini"><span class="dot"></span> Süreklilik</span>
             </div>
           </div>
         </div>
@@ -866,11 +834,22 @@
   </div>
 
   <script>
-    /* OYUN LINKLERİ */
+    /* ===== OYUN LINKLERİ (BURAYI GEREKİRSE DEĞİŞTİR) ===== */
+    // Eğer oyun dosyaları klasördeyse örnek:
+    // const CARK_LINK = "oyunlar/carkifelek.html";
+    // const KAZI_LINK = "oyunlar/kazikazan4x4.html";
     const CARK_LINK = "carkifelek.html";
     const KAZI_LINK = "kazikazan4x4.html";
-    document.getElementById("btnCark").setAttribute("href", CARK_LINK);
-    document.getElementById("btnKazi").setAttribute("href", KAZI_LINK);
+
+    const btnCark = document.getElementById("btnCark");
+    const btnKazi = document.getElementById("btnKazi");
+
+    // hem href hem click yönlendirme (mobilde garanti)
+    btnCark.setAttribute("href", CARK_LINK);
+    btnKazi.setAttribute("href", KAZI_LINK);
+
+    btnCark.addEventListener("click", (e)=>{ e.preventDefault(); location.href = CARK_LINK; });
+    btnKazi.addEventListener("click", (e)=>{ e.preventDefault(); location.href = KAZI_LINK; });
 
     /* 5 DK GERİ SAYIM + BUTON */
     const REFRESH_SEC = 300;
@@ -895,6 +874,7 @@
       localStorage.setItem("femud_last_refresh", nowTR());
       location.reload();
     }
+
     document.getElementById("refreshBtn").addEventListener("click", hardRefresh);
     document.getElementById("scrollGames").addEventListener("click", ()=>{
       document.getElementById("oyunlar").scrollIntoView({behavior:"smooth"});
@@ -912,60 +892,6 @@
         location.reload();
       }
     },1000);
-
-    /* ====== PROFESYONEL GRAFİK + TEKNİK ====== */
-    const tvChart = document.getElementById("tvChart");
-    const tvTechContainer = document.getElementById("tvTechContainer");
-    const tabs = document.querySelectorAll(".tab");
-
-    function chartUrl(symbol){
-      const sym = encodeURIComponent(symbol);
-      // NOTE: tradingview embed paramları
-      return `https://s.tradingview.com/widgetembed/?symbol=${sym}&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=071a33&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FIstanbul&withdateranges=1&hidevolume=0`;
-    }
-
-    // ✅ GARANTİLİ TEKNİK WIDGET (innerHTML script değil, gerçek script element)
-    function mountTech(symbol){
-      // temizle
-      tvTechContainer.querySelector(".tradingview-widget-container__widget").innerHTML = "";
-
-      // script oluştur
-      const script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
-      script.async = true;
-
-      // tradingview config (script içine string olarak yazılır)
-      script.text = JSON.stringify({
-        interval: "1h",
-        width: "100%",
-        isTransparent: true,
-        height: 430,
-        symbol: symbol,
-        showIntervalTabs: true,
-        displayMode: "single",
-        locale: "tr",
-        colorTheme: "dark"
-      });
-
-      tvTechContainer.querySelector(".tradingview-widget-container__widget").appendChild(script);
-    }
-
-    function selectSymbol(symbol){
-      tvChart.src = chartUrl(symbol);
-      mountTech(symbol);
-    }
-
-    tabs.forEach(t=>{
-      t.addEventListener("click", ()=>{
-        tabs.forEach(x=>x.classList.remove("active"));
-        t.classList.add("active");
-        selectSymbol(t.dataset.symbol);
-      });
-    });
-
-    // ilk açılış
-    selectSymbol("FX_IDC:USDTRY");
   </script>
 </body>
 </html>
