@@ -33,7 +33,6 @@
       --shadowY:0 10px 26px rgba(0,0,0,.18);
     }
     *{box-sizing:border-box}
-
     body{
       margin:0;
       font-family: system-ui,-apple-system,Segoe UI,Arial,sans-serif;
@@ -45,7 +44,6 @@
       overflow-x:hidden;
     }
 
-    /* ---------- HOLDING GLOW ---------- */
     .glowHold{
       position:fixed; inset:-45%;
       background: conic-gradient(from 220deg,
@@ -63,11 +61,7 @@
     }
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    .wrapHold{
-      width:min(1180px, 92vw);
-      margin:0 auto;
-      padding:18px 0 16px;
-    }
+    .wrapHold{ width:min(1180px, 92vw); margin:0 auto; padding:18px 0 16px; }
 
     .topBar{
       border-radius: calc(var(--r) + 12px);
@@ -82,12 +76,7 @@
       gap:12px;
       flex-wrap:wrap;
     }
-
-    .brandRow{
-      display:flex;
-      align-items:center;
-      gap:12px;
-    }
+    .brandRow{ display:flex; align-items:center; gap:12px; }
     .logoBox{
       width:52px;height:52px;border-radius:16px;
       display:grid;place-items:center;
@@ -98,22 +87,10 @@
       user-select:none;
       box-shadow: var(--shadow2);
     }
-    .brandTxt h1{
-      margin:0;
-      font-size:17px;
-      font-weight:980;
-      letter-spacing:.2px;
-    }
-    .brandTxt p{
-      margin:2px 0 0;
-      font-size:12.5px;
-      font-weight:850;
-      color:var(--muted);
-    }
+    .brandTxt h1{ margin:0; font-size:17px; font-weight:980; letter-spacing:.2px; }
+    .brandTxt p{ margin:2px 0 0; font-size:12.5px; font-weight:850; color:var(--muted); }
 
-    .navRow{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end;
-    }
+    .navRow{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
     .navRow a{
       text-decoration:none;
       color:var(--txt);
@@ -141,16 +118,8 @@
       box-shadow: var(--shadow2);
       white-space:nowrap;
     }
-    .btn.primary{
-      color:#02101e;
-      background: linear-gradient(135deg, var(--acc), #8cf7ff, #4cc7ff);
-    }
-    .btn.ghost{
-      color:var(--txt);
-      background: rgba(255,255,255,.06);
-      border:1px solid var(--stroke);
-      box-shadow:none;
-    }
+    .btn.primary{ color:#02101e; background: linear-gradient(135deg, var(--acc), #8cf7ff, #4cc7ff); }
+    .btn.ghost{ color:var(--txt); background: rgba(255,255,255,.06); border:1px solid var(--stroke); box-shadow:none; }
     .statusBox{
       flex:1 1 320px;
       border-radius:14px;
@@ -163,16 +132,38 @@
       line-height:1.35;
     }
 
-    /* ---------- KPI CARDS ---------- */
+    .panel{
+      border-radius: calc(var(--r) + 12px);
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.06);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      margin-top:12px;
+    }
+    .panelHead{
+      padding:12px 14px;
+      border-bottom:1px solid var(--stroke);
+      background: rgba(255,255,255,.04);
+    }
+    .panelHead h2{ margin:0; font-size:15px; font-weight:980; letter-spacing:.2px; }
+    .panelHead p{ margin:4px 0 0; font-size:12.6px; font-weight:850; color:var(--muted); line-height:1.4; }
+    .panelBody{ padding:12px 14px 14px; }
+
+    .tvBox{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.20);
+      overflow:hidden;
+    }
+
     .kpiGrid{
       margin-top:12px;
       display:grid;
       grid-template-columns: 1fr;
       gap:12px;
     }
-    @media(min-width:900px){
-      .kpiGrid{grid-template-columns: 1fr 1fr 1fr 1fr;}
-    }
+    @media(min-width:900px){ .kpiGrid{grid-template-columns: 1fr 1fr 1fr 1fr;} }
+
     .kpi{
       border-radius: calc(var(--r) + 10px);
       border:1px solid var(--stroke);
@@ -208,56 +199,15 @@
       line-height:1.55;
     }
 
-    /* ---------- MAIN GRID ---------- */
     .mainGrid{
       margin-top:12px;
       display:grid;
       grid-template-columns: 1fr;
       gap:12px;
     }
-    @media(min-width:1020px){
-      .mainGrid{grid-template-columns: 1.35fr .65fr;}
-    }
+    @media(min-width:1020px){ .mainGrid{grid-template-columns: 1.35fr .65fr;} }
 
-    .panel{
-      border-radius: calc(var(--r) + 12px);
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .panelHead{
-      padding:12px 14px;
-      border-bottom:1px solid var(--stroke);
-      background: rgba(255,255,255,.04);
-    }
-    .panelHead h2{
-      margin:0;
-      font-size:15px;
-      font-weight:980;
-      letter-spacing:.2px;
-    }
-    .panelHead p{
-      margin:4px 0 0;
-      font-size:12.6px;
-      font-weight:850;
-      color:var(--muted);
-      line-height:1.4;
-    }
-    .panelBody{padding:12px 14px 14px;}
-
-    .tvBox{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.20);
-      overflow:hidden;
-    }
-
-    /* ---------- TABS ---------- */
-    .tabs{
-      display:flex; gap:8px; flex-wrap:wrap;
-      margin-bottom:10px;
-    }
+    .tabs{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px; }
     .tab{
       cursor:pointer;
       border-radius:999px;
@@ -272,37 +222,6 @@
     .tab.active{
       border-color: rgba(102,214,255,.35);
       background: linear-gradient(135deg, rgba(102,214,255,.16), rgba(124,77,255,.16));
-    }
-
-    .reasonGrid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media(min-width:980px){
-      .reasonGrid{grid-template-columns: 1fr 1fr;}
-    }
-
-    .reason{
-      border-radius: calc(var(--r) + 12px);
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .reason .panelBody{padding:12px 14px 14px;}
-    .tagRow{margin-top:10px;display:flex;gap:8px;flex-wrap:wrap}
-    .tag{
-      display:inline-flex;align-items:center;gap:7px;
-      padding:7px 9px;border-radius:999px;
-      background: rgba(124,77,255,.10);
-      border:1px solid rgba(124,77,255,.16);
-      font-weight:900;font-size:11.5px;
-      color: rgba(234,242,255,.92);
-    }
-    .tag .dot{width:8px;height:8px;border-radius:50%;
-      background: linear-gradient(135deg, var(--gold), var(--acc2));
     }
 
     .disclaimer{
@@ -347,29 +266,20 @@
       z-index:-1;
     }
     .toprow{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      justify-content:center;
-      flex-wrap:wrap;
-      text-align:center;
+      display:flex; gap:18px; align-items:center; justify-content:center;
+      flex-wrap:wrap; text-align:center;
     }
     .logoCircle{
-      width:150px; height:150px;
-      border-radius:50%;
+      width:150px; height:150px; border-radius:50%;
       background: rgba(255,255,255,.95);
       box-shadow: 0 14px 34px rgba(0,0,0,.35);
-      display:flex;
-      align-items:center;
-      justify-content:center;
+      display:flex; align-items:center; justify-content:center;
       overflow:hidden;
       border: 2px solid rgba(255,255,255,.70);
       flex: 0 0 auto;
     }
     .logoCircle img{width:88%;height:88%;object-fit:contain;display:block}
-    .brandText{
-      display:flex;flex-direction:column;gap:6px;align-items:center;max-width: 760px;
-    }
+    .brandText{display:flex;flex-direction:column;gap:6px;align-items:center;max-width: 760px;}
     .brandText h1{
       margin:0;
       font-size: clamp(26px, 3.6vw, 40px);
@@ -397,9 +307,7 @@
       color:#fff;font-weight:800;font-size: 13px;
       box-shadow: 0 10px 22px rgba(0,0,0,.18);
     }
-    .grid{
-      margin-top:18px;display:grid;grid-template-columns: 1fr;gap:14px;
-    }
+    .grid{ margin-top:18px; display:grid; grid-template-columns: 1fr; gap:14px; }
     @media(min-width:860px){.grid{grid-template-columns: 1fr 1fr;}}
     .card{
       background: rgba(255,255,255,.96);
@@ -409,13 +317,7 @@
       border: 1px solid rgba(0,0,0,.06);
       position:relative;
     }
-    .cardHeader{
-      padding:16px 16px 10px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
+    .cardHeader{ padding:16px 16px 10px; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
     .badge2{
       display:inline-flex;align-items:center;gap:8px;
       padding:8px 10px;border-radius: 999px;
@@ -424,42 +326,11 @@
       border: 1px solid rgba(0,0,0,.06);
       white-space:nowrap;
     }
-    .cardTitle{
-      margin:6px 0 0;
-      font-size: 20px;
-      font-weight: 980;
-      letter-spacing:.2px;
-      color:#2a0a57;
-    }
-    .cardBody{
-      padding:0 16px 14px;
-      color: var(--muted2);
-      font-size: 14px;
-      line-height:1.55;
-    }
-    .how{
-      margin-top:10px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:8px;
-    }
-    .step{
-      border-radius: 14px;
-      padding:10px 12px;
-      background:#f6f3ff;
-      border:1px solid rgba(0,0,0,.05);
-      color:#2a0a57;
-      font-weight:800;
-      font-size: 13px;
-    }
-    .ctaRow{
-      padding: 0 16px 16px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-    }
+    .cardTitle{ margin:6px 0 0; font-size: 20px; font-weight: 980; letter-spacing:.2px; color:#2a0a57; }
+    .cardBody{ padding:0 16px 14px; color: var(--muted2); font-size: 14px; line-height:1.55; }
+    .how{ margin-top:10px; display:grid; grid-template-columns: 1fr; gap:8px; }
+    .step{ border-radius: 14px; padding:10px 12px; background:#f6f3ff; border:1px solid rgba(0,0,0,.05); color:#2a0a57; font-weight:800; font-size: 13px; }
+    .ctaRow{ padding: 0 16px 16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
     .btnGame{
       appearance:none;border:none;cursor:pointer;
       border-radius: 16px;padding: 13px 14px;
@@ -470,9 +341,8 @@
     }
     .btnGame.primary{background: linear-gradient(135deg, #ff9800, #ffb300, #ff6d00);}
     .btnGame.secondary{background: linear-gradient(135deg, #7c4dff, #512da8, #2a0a57);}
-    .fine{
-      flex: 1 1 260px;font-size: 12px;color: #6b6b78;line-height: 1.4;
-    }
+    .fine{ flex: 1 1 260px; font-size: 12px; color: #6b6b78; line-height: 1.4; }
+
     .trust{
       margin-top:14px;
       padding:14px 16px;
@@ -485,6 +355,7 @@
     .trust h3{margin:0 0 6px;font-size: 15px;font-weight: 980;color:#2a0a57;}
     .trust ul{margin:0;padding-left:18px;color:#4f5062;font-weight:750;font-size: 13px;line-height: 1.55;}
     .trust li{margin:4px 0}
+
     .section{
       margin-top: 16px;
       background: rgba(255,255,255,.10);
@@ -504,9 +375,12 @@
     }
     .sectionHead h2{margin:0;color:#fff;font-size: 18px;font-weight: 980;letter-spacing:.2px}
     .sectionHead .mini{color: rgba(255,255,255,.88);font-weight:800;font-size: 13px}
+
     .productGrid{
       padding: 0 14px 16px;
-      display:grid;grid-template-columns: 1fr;gap:12px;
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:12px;
     }
     @media(min-width:860px){.productGrid{grid-template-columns: 1fr 1fr;}}
     .pCard{
@@ -520,6 +394,7 @@
     .pMeta{font-size: 12px;font-weight:900;color:#6a1b9a;margin-bottom: 8px}
     .pList{margin:0;padding-left: 18px;color:#515163;font-weight:750;font-size: 13px;line-height: 1.55}
     .pList li{margin: 4px 0}
+
     .aboutCards{margin-top:12px;display:grid;grid-template-columns: 1fr;gap:12px}
     @media(min-width:860px){.aboutCards{ grid-template-columns: 1fr 1fr 1fr; }}
     .aCard{
@@ -605,12 +480,13 @@
         <div class="logoBox">F</div>
         <div class="brandTxt">
           <h1>FEMUD Holding Piyasa Paneli</h1>
-          <p>USD • EUR • Altın • Gümüş — Canlı fiyat + grafik + teknik + sebep analizi</p>
+          <p>USD • EUR • Altın • Gümüş — Canlı fiyat + grafik + teknik</p>
         </div>
       </div>
       <div class="navRow">
         <a class="primary" href="#piyasa">Piyasalar</a>
         <a href="#oyunlar">Oyunlar</a>
+        <a href="#urunler">Ürünler</a>
         <a href="#hakkimizda">Hakkımızda</a>
       </div>
     </div>
@@ -622,7 +498,7 @@
     </div>
 
     <!-- Ticker tape -->
-    <div class="panel" style="margin-top:12px;">
+    <div class="panel">
       <div class="panelHead">
         <h2>Canlı Piyasa Bandı</h2>
         <p>4 temel enstrüman</p>
@@ -649,7 +525,7 @@
           </div>
         </div>
         <div class="disclaimer">
-          <b>Not:</b> Bu panel bilgilendirme amaçlıdır. Finansal kararlar risk içerir.
+          <b>Not:</b> Bu panel bilgilendirme amaçlıdır.
         </div>
       </div>
     </div>
@@ -667,7 +543,7 @@
               </script>
             </div>
           </div>
-          <div class="miniNote"><b>Özet:</b> Faiz beklentisi + risk algısı + DXY.</div>
+          <div class="miniNote"><b>Özet:</b> DXY + risk algısı + faiz beklentisi.</div>
         </div>
       </div>
 
@@ -682,7 +558,7 @@
               </script>
             </div>
           </div>
-          <div class="miniNote"><b>Özet:</b> EURUSD yönü + risk primi.</div>
+          <div class="miniNote"><b>Özet:</b> EURUSD yönü + bölgesel risk.</div>
         </div>
       </div>
 
@@ -722,7 +598,7 @@
       <div class="panel">
         <div class="panelHead">
           <h2>Profesyonel Grafik</h2>
-          <p>Enstrüman seç → grafik ve analiz değişir</p>
+          <p>Enstrüman seç → grafik değişir</p>
         </div>
         <div class="panelBody">
           <div class="tabs" id="tabs">
@@ -744,7 +620,11 @@
           <p>Seçtiğin enstrümana göre otomatik</p>
         </div>
         <div class="panelBody">
-          <div class="tvBox" id="tvTechBox"></div>
+          <div class="tvBox">
+            <div class="tradingview-widget-container" id="tvTechContainer">
+              <div class="tradingview-widget-container__widget"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -755,7 +635,7 @@
   </div>
 
   <!-- =========================
-       OYUNLAR + ÜRÜNLER
+       OYUNLAR
        ========================= -->
   <div class="wrap" id="oyunlar">
     <div class="hero">
@@ -839,7 +719,150 @@
           </div>
         </div>
       </div>
+
+      <div class="trust">
+        <h3>Güven & Şeffaflık</h3>
+        <ul>
+          <li>Oyunlar <b>ücretsizdir</b>; amaç müşteriye indirim fırsatı sunmaktır.</li>
+          <li>Kazananlar hediyeyi almak için <b>ekran görüntüsü</b> ile <b>@Femud_tr</b> hesabına DM atar.</li>
+          <li>Kupon/hediye <b>24 saat</b> içinde geçerlidir.</li>
+          <li>İsim & Instagram bilgisi sadece kupon doğrulama amacıyla alınır.</li>
+        </ul>
+      </div>
     </div>
+
+    <!-- =========================
+         ÜRÜN ÖZELLİKLERİ (EKLENDİ)
+         ========================= -->
+    <div class="section" id="urunler">
+      <div class="sectionHead">
+        <h2>Femud Ürün Özellikleri</h2>
+        <div class="mini"></div>
+      </div>
+
+      <div class="productGrid">
+        <div class="pCard">
+          <div class="pTitle">Mentollü Şampuan</div>
+          <div class="pMeta">Termal su • Yerli üretim • Kepek</div>
+          <ul class="pList">
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Yerli Üretimdir.</li>
+            <li>Ferahlatıcı mentol etkisi sağlar.</li>
+            <li>130 TL 350ml.</li>
+          </ul>
+        </div>
+
+        <div class="pCard">
+          <div class="pTitle">Lavanta Köpük Sabun</div>
+          <div class="pMeta">Termal su • Yerli üretimdir • Kuruluk yapmaz</div>
+          <ul class="pList">
+            <li>Termal su ile üretilmiştir.</li>
+            <li>Krem etkisi ile ellerde kuruluk yapmaz.</li>
+            <li>Yerli üretimdir.</li>
+            <li>75 TL 500ml.</li>
+          </ul>
+        </div>
+
+        <div class="pCard">
+          <div class="pTitle">Lavanta Oda Parfümü</div>
+          <div class="pMeta">Lavanta özlü • Termal su • Yerli üretim</div>
+          <ul class="pList">
+            <li>Lavanta özlüdür, termal su ile üretilmiştir.</li>
+            <li>Kıyafetlerde kullanılabilir.</li>
+            <li>Yerli üretimdir.</li>
+            <li>105 TL 400ml.</li>
+          </ul>
+        </div>
+
+        <div class="pCard">
+          <div class="pTitle">Limon Kolonyası (80°)</div>
+          <div class="pMeta">Termal su • 80 derece • Çatlak yapmaz</div>
+          <ul class="pList">
+            <li>Termal su ile üretilmiştir.</li>
+            <li>80 derece limon kolonyasıdır.</li>
+            <li>105 TL 400ml.</li>
+          </ul>
+        </div>
+
+        <div class="pCard">
+          <div class="pTitle">Kestane Özlü Vücut Kremi (50 ml)</div>
+          <div class="pMeta">Kolay emilim • Kadifemsi etki • Nem artırır</div>
+          <ul class="pList">
+            <li>Kolay emilim sağlar, kadifemsi etki bırakır.</li>
+            <li>Nemi artırır, kuruluğu azaltır.</li>
+            <li>70 TL 50ml.</li>
+          </ul>
+        </div>
+
+        <div class="pCard">
+          <div class="pTitle">Kestane Özlü Vücut Kremi (250 ml)</div>
+          <div class="pMeta">Aile boyu • Yoğun nemlendirme</div>
+          <ul class="pList">
+            <li>Kolay emilim sağlar, kadifemsi etki bırakır.</li>
+            <li>Nemi artırır, kuruluğu azaltır.</li>
+            <li>135 TL 250ml.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- =========================
+         HAKKIMIZDA
+         ========================= -->
+    <div class="section" id="hakkimizda">
+      <div class="sectionHead">
+        <h2>Hakkımızda</h2>
+        <div class="mini">Termal su • Yerli üretim • Natürel çizgi</div>
+      </div>
+
+      <div style="padding:0 14px 16px;">
+        <div class="aboutCards">
+          <div class="aCard">
+            <h3>🎯 Vizyon</h3>
+            <p>
+              Termal su temelli yaklaşımı, yerli üretim güvencesiyle birleştirip
+              günlük bakımda <b>premium</b> kaliteyi herkes için ulaşılabilir kılmak.
+              Femud; natürel çizgide, güven veren ve modern bir bakım markasıdır.
+            </p>
+            <div class="aMiniRow">
+              <span class="aMini"><span class="dot"></span> Termal su</span>
+              <span class="aMini"><span class="dot"></span> Kalite</span>
+              <span class="aMini"><span class="dot"></span> Erişilebilir</span>
+            </div>
+          </div>
+
+          <div class="aCard">
+            <h3>🧭 Misyon</h3>
+            <p>
+              Ürünleri sade ve anlaşılır bir dille sunmak; şeffaf, müşteri odaklı
+              bir iletişim kurmak.
+            </p>
+            <div class="aMiniRow">
+              <span class="aMini"><span class="dot"></span> Şeffaflık</span>
+              <span class="aMini"><span class="dot"></span> Müşteri odaklı</span>
+              <span class="aMini"><span class="dot"></span> Eğlenceli</span>
+            </div>
+          </div>
+
+          <div class="aCard">
+            <h3>🛡️ Kalite Sözü</h3>
+            <p>
+              Femud’da hedef; güven, süreklilik ve memnuniyettir.
+              Kupon/ödül süreçleri nettir.
+            </p>
+            <div class="aMiniRow">
+              <span class="aMini"><span class="dot"></span> Güven</span>
+              <span class="aMini"><span class="dot"></span> Net süreç</span>
+              <span class="aMini"><span class="dot"></span> Hızlı doğrulama</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © <b>FEMUD</b> • Kupon için ekran görüntüsü ile <b>@Femud_tr</b> DM
+    </footer>
   </div>
 
   <script>
@@ -890,35 +913,42 @@
       }
     },1000);
 
-    /* TRADINGVIEW: GRAFİK + TEKNİK */
+    /* ====== PROFESYONEL GRAFİK + TEKNİK ====== */
     const tvChart = document.getElementById("tvChart");
-    const techBox = document.getElementById("tvTechBox");
+    const tvTechContainer = document.getElementById("tvTechContainer");
     const tabs = document.querySelectorAll(".tab");
 
     function chartUrl(symbol){
       const sym = encodeURIComponent(symbol);
+      // NOTE: tradingview embed paramları
       return `https://s.tradingview.com/widgetembed/?symbol=${sym}&interval=60&hidesidetoolbar=1&symboledit=0&saveimage=1&toolbarbg=071a33&studies=%5B%5D&theme=dark&style=1&timezone=Europe%2FIstanbul&withdateranges=1&hidevolume=0`;
     }
 
+    // ✅ GARANTİLİ TEKNİK WIDGET (innerHTML script değil, gerçek script element)
     function mountTech(symbol){
-      techBox.innerHTML = `
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js" async>
-          {
-            "interval": "1h",
-            "width": "100%",
-            "isTransparent": true,
-            "height": "430",
-            "symbol": "${symbol}",
-            "showIntervalTabs": true,
-            "displayMode": "single",
-            "locale": "tr",
-            "colorTheme": "dark"
-          }
-          </script>
-        </div>
-      `;
+      // temizle
+      tvTechContainer.querySelector(".tradingview-widget-container__widget").innerHTML = "";
+
+      // script oluştur
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js";
+      script.async = true;
+
+      // tradingview config (script içine string olarak yazılır)
+      script.text = JSON.stringify({
+        interval: "1h",
+        width: "100%",
+        isTransparent: true,
+        height: 430,
+        symbol: symbol,
+        showIntervalTabs: true,
+        displayMode: "single",
+        locale: "tr",
+        colorTheme: "dark"
+      });
+
+      tvTechContainer.querySelector(".tradingview-widget-container__widget").appendChild(script);
     }
 
     function selectSymbol(symbol){
@@ -934,6 +964,7 @@
       });
     });
 
+    // ilk açılış
     selectSymbol("FX_IDC:USDTRY");
   </script>
 </body>
