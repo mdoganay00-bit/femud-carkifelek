@@ -1,897 +1,906 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEMUD | Piyasa + Hediye Oyun Merkezi</title>
+<meta charset="UTF-8">
+<title>FEMUD | Süper Platform</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 5 dk otomatik sayfa yenileme -->
-  <meta http-equiv="refresh" content="300">
+<style>
+/* ========== GLOBAL ========== */
+:root{
+  --bg:#070b18;
+  --panel:#10182f;
+  --card:#141d3d;
+  --text:#eef2ff;
+  --muted:#9aa4d6;
+  --gold:#fbbf24;
+  --accent:#6ee7ff;
+  --line:rgba(255,255,255,.08);
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,Arial,sans-serif;
+  background:
+    radial-gradient(circle at top,#111a3a,#070b18 60%);
+  color:var(--text);
+}
 
-  <style>
-    :root{
-      --bg1:#050a14;
-      --bg2:#071a33;
-      --glass:rgba(255,255,255,.06);
-      --stroke:rgba(255,255,255,.14);
-      --txt:#eaf2ff;
-      --muted:rgba(234,242,255,.72);
-      --shadow:0 18px 55px rgba(0,0,0,.45);
-      --shadow2:0 12px 30px rgba(0,0,0,.32);
-      --r:18px;
-      --acc:#66d6ff;
-      --acc2:#7c4dff;
-      --gold:#ffb300;
+/* ========== HEADER ========== */
+header{
+  position:sticky;top:0;z-index:99;
+  background:rgba(7,11,24,.9);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.header{
+  max-width:1300px;
+  margin:auto;
+  padding:14px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.logo{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:2px;
+}
+nav{
+  display:flex;
+  gap:12px;
+}
+nav button{
+  background:transparent;
+  border:none;
+  color:var(--muted);
+  font-size:14px;
+  cursor:pointer;
+  padding:8px 14px;
+  border-radius:20px;
+}
+nav button.active{
+  color:#fff;
+  background:linear-gradient(135deg,#6ee7ff33,#fbbf2433);
+}
 
-      /* OYUN SAYFASI (senin renklerin) */
-      --p1:#2a0a57;
-      --p2:#6a3cff;
-      --txt2:#141423;
-      --muted2:#5f6071;
-      --r2:18px;
-      --shadowX:0 18px 55px rgba(0,0,0,.32);
-      --shadowY:0 10px 26px rgba(0,0,0,.18);
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: system-ui,-apple-system,Segoe UI,Arial,sans-serif;
-      background:
-        radial-gradient(900px 600px at 15% 10%, rgba(255,255,255,.08), transparent 60%),
-        radial-gradient(1000px 700px at 85% 15%, rgba(102,214,255,.12), transparent 55%),
-        linear-gradient(140deg, var(--bg1), var(--bg2));
-      color:var(--txt);
-      overflow-x:hidden;
-    }
+/* ========== MAIN ========== */
+main{
+  max-width:1300px;
+  margin:auto;
+  padding:30px 20px;
+}
+.grid{
+  display:grid;
+  grid-template-columns:1.3fr .7fr;
+  gap:24px;
+}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+}
 
-    .glowHold{
-      position:fixed; inset:-45%;
-      background: conic-gradient(from 220deg,
-        rgba(255,255,255,.08),
-        rgba(102,214,255,.18),
-        rgba(255,179,0,.16),
-        rgba(124,77,255,.18),
-        rgba(255,255,255,.08)
-      );
-      filter: blur(24px);
-      animation: spin 14s linear infinite;
-      opacity:.45;
-      z-index:-2;
-      pointer-events:none;
-    }
-    @keyframes spin{to{transform:rotate(360deg)}}
+/* ========== CARDS ========== */
+.card{
+  background:
+    linear-gradient(180deg,#141d3d,#0f1630);
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 40px 120px rgba(0,0,0,.55);
+}
+h2{margin:0 0 6px 0}
+.sub{color:var(--muted);font-size:13px}
 
-    .wrapHold{ width:min(1180px, 92vw); margin:0 auto; padding:18px 0 16px; }
+/* ========== BADGES ========== */
+.badges{display:flex;gap:8px;margin:12px 0}
+.badge{
+  padding:6px 14px;
+  border-radius:999px;
+  font-size:12px;
+  border:1px solid var(--line);
+}
+.badge.gold{color:var(--gold)}
+.badge.silver{color:var(--accent)}
 
-    .topBar{
-      border-radius: calc(var(--r) + 12px);
-      padding:14px 14px;
-      background: var(--glass);
-      border:1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-    .brandRow{ display:flex; align-items:center; gap:12px; }
-    .logoBox{
-      width:52px;height:52px;border-radius:16px;
-      display:grid;place-items:center;
-      background: linear-gradient(135deg, rgba(102,214,255,.18), rgba(124,77,255,.18));
-      border:1px solid var(--stroke);
-      font-weight:950;
-      letter-spacing:.4px;
-      user-select:none;
-      box-shadow: var(--shadow2);
-    }
-    .brandTxt h1{ margin:0; font-size:17px; font-weight:980; letter-spacing:.2px; }
-    .brandTxt p{ margin:2px 0 0; font-size:12.5px; font-weight:850; color:var(--muted); }
+/* ========== STATS ========== */
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:14px;
+}
+.stat{
+  background:#0b1228;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:18px;
+}
+.stat .label{font-size:13px;color:var(--muted)}
+.stat .value{
+  font-size:34px;
+  font-weight:700;
+  margin-top:8px;
+}
+.gold-text{color:var(--gold)}
 
-    .navRow{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
-    .navRow a{
-      text-decoration:none;
-      color:var(--txt);
-      font-weight:900;
-      font-size:13px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-    }
-    .navRow a.primary{
-      border-color: rgba(102,214,255,.30);
-      background: linear-gradient(135deg, rgba(102,214,255,.16), rgba(124,77,255,.16));
-    }
+/* ========== BUTTONS ========== */
+.btn{
+  padding:12px 18px;
+  border-radius:18px;
+  border:1px solid var(--line);
+  background:#10182f;
+  color:#fff;
+  cursor:pointer;
+}
+.btn.primary{
+  background:linear-gradient(135deg,#6ee7ff44,#fbbf2444);
+  border-color:#6ee7ff66;
+}
+.btn.small{padding:8px 12px;font-size:12px}
 
-    .actionRow{
-      margin-top:10px;
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
-    }
-    .btn{
-      appearance:none;border:none;cursor:pointer;
-      border-radius:14px;
-      padding:12px 14px;
-      font-weight:980;
-      box-shadow: var(--shadow2);
-      white-space:nowrap;
-    }
-    .btn.primary{ color:#02101e; background: linear-gradient(135deg, var(--acc), #8cf7ff, #4cc7ff); }
-    .btn.ghost{ color:var(--txt); background: rgba(255,255,255,.06); border:1px solid var(--stroke); box-shadow:none; }
-    .statusBox{
-      flex:1 1 320px;
-      border-radius:14px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.04);
-      padding:10px 12px;
-      color:var(--muted);
-      font-weight:850;
-      font-size:12.5px;
-      line-height:1.35;
-    }
+/* ========== NEWS ========== */
+.news-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:14px;
+}
+.news-title{
+  flex:1;
+  padding:14px;
+  border-radius:16px;
+  background:#0b1228;
+  border:1px solid var(--line);
+  cursor:pointer;
+}
+.news-title:hover{border-color:#6ee7ff66}
 
-    .panel{
-      border-radius: calc(var(--r) + 12px);
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      margin-top:12px;
-    }
-    .panelHead{
-      padding:12px 14px;
-      border-bottom:1px solid var(--stroke);
-      background: rgba(255,255,255,.04);
-    }
-    .panelHead h2{ margin:0; font-size:15px; font-weight:980; letter-spacing:.2px; }
-    .panelHead p{ margin:4px 0 0; font-size:12.6px; font-weight:850; color:var(--muted); line-height:1.4; }
-    .panelBody{ padding:12px 14px 14px; }
+/* ========== PRODUCTS ========== */
+.products{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:18px;
+}
+@media(max-width:900px){.products{grid-template-columns:1fr}}
+.product{
+  background:#0b1228;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:18px;
+}
+.product h3{margin:0}
+.product .price{
+  margin-top:8px;
+  font-size:22px;
+  color:var(--gold);
+}
 
-    .tvBox{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.20);
-      overflow:hidden;
-    }
+/* ========== GAMES ========== */
+.games{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+  margin-top:20px;
+}
+.game{
+  background:#0b1228;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:22px;
+  text-align:center;
+}
 
-    .kpiGrid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media(min-width:900px){ .kpiGrid{grid-template-columns: 1fr 1fr 1fr 1fr;} }
+/* ========== SIDE NEWS PANEL ========== */
+#newsPanel{
+  position:fixed;
+  right:20px;
+  bottom:20px;
+  width:420px;
+  max-height:70vh;
+  background:#0f1630;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:18px;
+  display:none;
+  flex-direction:column;
+  box-shadow:0 40px 120px rgba(0,0,0,.7);
+}
+#newsPanel h3{margin:0 0 10px 0}
+.news-item{
+  background:#0b1228;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.news-item a{
+  color:#fff;
+  text-decoration:none;
+  font-size:13px;
+}
 
-    .kpi{
-      border-radius: calc(var(--r) + 10px);
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.06);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .kpiHead{
-      padding:12px 12px;
-      border-bottom:1px solid var(--stroke);
-      background: rgba(255,255,255,.04);
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-    }
-    .kpiHead b{font-size:13px;font-weight:980;letter-spacing:.2px}
-    .pill{
-      font-size:11.5px;font-weight:950;
-      padding:6px 9px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: rgba(234,242,255,.92);
-      white-space:nowrap;
-    }
-    .kpiBody{padding:10px 12px 12px;}
-    .miniNote{
-      margin-top:8px;
-      padding:10px 10px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.05);
-      color: rgba(234,242,255,.92);
-      font-size:12.4px;
-      font-weight:850;
-      line-height:1.55;
-    }
-
-    .reasonGrid{
-      margin-top:12px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media(min-width:920px){ .reasonGrid{grid-template-columns: 1fr 1fr;} }
-
-    .disclaimer{
-      margin-top:12px;
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
-      color: rgba(234,242,255,.88);
-      font-size:12.4px;
-      font-weight:850;
-      line-height:1.55;
-    }
-    .disclaimer b{color:#fff}
-
-    /* =========================
-       OYUN + ÜRÜN SAYFASI (senin css)
-       ========================= */
-    .wrap{
-      width:min(1120px, 92vw);
-      margin:0 auto;
-      padding:26px 0 34px;
-      color: var(--txt2);
-    }
-    .hero{
-      border-radius: calc(var(--r2) + 10px);
-      padding: 22px 18px 18px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow: var(--shadowX);
-      backdrop-filter: blur(10px);
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before{
-      content:"";
-      position:absolute; inset:-30%;
-      background:
-        radial-gradient(circle at 24% 18%, rgba(255,179,0,.40), transparent 58%),
-        radial-gradient(circle at 78% 22%, rgba(255,255,255,.22), transparent 62%);
-      opacity:.85;
-      z-index:-1;
-    }
-    .toprow{display:flex;gap:18px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;}
-    .logoCircle{
-      width:150px;height:150px;border-radius:50%;
-      background: rgba(255,255,255,.95);
-      box-shadow: 0 14px 34px rgba(0,0,0,.35);
-      display:flex;align-items:center;justify-content:center;
-      overflow:hidden;
-      border: 2px solid rgba(255,255,255,.70);
-      flex: 0 0 auto;
-    }
-    .logoCircle img{width:88%;height:88%;object-fit:contain;display:block}
-    .brandText{display:flex;flex-direction:column;gap:6px;align-items:center;max-width: 760px;}
-    .brandText h1{
-      margin:0;
-      font-size: clamp(26px, 3.6vw, 40px);
-      font-weight: 950;
-      letter-spacing:.2px;
-      color:#fff;
-      text-shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    .brandText .sub{color: rgba(255,255,255,.92);font-weight: 800;font-size: 15px;letter-spacing:.2px}
-    .headline{
-      margin: 14px auto 0;
-      width:min(900px, 95%);
-      color:#fff;
-      font-weight:800;
-      font-size: clamp(15px, 2.1vw, 18px);
-      line-height:1.5;
-      text-shadow: 0 10px 28px rgba(0,0,0,.25);
-    }
-    .pillRow2{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
-    .pill2{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:10px 12px;border-radius:999px;
-      background: rgba(255,255,255,.14);
-      border: 1px solid rgba(255,255,255,.20);
-      color:#fff;font-weight:800;font-size: 13px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.18);
-    }
-    .grid{ margin-top:18px; display:grid; grid-template-columns: 1fr; gap:14px; }
-    @media(min-width:860px){.grid{grid-template-columns: 1fr 1fr;}}
-    .card{
-      background: rgba(255,255,255,.96);
-      border-radius: calc(var(--r2) + 8px);
-      box-shadow: var(--shadowY);
-      overflow:hidden;
-      border: 1px solid rgba(0,0,0,.06);
-      position:relative;
-    }
-    .cardHeader{ padding:16px 16px 10px; display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
-    .badge2{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 10px;border-radius: 999px;
-      font-weight:950;font-size: 12px;color:#2b1b4a;
-      background: linear-gradient(135deg, rgba(255,179,0,.38), rgba(124,77,255,.18));
-      border: 1px solid rgba(0,0,0,.06);
-      white-space:nowrap;
-    }
-    .cardTitle{ margin:6px 0 0; font-size: 20px; font-weight: 980; letter-spacing:.2px; color:#2a0a57; }
-    .cardBody{ padding:0 16px 14px; color: var(--muted2); font-size: 14px; line-height:1.55; }
-    .how{ margin-top:10px; display:grid; grid-template-columns: 1fr; gap:8px; }
-    .step{ border-radius: 14px; padding:10px 12px; background:#f6f3ff; border:1px solid rgba(0,0,0,.05); color:#2a0a57; font-weight:800; font-size: 13px; }
-    .ctaRow{ padding: 0 16px 16px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
-    .btnGame{
-      appearance:none;border:none;cursor:pointer;
-      border-radius: 16px;padding: 13px 14px;
-      font-weight: 980;font-size: 14px;color:#fff;
-      flex: 1 1 240px;text-align:center;text-decoration:none;
-      position:relative;overflow:hidden;
-      box-shadow: 0 12px 24px rgba(0,0,0,.22);
-      display:block;
-    }
-    .btnGame.primary{background: linear-gradient(135deg, #ff9800, #ffb300, #ff6d00);}
-    .btnGame.secondary{background: linear-gradient(135deg, #7c4dff, #512da8, #2a0a57);}
-    .fine{ flex: 1 1 260px; font-size: 12px; color: #6b6b78; line-height: 1.4; }
-
-    .trust{
-      margin-top:14px;
-      padding:14px 16px;
-      background: rgba(255,255,255,.92);
-      border-radius: calc(var(--r2) + 6px);
-      box-shadow: var(--shadowY);
-      border:1px solid rgba(0,0,0,.06);
-      text-align:left;
-    }
-    .trust h3{margin:0 0 6px;font-size: 15px;font-weight: 980;color:#2a0a57;}
-    .trust ul{margin:0;padding-left:18px;color:#4f5062;font-weight:750;font-size: 13px;line-height: 1.55;}
-    .trust li{margin:4px 0}
-
-    .section{
-      margin-top: 16px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      border-radius: calc(var(--r2) + 10px);
-      box-shadow: var(--shadowX);
-      backdrop-filter: blur(10px);
-      overflow:hidden;
-    }
-    .sectionHead{
-      padding: 14px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-    .sectionHead h2{margin:0;color:#fff;font-size: 18px;font-weight: 980;letter-spacing:.2px}
-    .sectionHead .mini{color: rgba(255,255,255,.88);font-weight:800;font-size: 13px}
-
-    .productGrid{
-      padding: 0 14px 16px;
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:12px;
-    }
-    @media(min-width:860px){.productGrid{grid-template-columns: 1fr 1fr;}}
-    .pCard{
-      background: rgba(255,255,255,.96);
-      border-radius: calc(var(--r2) + 6px);
-      box-shadow: var(--shadowY);
-      padding: 14px;
-      border: 1px solid rgba(0,0,0,.06);
-    }
-    .pTitle{margin:0 0 6px;font-size: 16px;font-weight: 980;color:#2a0a57}
-    .pMeta{font-size: 12px;font-weight:900;color:#6a1b9a;margin-bottom: 8px}
-    .pList{margin:0;padding-left: 18px;color:#515163;font-weight:750;font-size: 13px;line-height: 1.55}
-    .pList li{margin: 4px 0}
-
-    .aboutCards{margin-top:12px;display:grid;grid-template-columns: 1fr;gap:12px}
-    @media(min-width:860px){.aboutCards{ grid-template-columns: 1fr 1fr 1fr; }}
-    .aCard{
-      background:#ffffff;
-      border:1px solid rgba(0,0,0,.06);
-      box-shadow: 0 14px 28px rgba(0,0,0,.12);
-      border-radius:18px;
-      padding:14px 14px 12px;
-      position:relative;
-      overflow:hidden;
-    }
-    .aCard::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background: radial-gradient(circle at 20% 20%, rgba(255,179,0,.22), transparent 55%),
-                radial-gradient(circle at 80% 30%, rgba(124,77,255,.16), transparent 60%);
-      filter: blur(10px);
-      opacity:.9;
-    }
-    .aCard h3{
-      position:relative;
-      margin:0 0 8px;
-      font-size:14px;
-      font-weight: 980;
-      color:#2a0a57;
-      display:flex;
-      align-items:center;
-      gap:8px;
-    }
-    .aCard p{
-      position:relative;
-      margin:0;
-      font-size:12.8px;
-      line-height:1.65;
-      color:#515163;
-      font-weight:760;
-    }
-    .aMiniRow{
-      position:relative;
-      margin-top:10px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-    .aMini{
-      display:inline-flex;
-      align-items:center;
-      gap:7px;
-      padding:7px 9px;
-      border-radius:999px;
-      background: rgba(124,77,255,.10);
-      border:1px solid rgba(124,77,255,.14);
-      color:#2a0a57;
-      font-weight:900;
-      font-size:11.5px;
-    }
-    .aMini .dot{
-      width:8px;height:8px;border-radius:50%;
-      background: linear-gradient(135deg,#ffb300,#7c4dff);
-    }
-    footer{
-      margin-top: 16px;
-      color: rgba(255,255,255,.86);
-      font-size: 12px;
-      text-align:center;
-      padding: 10px 0 6px;
-    }
-    footer b{color:#fff}
-  </style>
+/* ========== FOOTER ========== */
+footer{
+  text-align:center;
+  margin:40px 0;
+  font-size:12px;
+  color:var(--muted);
+}
+</style>
 </head>
 
 <body>
-  <div class="glowHold" aria-hidden="true"></div>
 
-  <!-- =========================
-       PİYASA PANELİ
-       ========================= -->
-  <div class="wrapHold" id="piyasa">
+<header>
+  <div class="header">
+    <div class="logo">FEMUD</div>
+    <nav>
+      <button class="active">Ana Ekran</button>
+      <button>Piyasalar</button>
+      <button>Ürünler</button>
+      <button>Oyunlar</button>
+      <button>Hakkımızda</button>
+    </nav>
+  </div>
+</header>
 
-    <div class="topBar">
-      <div class="brandRow">
-        <div class="logoBox">F</div>
-        <div class="brandTxt">
-          <h1>FEMUD Piyasa Paneli</h1>
-          <p>USD • EUR • Altın • Gümüş — 5 dk güncellenir + Güncelle butonu</p>
-        </div>
+<main>
+
+<div class="grid">
+  <!-- SOL -->
+  <div class="card">
+    <h2>Bugün</h2>
+    <div class="sub">Altın • Döviz • Gümüş • Gram • Çeyrek • Tam</div>
+
+    <div class="badges">
+      <div class="badge silver">Gümüş</div>
+      <div class="badge gold">Gram</div>
+      <div class="badge gold">Çeyrek</div>
+      <div class="badge gold">Tam</div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Gram Altın</div>
+        <div class="value gold-text" id="gold">— ₺</div>
       </div>
-      <div class="navRow">
-        <a class="primary" href="#piyasa">Piyasalar</a>
-        <a href="#oyunlar">Oyunlar</a>
-        <a href="#urunler">Ürünler</a>
-        <a href="#hakkimizda">Hakkımızda</a>
+      <div class="stat">
+        <div class="label">USD / TRY</div>
+        <div class="value" id="usd">—</div>
       </div>
     </div>
 
-    <div class="actionRow">
-      <button class="btn primary" id="refreshBtn">FEMUD Verileri Güncelle</button>
-      <button class="btn ghost" id="scrollGames">Oyunlara İn</button>
-      <div class="statusBox" id="statusBox">Son güncelleme: - • Otomatik yenileme: 05:00</div>
+    <div style="margin-top:18px;display:flex;gap:14px">
+      <button class="btn primary">Altın Detay</button>
+      <button class="btn">Hesaplama</button>
     </div>
-
-    <div class="panel">
-      <div class="panelHead">
-        <h2>Canlı Piyasa Bandı</h2>
-        <p>İnternet olan her yerde canlı görünür (TradingView)</p>
-      </div>
-      <div class="panelBody">
-        <div class="tvBox">
-          <div class="tradingview-widget-container">
-            <div class="tradingview-widget-container__widget"></div>
-            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-            {
-              "symbols": [
-                {"proName":"FX_IDC:USDTRY","title":"USD/TRY"},
-                {"proName":"FX_IDC:EURTRY","title":"EUR/TRY"},
-                {"proName":"OANDA:XAUUSD","title":"ALTIN (XAU/USD)"},
-                {"proName":"OANDA:XAGUSD","title":"GÜMÜŞ (XAG/USD)"}
-              ],
-              "showSymbolLogo": true,
-              "isTransparent": true,
-              "displayMode": "adaptive",
-              "colorTheme": "dark",
-              "locale": "tr"
-            }
-            </script>
-          </div>
-        </div>
-
-        <div class="disclaimer">
-          <b>Not:</b> Bu panel bilgilendirme amaçlıdır. Yatırım tavsiyesi değildir.
-        </div>
-      </div>
-    </div>
-
-    <!-- KPI kartları -->
-    <div class="kpiGrid">
-      <div class="kpi">
-        <div class="kpiHead"><b>USD/TRY</b><span class="pill">Kur</span></div>
-        <div class="kpiBody">
-          <div class="tvBox">
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-              {"symbol":"FX_IDC:USDTRY","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"tr"}
-              </script>
-            </div>
-          </div>
-          <div class="miniNote"><b>Yükselebilir:</b> DXY artışı / risk artışı. <br><b>Düşebilir:</b> risk azalması / faiz beklentisi.</div>
-        </div>
-      </div>
-
-      <div class="kpi">
-        <div class="kpiHead"><b>EUR/TRY</b><span class="pill">Kur</span></div>
-        <div class="kpiBody">
-          <div class="tvBox">
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-              {"symbol":"FX_IDC:EURTRY","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"tr"}
-              </script>
-            </div>
-          </div>
-          <div class="miniNote"><b>Yükselebilir:</b> EURUSD güçlenmesi. <br><b>Düşebilir:</b> Avrupa zayıf veri / risk düşüşü.</div>
-        </div>
-      </div>
-
-      <div class="kpi">
-        <div class="kpiHead"><b>ALTIN</b><span class="pill">XAU/USD</span></div>
-        <div class="kpiBody">
-          <div class="tvBox">
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-              {"symbol":"OANDA:XAUUSD","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"tr"}
-              </script>
-            </div>
-          </div>
-          <div class="miniNote"><b>Yükselebilir:</b> jeopolitik risk / faiz düşüşü. <br><b>Düşebilir:</b> reel faiz yükselişi.</div>
-        </div>
-      </div>
-
-      <div class="kpi">
-        <div class="kpiHead"><b>GÜMÜŞ</b><span class="pill">XAG/USD</span></div>
-        <div class="kpiBody">
-          <div class="tvBox">
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
-              {"symbol":"OANDA:XAGUSD","width":"100%","colorTheme":"dark","isTransparent":true,"locale":"tr"}
-              </script>
-            </div>
-          </div>
-          <div class="miniNote"><b>Yükselebilir:</b> sanayi talebi + altın rüzgârı. <br><b>Düşebilir:</b> büyüme endişesi.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Sebep kutuları (holding tarzı) -->
-    <div class="reasonGrid">
-      <div class="panel">
-        <div class="panelHead">
-          <h2>Bugün Kurları Etkileyen 3 Ana Parametre</h2>
-          <p>Dolar/Euro için</p>
-        </div>
-        <div class="panelBody">
-          <div class="miniNote">
-            1) <b>Küresel dolar endeksi (DXY)</b> <br>
-            2) <b>Risk algısı</b> (jeopolitik / piyasa stres) <br>
-            3) <b>Faiz beklentileri</b> (TL faiz yönü / küresel faiz yönü)
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <div class="panelHead">
-          <h2>Altın & Gümüş Neden Hareketlenir?</h2>
-          <p>Güvenli liman + sanayi etkisi</p>
-        </div>
-        <div class="panelBody">
-          <div class="miniNote">
-            <b>Altın:</b> güvenli liman + reel faiz <br>
-            <b>Gümüş:</b> altın + <b>sanayi talebi</b> (daha oynak)
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
-  <!-- =========================
-       OYUNLAR
-       ========================= -->
-  <div class="wrap" id="oyunlar">
-    <div class="hero">
-      <div class="toprow">
-        <div class="logoCircle">
-          <img src="femud_logo.png" alt="FEMUD Logo">
-        </div>
+  <!-- SAĞ -->
+  <div class="card">
+    <h2>Günün Haberleri</h2>
+    <div class="sub">Ekonomiyi ve piyasayı etkileyen başlıklar</div>
 
-        <div style="max-width:1100px;margin:40px auto;text-align:center;">
-          <img
-            src="images/femud-urunler.jpg"
-            alt="Femud Ürünleri"
-            style="width:100%;height:auto;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.25);"
-          >
-        </div>
-
-        <div class="brandText">
-          <h1>Doğadan Gelen Güç</h1>
-          <div class="sub">Hediye Oyunları Ücretsizdir.</div>
-
-          <div class="pillRow2">
-            <div class="pill2">🎁 Ücretsiz Hediye Oyun Merkezi</div>
-            <div class="pill2">⏱️ Hediye 24 Saat Geçerli</div>
-            <div class="pill2">📩 Kazanınca: ekran görüntüsü → @Femud_tr DM</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="headline">
-        Femud ürünlerini <b>indirimli</b> almak için aşağıdaki oyunlardan birini seç:
-        <b>Çarkıfelek</b> veya <b>Kazı Kazan</b>.
-      </div>
-
-      <div class="grid">
-        <div class="card">
-          <div class="cardHeader">
-            <div>
-              <div class="badge2">🎡 Hızlı Ödül</div>
-              <div class="cardTitle">Femud Çarkıfelek</div>
-            </div>
-          </div>
-
-          <div class="cardBody">
-            1 tıkla oyuna gir, çarkı çevir ve anında indirim şansı yakala.
-            <div class="how">
-              <div class="step">1) Çarkıfelek’e gir</div>
-              <div class="step">2) Çarkı çevir</div>
-              <div class="step">3) Kazandıysan ekran görüntüsü al → @Femud_tr DM</div>
-            </div>
-          </div>
-
-          <div class="ctaRow">
-            <a class="btnGame primary" id="btnCark" href="carkifelek.html">Çarkıfelek’e Gir</a>
-            <div class="fine">Eğer açılmıyorsa: dosya adı/klasör yolu farklıdır.</div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="cardHeader">
-            <div>
-              <div class="badge2">💥 Sürpriz & Heyecan</div>
-              <div class="cardTitle">Femud Kazı Kazan</div>
-            </div>
-          </div>
-
-          <div class="cardBody">
-            Kutucukları aç, aynı ödülü 3 kez yakalarsan kupon senin!
-            <div class="how">
-              <div class="step">1) Kazı Kazan’a gir</div>
-              <div class="step">2) Kutuları aç, aynı ödülü yakala</div>
-              <div class="step">3) Kazandıysan ekran görüntüsü al → @Femud_tr DM</div>
-            </div>
-          </div>
-
-          <div class="ctaRow">
-            <a class="btnGame secondary" id="btnKazi" href="kazikazan4x4.html">Kazı Kazan’a Gir</a>
-            <div class="fine">Not: Hediyeler 24 saat geçerlidir. Ücretsizdir.</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="trust">
-        <h3>Güven & Şeffaflık</h3>
-        <ul>
-          <li>Oyunlar <b>ücretsizdir</b>; amaç müşteriye indirim fırsatı sunmaktır.</li>
-          <li>Kazananlar hediyeyi almak için <b>ekran görüntüsü</b> ile <b>@Femud_tr</b> hesabına DM atar.</li>
-          <li>Kupon/hediye <b>24 saat</b> içinde geçerlidir.</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- =========================
-         ÜRÜN ÖZELLİKLERİ
-         ========================= -->
-    <div class="section" id="urunler">
-      <div class="sectionHead">
-        <h2>Femud Ürün Özellikleri</h2>
-        <div class="mini"></div>
-      </div>
-
-      <div class="productGrid">
-        <div class="pCard">
-          <div class="pTitle">Mentollü Şampuan</div>
-          <div class="pMeta">Termal su • Yerli üretim • Kepek</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>Yerli Üretimdir.</li>
-            <li>Ferahlatıcı mentol etkisi sağlar.</li>
-            <li>130 TL 350ml.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Lavanta Köpük Sabun</div>
-          <div class="pMeta">Termal su • Yerli üretimdir • Kuruluk yapmaz</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>Krem etkisi ile ellerde kuruluk yapmaz.</li>
-            <li>Yerli üretimdir.</li>
-            <li>75 TL 500ml.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Lavanta Oda Parfümü</div>
-          <div class="pMeta">Lavanta özlü • Termal su • Yerli üretim</div>
-          <ul class="pList">
-            <li>Lavanta özlüdür, termal su ile üretilmiştir.</li>
-            <li>Kıyafetlerde kullanılabilir.</li>
-            <li>Yerli üretimdir.</li>
-            <li>105 TL 400ml.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Limon Kolonyası (80°)</div>
-          <div class="pMeta">Termal su • 80 derece • Çatlak yapmaz</div>
-          <ul class="pList">
-            <li>Termal su ile üretilmiştir.</li>
-            <li>80 derece limon kolonyasıdır.</li>
-            <li>105 TL 400ml.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Kestane Özlü Vücut Kremi (50 ml)</div>
-          <div class="pMeta">Kolay emilim • Kadifemsi etki • Nem artırır</div>
-          <ul class="pList">
-            <li>Kolay emilim sağlar, kadifemsi etki bırakır.</li>
-            <li>Nemi artırır, kuruluğu azaltır.</li>
-            <li>70 TL 50ml.</li>
-          </ul>
-        </div>
-
-        <div class="pCard">
-          <div class="pTitle">Kestane Özlü Vücut Kremi (250 ml)</div>
-          <div class="pMeta">Aile boyu • Yoğun nemlendirme</div>
-          <ul class="pList">
-            <li>Kolay emilim sağlar, kadifemsi etki bırakır.</li>
-            <li>Nemi artırır, kuruluğu azaltır.</li>
-            <li>135 TL 250ml.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- =========================
-         HAKKIMIZDA (ID GARANTİ)
-         ========================= -->
-    <div class="section" id="hakkimizda">
-      <div class="sectionHead">
-        <h2>Hakkımızda</h2>
-        <div class="mini">Termal su • Yerli üretim • Natürel çizgi</div>
-      </div>
-
-      <div style="padding:0 14px 16px;">
-        <div class="aboutCards">
-          <div class="aCard">
-            <h3>🎯 Vizyon</h3>
-            <p>
-              Termal su temelli yaklaşımı, yerli üretim güvencesiyle birleştirip
-              günlük bakımda <b>premium</b> kaliteyi herkes için ulaşılabilir kılmak.
-            </p>
-            <div class="aMiniRow">
-              <span class="aMini"><span class="dot"></span> Termal su</span>
-              <span class="aMini"><span class="dot"></span> Kalite</span>
-              <span class="aMini"><span class="dot"></span> Erişilebilir</span>
-            </div>
-          </div>
-
-          <div class="aCard">
-            <h3>🧭 Misyon</h3>
-            <p>
-              Ürünleri sade ve anlaşılır bir dille sunmak; şeffaf, müşteri odaklı
-              bir iletişim kurmak.
-            </p>
-            <div class="aMiniRow">
-              <span class="aMini"><span class="dot"></span> Şeffaflık</span>
-              <span class="aMini"><span class="dot"></span> Müşteri odaklı</span>
-              <span class="aMini"><span class="dot"></span> Güven</span>
-            </div>
-          </div>
-
-          <div class="aCard">
-            <h3>🛡️ Kalite Sözü</h3>
-            <p>
-              Femud’da hedef; güven, süreklilik ve memnuniyettir.
-              Kupon/ödül süreçleri nettir.
-            </p>
-            <div class="aMiniRow">
-              <span class="aMini"><span class="dot"></span> Net süreç</span>
-              <span class="aMini"><span class="dot"></span> Memnuniyet</span>
-              <span class="aMini"><span class="dot"></span> Süreklilik</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <footer>
-      © <b>FEMUD</b> • Kupon için ekran görüntüsü ile <b>@Femud_tr</b> DM
-    </footer>
+    <div id="newsList"></div>
   </div>
+</div>
 
-  <script>
-    /* ===== OYUN LINKLERİ (BURAYI GEREKİRSE DEĞİŞTİR) ===== */
-    // Eğer oyun dosyaları klasördeyse örnek:
-    // const CARK_LINK = "oyunlar/carkifelek.html";
-    // const KAZI_LINK = "oyunlar/kazikazan4x4.html";
-    const CARK_LINK = "carkifelek.html";
-    const KAZI_LINK = "kazikazan4x4.html";
+<div class="card" style="margin-top:30px">
+  <h2>Öne Çıkan Ürünler</h2>
+  <div class="sub">Yerli üretimi destekle • Milli gelire katkı</div>
 
-    const btnCark = document.getElementById("btnCark");
-    const btnKazi = document.getElementById("btnKazi");
+  <div class="products">
+    <div class="product">
+      <h3>Femud Mentollü Şampuan</h3>
+      <div class="price">129 ₺</div>
+    </div>
+    <div class="product">
+      <h3>Femud Lavanta Köpük Sabun</h3>
+      <div class="price">89 ₺</div>
+    </div>
+    <div class="product">
+      <h3>Femud Oda Parfümü</h3>
+      <div class="price">90 ₺</div>
+    </div>
+  </div>
+</div>
 
-    // hem href hem click yönlendirme (mobilde garanti)
-    btnCark.setAttribute("href", CARK_LINK);
-    btnKazi.setAttribute("href", KAZI_LINK);
+<div class="card" style="margin-top:30px">
+  <h2>Oyunlar</h2>
+  <div class="games">
+    <div class="game"><button class="btn primary">Çarkıfelek</button></div>
+    <div class="game"><button class="btn primary">Kazı Kazan</button></div>
+    <div class="game"><button class="btn primary">Günlük Ödül</button></div>
+  </div>
+</div>
 
-    btnCark.addEventListener("click", (e)=>{ e.preventDefault(); location.href = CARK_LINK; });
-    btnKazi.addEventListener("click", (e)=>{ e.preventDefault(); location.href = KAZI_LINK; });
+</main>
 
-    /* 5 DK GERİ SAYIM + BUTON */
-    const REFRESH_SEC = 300;
-    let remaining = REFRESH_SEC;
+<footer>© Femud • Süper Platform</footer>
 
-    function nowTR(){
-      return new Date().toLocaleString("tr-TR", {dateStyle:"short", timeStyle:"medium"});
+<!-- HABER PANEL -->
+<div id="newsPanel">
+  <h3>Haber Detayı</h3>
+  <div id="newsDetail"></div>
+  <button class="btn small" onclick="closeNews()">Kapat</button>
+</div>
+
+<script>
+/* DEMO */
+document.getElementById("gold").innerText="2.500,00 ₺";
+document.getElementById("usd").innerText="32,50";
+
+/* HABERLER – 12 SAATTE BİR */
+const NEWS_API="https://api.gdeltproject.org/api/v2/doc/doc";
+const NEWS_KEY="femud_news_cache";
+const NEWS_TIME="femud_news_time";
+
+async function loadNews(){
+  const now=Date.now();
+  const last=localStorage.getItem(NEWS_TIME);
+  if(last && now-last<43200000){
+    renderNews(JSON.parse(localStorage.getItem(NEWS_KEY)));
+    return;
+  }
+  const res=await fetch(`${NEWS_API}?query=ekonomi&mode=ArtList&format=json&maxrecords=6&timespan=1d`);
+  const data=await res.json();
+  localStorage.setItem(NEWS_KEY,JSON.stringify(data.articles));
+  localStorage.setItem(NEWS_TIME,now);
+  renderNews(data.articles);
+}
+
+function renderNews(list){
+  const box=document.getElementById("newsList");
+  box.innerHTML="";
+  list.forEach(n=>{
+    const row=document.createElement("div");
+    row.className="news-row";
+    row.innerHTML=`
+      <div class="news-title">${n.title}</div>
+      <button class="btn small primary">Tıkla ve Oku</button>`;
+    row.querySelector("button").onclick=()=>openNews(n);
+    row.querySelector(".news-title").onclick=()=>openNews(n);
+    box.appendChild(row);
+  });
+}
+
+function openNews(n){
+  document.getElementById("newsDetail").innerHTML=`
+    <div class="news-item">
+      <span>${n.title}</span>
+      <a href="${n.url}" target="_blank" class="btn small primary">Oku</a>
+    </div>`;
+  document.getElementById("newsPanel").style.display="flex";
+}
+function closeNews(){
+  document.getElementById("newsPanel").style.display="none";
+}
+
+loadNews();
+</script>
+<!-- =========================
+     B2 - CANLI PİYASALAR + SEKME SİSTEMİ
+     B1 dosyasında </body> öncesine yapıştır
+========================= -->
+
+<style>
+/* B2 sayfaları */
+.page{ display:none; }
+.page.active{ display:block; }
+
+.market-grid{
+  display:grid;
+  grid-template-columns: 1.2fr .8fr;
+  gap:24px;
+  margin-top:10px;
+}
+@media(max-width:900px){
+  .market-grid{ grid-template-columns:1fr; }
+}
+
+.market-cards{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+  margin-top:16px;
+}
+@media(max-width:900px){
+  .market-cards{ grid-template-columns:1fr; }
+}
+
+.mcard{
+  background:#0b1228;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  padding:16px;
+}
+.mcard .t{ color:rgba(255,255,255,.75); font-size:12px; }
+.mcard .v{ font-size:24px; font-weight:800; margin-top:8px; }
+.mcard .d{ font-size:12px; margin-top:6px; opacity:.85; }
+
+.pill{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(16,24,47,.55);
+  font-size:12px;
+  color:rgba(255,255,255,.85);
+}
+
+.chartbox{
+  background:#0b1228;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  padding:14px;
+}
+.chart-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:10px;
+}
+.chart-title h3{ margin:0; font-size:14px; }
+.chart-actions{ display:flex; gap:10px; flex-wrap:wrap; }
+canvas{ width:100%; height:220px; }
+
+.settings{
+  background:#0b1228;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:18px;
+  padding:16px;
+}
+.settings h3{ margin:0 0 10px 0; font-size:14px; }
+.formrow{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  margin:10px 0;
+}
+.formrow label{
+  width:160px;
+  font-size:12px;
+  color:rgba(255,255,255,.75);
+}
+.formrow input{
+  flex:1;
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#10182f;
+  color:#fff;
+  outline:none;
+}
+.formrow .hint{ font-size:11px; opacity:.8; }
+
+.kpi-note{
+  margin-top:14px;
+  padding:14px;
+  border-radius:16px;
+  border:1px dashed rgba(251,191,36,.35);
+  background: rgba(251,191,36,.07);
+  color:rgba(255,255,255,.92);
+  font-size:13px;
+  line-height:1.4;
+}
+</style>
+
+<!-- B2 SAYFASI (B1 Ana Ekranın altına eklenir) -->
+<section id="page-piyasalar" class="page">
+  <div class="card">
+    <h2>Piyasalar</h2>
+    <div class="sub">Canlı veriler • 60 saniyede bir güncellenir • Altın/Gümüş/FX</div>
+
+    <div class="market-grid">
+      <!-- SOL: Kartlar + Grafik -->
+      <div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:12px;">
+          <div class="pill" id="pill-last">Son güncelleme: —</div>
+          <div class="pill" id="pill-source">Kaynak: Frankfurter + Gold-API</div>
+        </div>
+
+        <div class="market-cards">
+          <div class="mcard">
+            <div class="t">USD / TRY</div>
+            <div class="v" id="kpi-usdtry">—</div>
+            <div class="d" id="kpi-usdtry-d">—</div>
+          </div>
+
+          <div class="mcard">
+            <div class="t">EUR / TRY</div>
+            <div class="v" id="kpi-eurtry">—</div>
+            <div class="d" id="kpi-eurtry-d">—</div>
+          </div>
+
+          <div class="mcard">
+            <div class="t">Gümüş (Gram / TRY)</div>
+            <div class="v" id="kpi-xaggram">— ₺</div>
+            <div class="d" id="kpi-xaggram-d">Ons: —</div>
+          </div>
+
+          <div class="mcard">
+            <div class="t">Gram Altın (24K / TRY)</div>
+            <div class="v" id="kpi-xaugram">— ₺</div>
+            <div class="d" id="kpi-xaugram-d">Ons: —</div>
+          </div>
+
+          <div class="mcard">
+            <div class="t">Çeyrek Altın (Tahmini)</div>
+            <div class="v" id="kpi-ceyrek">— ₺</div>
+            <div class="d" id="kpi-ceyrek-d">22 ayar katsayı ile</div>
+          </div>
+
+          <div class="mcard">
+            <div class="t">Tam Altın (Tahmini)</div>
+            <div class="v" id="kpi-tam">— ₺</div>
+            <div class="d" id="kpi-tam-d">22 ayar katsayı ile</div>
+          </div>
+        </div>
+
+        <div class="chartbox" style="margin-top:16px;">
+          <div class="chart-title">
+            <h3>Mini Trend Grafiği</h3>
+            <div class="chart-actions">
+              <button class="btn small primary" id="btn-chart-xau">Gram Altın</button>
+              <button class="btn small" id="btn-chart-xag">Gümüş Gram</button>
+              <button class="btn small" id="btn-chart-usd">USD/TRY</button>
+            </div>
+          </div>
+          <canvas id="miniChart" width="900" height="240"></canvas>
+          <div class="sub" style="margin-top:8px;">Not: Grafik, sayfa açıkken toplanan verilerden oluşur (hafif hafıza).</div>
+        </div>
+      </div>
+
+      <!-- SAĞ: Ayarlar + açıklama -->
+      <div>
+        <div class="settings">
+          <h3>Hesap Ayarları</h3>
+          <div class="sub">Çeyrek/Tam altın hesapları piyasa farkları içerir. Burada katsayıyı değiştirebilirsin.</div>
+
+          <div class="formrow">
+            <label>22 Ayar Katsayı</label>
+            <input id="inp-ayar22" type="number" step="0.001" value="0.916">
+          </div>
+          <div class="formrow">
+            <label>Çeyrek (gram)</label>
+            <input id="inp-ceyrekgram" type="number" step="0.01" value="1.75">
+          </div>
+          <div class="formrow">
+            <label>Tam (gram)</label>
+            <input id="inp-tamgram" type="number" step="0.01" value="7.00">
+          </div>
+          <div class="formrow">
+            <label>İşçilik / fark (%)</label>
+            <input id="inp-premium" type="number" step="0.1" value="6.0">
+          </div>
+
+          <div class="formrow">
+            <button class="btn primary" id="btn-save-coin">Kaydet</button>
+            <button class="btn" id="btn-reset-coin">Sıfırla</button>
+          </div>
+
+          <div class="kpi-note">
+            <b>Femud yerli üretimi destekler • Milli gelire etkisi</b><br>
+            Yerli üretim tercihleri; üretim, istihdam ve tedarik zinciriyle ekonomiye katkı sağlar.
+            Katma değer içeride kaldığı için milli gelire pozitif etki oluşturur.
+          </div>
+        </div>
+
+        <div class="settings" style="margin-top:16px;">
+          <h3>Piyasa Etki Notları</h3>
+          <div class="sub" id="impactNotes">
+            Veriler geldikten sonra burada otomatik kısa “etki” notları oluşur.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+/* =========================
+   B2 - Sekme (Nav) sistemi
+   B1'deki nav butonlarını sayfalara bağlar:
+   Ana Ekran = mevcut <main> içeriği (B1)
+   Piyasalar = #page-piyasalar
+   Diğerleri ileride doldurulacak
+========================= */
+
+(function(){
+  // B1'de nav butonları var
+  const navBtns = document.querySelectorAll("nav button");
+  if(!navBtns.length) return;
+
+  // B1 ana ekran içeriğini kapsamak için main'i "page-ana" gibi davranalım
+  const mainEl = document.querySelector("main");
+  if(mainEl && !mainEl.dataset.pageWrapped){
+    mainEl.classList.add("page","active");
+    mainEl.id = "page-ana";
+    mainEl.dataset.pageWrapped = "1";
+  }
+
+  function setActive(btnIndex){
+    navBtns.forEach((b,i)=> b.classList.toggle("active", i===btnIndex));
+
+    // sayfalar
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+    if(btnIndex===0) document.getElementById("page-ana")?.classList.add("active");
+    if(btnIndex===1) document.getElementById("page-piyasalar")?.classList.add("active");
+    if(btnIndex===2) document.getElementById("page-ana")?.classList.add("active"); // şimdilik ana ekranda kalsın
+    if(btnIndex===3) document.getElementById("page-ana")?.classList.add("active"); // şimdilik ana ekranda kalsın
+    if(btnIndex===4) document.getElementById("page-ana")?.classList.add("active"); // şimdilik ana ekranda kalsın
+  }
+
+  navBtns.forEach((b,i)=> b.addEventListener("click", ()=> setActive(i)));
+})();
+
+/* =========================
+   B2 - Canlı Piyasa Motoru
+   FX: Frankfurter (api.frankfurter.dev) - key yok
+   Metal: gold-api (api.gold-api.com) - key yok + CORS
+   Update: 60 sn
+========================= */
+
+(function(){
+  const OZ_TO_GRAM = 31.1034768;
+
+  // UI
+  const el = (id)=>document.getElementById(id);
+  const kpiUsd = el("kpi-usdtry"), kpiEur = el("kpi-eurtry");
+  const kpiXau = el("kpi-xaugram"), kpiXag = el("kpi-xaggram");
+  const kpiCeyrek = el("kpi-ceyrek"), kpiTam = el("kpi-tam");
+  const pillLast = el("pill-last");
+  const impactNotes = el("impactNotes");
+
+  // Coin settings
+  const SKEY = "femud_coin_settings_v1";
+  const def = { ayar22:0.916, ceyrekGram:1.75, tamGram:7.00, premiumPct:6.0 };
+
+  function loadSettings(){
+    try{
+      const s = JSON.parse(localStorage.getItem(SKEY));
+      return {...def, ...(s||{})};
+    }catch(e){ return {...def}; }
+  }
+  function saveSettings(s){
+    localStorage.setItem(SKEY, JSON.stringify(s));
+  }
+
+  // inputs
+  const inpAyar22 = el("inp-ayar22");
+  const inpCeyrek = el("inp-ceyrekgram");
+  const inpTam = el("inp-tamgram");
+  const inpPrem = el("inp-premium");
+
+  function syncInputs(s){
+    inpAyar22.value = s.ayar22;
+    inpCeyrek.value = s.ceyrekGram;
+    inpTam.value = s.tamGram;
+    inpPrem.value = s.premiumPct;
+  }
+
+  let settings = loadSettings();
+  syncInputs(settings);
+
+  el("btn-save-coin").onclick = ()=>{
+    settings = {
+      ayar22: Number(inpAyar22.value||def.ayar22),
+      ceyrekGram: Number(inpCeyrek.value||def.ceyrekGram),
+      tamGram: Number(inpTam.value||def.tamGram),
+      premiumPct: Number(inpPrem.value||def.premiumPct),
+    };
+    saveSettings(settings);
+    // hemen yeniden hesap
+    if(lastData) renderAll(lastData);
+  };
+
+  el("btn-reset-coin").onclick = ()=>{
+    settings = {...def};
+    saveSettings(settings);
+    syncInputs(settings);
+    if(lastData) renderAll(lastData);
+  };
+
+  // Data memory for mini chart
+  const series = {
+    xau: [],
+    xag: [],
+    usd: [],
+    mode: "xau"
+  };
+  const MAX_POINTS = 36; // 36 dakika (60sn update)
+  const chart = el("miniChart");
+  const ctx = chart.getContext("2d");
+
+  el("btn-chart-xau").onclick = ()=>{ series.mode="xau"; drawChart(); };
+  el("btn-chart-xag").onclick = ()=>{ series.mode="xag"; drawChart(); };
+  el("btn-chart-usd").onclick = ()=>{ series.mode="usd"; drawChart(); };
+
+  function pushSeries(key, val){
+    if(!isFinite(val)) return;
+    series[key].push(val);
+    if(series[key].length > MAX_POINTS) series[key].shift();
+  }
+
+  function fmt(n, d=2){
+    if(!isFinite(n)) return "—";
+    return n.toLocaleString("tr-TR", {minimumFractionDigits:d, maximumFractionDigits:d});
+  }
+
+  function drawChart(){
+    const w = chart.width, h = chart.height;
+    ctx.clearRect(0,0,w,h);
+
+    // bg
+    ctx.fillStyle = "rgba(0,0,0,0)";
+    ctx.fillRect(0,0,w,h);
+
+    const data = series[series.mode] || [];
+    if(data.length < 2){
+      ctx.fillStyle = "rgba(255,255,255,.65)";
+      ctx.font = "14px Arial";
+      ctx.fillText("Veri toplanıyor…", 16, 28);
+      return;
     }
-    function fmt(sec){
-      const m = String(Math.floor(sec/60)).padStart(2,"0");
-      const s = String(sec%60).padStart(2,"0");
-      return `${m}:${s}`;
-    }
-    function renderStatus(){
-      const last = localStorage.getItem("femud_last_refresh") || nowTR();
-      const el = document.getElementById("statusBox");
-      if(el){
-        el.textContent = `Son güncelleme: ${last} • Otomatik yenileme: ${fmt(remaining)}`;
-      }
-    }
-    function hardRefresh(){
-      localStorage.setItem("femud_last_refresh", nowTR());
-      location.reload();
+
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const pad = 18;
+
+    // grid
+    ctx.strokeStyle = "rgba(255,255,255,.07)";
+    for(let i=0;i<5;i++){
+      const y = pad + i*((h-2*pad)/4);
+      ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(w-pad,y); ctx.stroke();
     }
 
-    document.getElementById("refreshBtn").addEventListener("click", hardRefresh);
-    document.getElementById("scrollGames").addEventListener("click", ()=>{
-      document.getElementById("oyunlar").scrollIntoView({behavior:"smooth"});
+    // line
+    ctx.strokeStyle = "rgba(251,191,36,.9)";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    data.forEach((v,i)=>{
+      const x = pad + i*((w-2*pad)/(data.length-1));
+      const y = pad + (h-2*pad) * (1 - (v-min)/((max-min)||1));
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
     });
+    ctx.stroke();
 
-    if(!localStorage.getItem("femud_last_refresh")){
-      localStorage.setItem("femud_last_refresh", nowTR());
+    // label
+    ctx.fillStyle = "rgba(255,255,255,.75)";
+    ctx.font = "12px Arial";
+    const title = series.mode==="xau" ? "Gram Altın (TRY)" : series.mode==="xag" ? "Gümüş Gram (TRY)" : "USD/TRY";
+    ctx.fillText(`${title}  •  Min: ${fmt(min)}  Max: ${fmt(max)}`, 16, 20);
+  }
+
+  async function fx(from, to){
+    const url = `https://api.frankfurter.dev/latest?from=${encodeURIComponent(from)}&to=${encodeURIComponent(to)}`;
+    const r = await fetch(url, {cache:"no-store"});
+    const j = await r.json();
+    return j?.rates?.[to];
+  }
+
+  async function metal(symbol){
+    // Gold-API docs base URL: https://api.gold-api.com   [oai_citation:2‡gold-api.com](https://gold-api.com/docs)
+    // Get Price endpoint is listed as FREE; response fields vary by symbol.
+    // Çalışan pratik format: /price/{SYMBOL} (yaygın kullanım)
+    const url = `https://api.gold-api.com/price/${encodeURIComponent(symbol)}`;
+    const r = await fetch(url, {cache:"no-store"});
+    const j = await r.json();
+    // farklı olası alan adları (API zamanla değişebilir)
+    const p = j?.price ?? j?.price_usd ?? j?.ask ?? j?.bid ?? j?.value;
+    return Number(p);
+  }
+
+  function makeImpactNotes(d){
+    // Kısa, bağımlılık yapan ama gerçek dışı iddialar olmayan yorum
+    const lines = [];
+    if(d.usdtry){
+      lines.push(`• USD/TRY: ${fmt(d.usdtry,4)} — Kur hareketi; ithal girdiler ve enerji maliyetlerini etkileyebilir.`);
     }
-    renderStatus();
-    setInterval(()=>{
-      remaining = Math.max(0, remaining-1);
-      renderStatus();
-      if(remaining===0){
-        localStorage.setItem("femud_last_refresh", nowTR());
-        location.reload();
-      }
-    },1000);
-  </script>
+    if(d.eurtry){
+      lines.push(`• EUR/TRY: ${fmt(d.eurtry,4)} — Avrupa ticareti ve maliyet sepeti üzerinde etkili olabilir.`);
+    }
+    if(d.gramGold){
+      lines.push(`• Gram altın: ${fmt(d.gramGold)} ₺ — Güvenli liman algısı ve faiz beklentileriyle dalgalanabilir.`);
+    }
+    if(d.gramSilver){
+      lines.push(`• Gümüş: ${fmt(d.gramSilver)} ₺ — Sanayi talebi + risk iştahı birleşimi fiyatı oynatabilir.`);
+    }
+    lines.push(`• Femud yerli üretim tercihi: katma değerin içeride kalmasına destek olur (istihdam + tedarik zinciri).`);
+    impactNotes.innerHTML = lines.map(x=>`<div style="margin:6px 0">${x}</div>`).join("");
+  }
+
+  let lastData = null;
+
+  function renderAll(d){
+    lastData = d;
+
+    kpiUsd.textContent = fmt(d.usdtry,4);
+    kpiEur.textContent = fmt(d.eurtry,4);
+
+    kpiXau.textContent = `${fmt(d.gramGold)} ₺`;
+    kpiXag.textContent = `${fmt(d.gramSilver)} ₺`;
+
+    // Çeyrek/Tam (tahmini)
+    const gram22 = d.gramGold * settings.ayar22; // 22 ayar gram yaklaşık
+    const premium = 1 + (settings.premiumPct/100);
+    const ceyrek = gram22 * settings.ceyrekGram * premium;
+    const tam = gram22 * settings.tamGram * premium;
+
+    kpiCeyrek.textContent = `${fmt(ceyrek)} ₺`;
+    kpiTam.textContent = `${fmt(tam)} ₺`;
+
+    kpiXau && pushSeries("xau", d.gramGold);
+    pushSeries("xag", d.gramSilver);
+    pushSeries("usd", d.usdtry);
+    drawChart();
+
+    // B1 ana ekrandaki demo değerleri de varsa güncelle
+    const b1Gold = document.getElementById("gold");
+    const b1Usd = document.getElementById("usd");
+    if(b1Gold) b1Gold.textContent = `${fmt(d.gramGold)} ₺`;
+    if(b1Usd) b1Usd.textContent = fmt(d.usdtry,4);
+
+    // Etki notları
+    makeImpactNotes(d);
+
+    // timestamp
+    const t = new Date();
+    pillLast.textContent = "Son güncelleme: " + t.toLocaleString("tr-TR");
+  }
+
+  async function refresh(){
+    try{
+      // FX
+      const [usdtry, eurtry] = await Promise.all([
+        fx("USD","TRY"),
+        fx("EUR","TRY")
+      ]);
+
+      // Metal ons fiyatları (USD/oz)
+      const [xauUsdOz, xagUsdOz] = await Promise.all([
+        metal("XAU"),
+        metal("XAG")
+      ]);
+
+      // Gram TRY
+      const gramGold = (xauUsdOz * usdtry) / OZ_TO_GRAM;
+      const gramSilver = (xagUsdOz * usdtry) / OZ_TO_GRAM;
+
+      renderAll({
+        usdtry:Number(usdtry),
+        eurtry:Number(eurtry),
+        xauUsdOz:Number(xauUsdOz),
+        xagUsdOz:Number(xagUsdOz),
+        gramGold:Number(gramGold),
+        gramSilver:Number(gramSilver),
+      });
+    }catch(e){
+      // hata olursa UI bozma
+      console.log("B2 refresh error:", e);
+    }
+  }
+
+  // ilk çalıştır
+  refresh();
+  // 60 saniyede bir güncelle
+  setInterval(refresh, 60*1000);
+})();
+</script>
+
+<!-- =========================
+     /B2
+========================= -->
+
 </body>
 </html>
