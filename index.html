@@ -903,4 +903,106 @@ canvas{ width:100%; height:220px; }
 ========================= -->
 
 </body>
+<script>
+/* =========================
+   B2 + PRO TAM SÜRÜM
+   renderAll içine event dahil
+========================= */
+
+(function(){
+
+/* ========= EVENT YAYAN RENDER ========= */
+window.renderAll = function(d){
+  window.__LAST_MARKET__ = d;
+
+  // B1 alanları varsa güncelle
+  const g = document.getElementById("gold");
+  const u = document.getElementById("usd");
+  if(g && d.gramGold) g.innerText = d.gramGold.toFixed(2)+" ₺";
+  if(u && d.usdtry) u.innerText = d.usdtry.toFixed(4);
+
+  // 🔥 PRO sistem için EVENT
+  window.dispatchEvent(
+    new CustomEvent("market:update",{ detail:d })
+  );
+};
+
+/* ========= PRO OYUN + BAĞIMLILIK ========= */
+
+const LS = {
+  xp:"fx_xp",
+  streak:"fx_streak",
+  daily:"fx_daily",
+  pred:"fx_pred"
+};
+
+const get = k=>JSON.parse(localStorage.getItem(k)||"0");
+const set = (k,v)=>localStorage.setItem(k,JSON.stringify(v));
+
+let xp = get(LS.xp);
+let streak = get(LS.streak);
+
+function toast(msg){
+  const t=document.createElement("div");
+  t.innerText=msg;
+  t.style.cssText=`
+    position:fixed;bottom:20px;right:20px;
+    background:#0f172a;color:#fff;
+    padding:14px 18px;border-radius:14px;
+    z-index:99999;font-weight:600;
+    box-shadow:0 10px 40px rgba(0,0,0,.4)
+  `;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),3200);
+}
+
+/* ========= GÜNLÜK ÖDÜL ========= */
+window.addEventListener("load",()=>{
+  const today=new Date().toISOString().slice(0,10);
+  if(localStorage.getItem(LS.daily)!==today){
+    streak++;
+    xp+=25+(streak*3);
+    set(LS.streak,streak);
+    set(LS.xp,xp);
+    localStorage.setItem(LS.daily,today);
+    toast("🔥 Günlük ödül +"+(25+(streak*3))+" XP");
+  }
+});
+
+/* ========= TAHMİN ========= */
+window.makePrediction=function(type,dir){
+  const p={
+    type,dir,
+    start:window.__LAST_MARKET__?.[type]||0,
+    time:Date.now()
+  };
+  set(LS.pred,p);
+  toast("🎯 Tahmin alındı: "+type+" "+(dir==="up"?"⬆":"⬇"));
+};
+
+/* ========= PİYASA GÜNCELLEME ========= */
+window.addEventListener("market:update",(e)=>{
+  const d=e.detail;
+  const p=get(LS.pred);
+  if(!p || !p.time) return;
+
+  if(Date.now()-p.time>60*60*1000){
+    const end=d[p.type];
+    const diff=end-p.start;
+    const win=(p.dir==="up" && diff>0)||(p.dir==="down" && diff<0);
+
+    if(win){
+      xp+=40;
+      toast("🏆 Doğru tahmin +40 XP");
+    }else{
+      xp+=8;
+      toast("❌ Kaçtı ama +8 XP");
+    }
+    set(LS.xp,xp);
+    localStorage.removeItem(LS.pred);
+  }
+});
+
+})();
+</script>
 </html>
