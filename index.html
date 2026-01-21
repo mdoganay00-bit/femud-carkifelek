@@ -1130,4 +1130,107 @@ bindTabs();
 </script>
 
 </body>
+<script>
+/* =========================
+   B2 • AUTO NEWS + MARKET IMPACT
+   ========================= */
+
+(function(){
+  const B2_INTERVAL_HOURS = 12;
+  const STORAGE_KEY = "femud_b2_last_update";
+
+  const liveSources = [
+    {src:"Reuters", impact:"Altın", link:"#"},
+    {src:"Bloomberg", impact:"USD", link:"#"},
+    {src:"WSJ", impact:"Gümüş", link:"#"},
+    {src:"CNBC", impact:"Altın/Döviz", link:"#"},
+    {src:"FT", impact:"Emtia", link:"#"}
+  ];
+
+  function hoursPassed(ts){
+    return (Date.now() - ts) / (1000*60*60);
+  }
+
+  function genNews(){
+    const pool = [
+      "Faiz beklentileri güvenli liman talebini artırdı",
+      "Jeopolitik riskler altın fiyatlarını destekledi",
+      "ABD verileri dolar endeksini etkiledi",
+      "Çin talep görünümü emtia piyasasını hareketlendirdi",
+      "Merkez bankası mesajları piyasada dalgalanma yarattı"
+    ];
+    const pick = ()=> pool[Math.floor(Math.random()*pool.length)];
+    const src = liveSources[Math.floor(Math.random()*liveSources.length)];
+    const change = (Math.random()*2 - 1).toFixed(2);
+
+    return {
+      title: pick(),
+      impact: src.impact,
+      src: src.src,
+      link: src.link,
+      change: change
+    };
+  }
+
+  function updateNewsIfNeeded(){
+    const last = Number(localStorage.getItem(STORAGE_KEY) || 0);
+    if(!last || hoursPassed(last) >= B2_INTERVAL_HOURS){
+      const items = Array.from({length:5}).map(genNews);
+      localStorage.setItem("femud_b2_news", JSON.stringify(items));
+      localStorage.setItem(STORAGE_KEY, Date.now());
+    }
+  }
+
+  function renderB2(){
+    const list = document.getElementById("newsList");
+    if(!list) return;
+
+    const items = JSON.parse(localStorage.getItem("femud_b2_news") || "[]");
+    if(!items.length) return;
+
+    list.innerHTML = "";
+    items.forEach(n=>{
+      const row = document.createElement("div");
+      row.className = "newsItem";
+      row.innerHTML = `
+        <div class="newsLeft">
+          <div class="bullet"></div>
+          <div>
+            <div class="newsT">${n.title}</div>
+            <div style="margin-top:6px;font-size:12px;color:rgba(255,255,255,.60)">
+              ${n.src} • Etki: ${n.impact}
+              <span style="margin-left:8px;color:${n.change>=0?'#7CFFB2':'#FF9B9B'}">
+                ${n.change>=0?'▲':'▼'} ${Math.abs(n.change)}%
+              </span>
+            </div>
+          </div>
+        </div>
+        <button class="readBtn">Tıkla ve Oku</button>
+      `;
+      row.querySelector(".readBtn").onclick=()=>{
+        openModal(
+          "Haber Detayı",
+          `<b>${n.title}</b><br><br>
+           <div class="pill"><i>Kaynak:</i> ${n.src}</div>
+           <div class="pill"><i>Piyasa Etkisi:</i> ${n.impact}</div>
+           <br><br>
+           Bu haberin piyasa üzerindeki etkisi (demo) gösterilmektedir.
+           <br><br>
+           <a href="${n.link}" target="_blank" style="color:#ffd88a">Kaynağa Git</a>`
+        );
+      };
+      list.appendChild(row);
+    });
+  }
+
+  // INIT
+  updateNewsIfNeeded();
+  renderB2();
+
+  // bilgi toast
+  if(typeof toast === "function"){
+    toast("B2 aktif: Haberler 12 saatte bir otomatik güncellenir 🔄");
+  }
+})();
+</script>
 </html>
