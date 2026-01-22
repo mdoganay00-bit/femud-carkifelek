@@ -1316,4 +1316,88 @@ bindTabs();
 
 })();
 </script>
+<script>
+/* =========================
+   B3 • ADDICTIVE GAME ENGINE
+   ========================= */
+
+(function(){
+  const KEY = "femud_b3_state";
+  const today = new Date().toDateString();
+
+  let state = JSON.parse(localStorage.getItem(KEY) || "{}");
+  if(!state.xp){
+    state = { xp:0, level:1, streak:0, lastDay:null };
+  }
+
+  function save(){ localStorage.setItem(KEY, JSON.stringify(state)); }
+
+  function gainXP(x){
+    state.xp += x;
+    if(state.xp >= state.level * 100){
+      state.xp = 0;
+      state.level++;
+      toast(`🎉 Seviye Atladın! Yeni Seviye: ${state.level}`);
+    }
+    save();
+  }
+
+  function dailyReward(){
+    if(state.lastDay === today){
+      toast("⏳ Günlük ödül zaten alındı");
+      return;
+    }
+    state.streak = (state.lastDay ? state.streak+1 : 1);
+    state.lastDay = today;
+    gainXP(20 + state.streak*5);
+    save();
+    toast(`⭐ Günlük ödül alındı! Seri: ${state.streak} gün`);
+  }
+
+  function spinWheel(){
+    const rewards = [
+      {t:"%10 İndirim", xp:30},
+      {t:"Ücretsiz Kargo", xp:25},
+      {t:"+50 XP", xp:50},
+      {t:"Sürpriz Hediye", xp:40}
+    ];
+    const r = rewards[Math.floor(Math.random()*rewards.length)];
+    gainXP(r.xp);
+    openModal(
+      "🎡 Çarkıfelek Sonucu",
+      `<b>${r.t}</b><br><br>
+       Kazanılan XP: <b>${r.xp}</b><br><br>
+       <span style="color:rgba(255,255,255,.7)">
+       Yarın tekrar çevirerek daha büyük ödüller kazan!
+       </span>`
+    );
+  }
+
+  function scratch(){
+    const win = Math.random() > 0.4;
+    if(win){
+      gainXP(35);
+      openModal("🎁 Kazı Kazan", "🎉 Tebrikler! +35 XP kazandın");
+    }else{
+      openModal("🎁 Kazı Kazan", "😢 Bu sefer olmadı ama yarın tekrar dene!");
+    }
+  }
+
+  // Butonlara bağla
+  const bw = document.getElementById("btnWheel");
+  const bs = document.getElementById("btnScratch");
+  const bd = document.getElementById("btnDaily");
+
+  if(bw) bw.onclick = spinWheel;
+  if(bs) bs.onclick = scratch;
+  if(bd) bd.onclick = dailyReward;
+
+  // Açılış mesajı (bağımlılık tetik)
+  setTimeout(()=>{
+    toast(`🔥 Hoş geldin! Seviye ${state.level} • XP ${state.xp}/${state.level*100}`);
+  }, 800);
+
+})();
+</script>
+
 </html>
