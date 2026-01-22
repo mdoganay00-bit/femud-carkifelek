@@ -1137,7 +1137,7 @@ body.modalLock{ overflow:hidden !important; }
       else alert("Bağlantı henüz yüklenmedi.");
     });
 
-    /* ========= ALTIN (Gram/Çeyrek/Tam) ========= */
+       /* ========= ALTIN (Gram/Çeyrek/Tam) — ENGELSİZ (SPOT HESAP) ========= */
     const gramEl = document.getElementById("femudGramAltin");
     const ceyEl  = document.getElementById("femudCeyrekAltin");
     const tamEl  = document.getElementById("femudTamAltin");
@@ -1145,45 +1145,79 @@ body.modalLock{ overflow:hidden !important; }
     const ceyMeta  = document.getElementById("femudCeyrekAltinMeta");
     const tamMeta  = document.getElementById("femudTamAltinMeta");
 
-    async function fetchGoldFromDoviz(){
-      const urls = {
-        gram:"https://www.doviz.com/altin/gram-altin",
-        ceyrek:"https://www.doviz.com/altin/ceyrek-altin",
-        tam:"https://www.doviz.com/altin/tam-altin"
-      };
-      async function getOne(u){
-        const html = await fetchViaProxy(u);
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        let valText =
-          doc.querySelector(".value")?.textContent ||
-          doc.querySelector('meta[property="og:price:amount"]')?.getAttribute("content") ||
-          doc.querySelector('meta[itemprop="price"]')?.getAttribute("content") ||
-          "";
-        let val = tryNumber(valText);
-        if(val == null){
-          const mm = html.match(/"selling"\s*:\s*"([^"]+)"/i) || html.match(/"price"\s*:\s*"([^"]+)"/i);
-          if(mm && mm[1]) val = tryNumber(mm[1]);
-        }
-        return val;
+    const TROY_OZ_TO_GRAM = 31.1034768;
+
+    // Çeyrek/Tam için yaklaşık katsayılar (SPOT bazlı):
+    // Çeyrek altın (22 ayar) ~ 1.75g * 0.916 = 1.604g saf altın eşdeğeri
+    // Tam altın (Cumhuriyet) yaklaşık saf eşdeğer ~ 6.60g (piyasa tipine göre değişebilir)
+    // NOT: Kuyumcu fiyatları prim içerir, bu sadece bilgilendirme (SPOT) hesap.
+    const CEYREK_SAF_EQ_GR = 1.604;
+    const TAM_SAF_EQ_GR    = 6.60;
+
+    async function fetchJSON(url){
+      // önce direkt dene (çoğu yerde CORS açık)
+      try{
+        const r = await _fetch(url, {cache:"no-store"});
+        if(r.ok) return await r.json();
+      }catch(_){}
+
+      // gerekirse proxy ile dene (allorigins → jina)
+      const txt = await fetchViaProxy(url);
+      try{ return JSON.parse(txt); }catch(_){
+        // bazı proxy cevapları HTML olabilir, olmazsa hata
+        throw new Error("json parse failed");
       }
-      const [g,c,t] = await Promise.all([getOne(urls.gram), getOne(urls.ceyrek), getOne(urls.tam)]);
-      if(g && c && t) return {gram:g, ceyrek:c, tam:t, source:"doviz.com"};
-      throw new Error("doviz parse failed");
+    }
+
+    async function getUSDTRY(){
+      // open.er-api.com genelde sorunsuz
+      const j = await fetchJSON("https://open.er-api.com/v6/latest/USD");
+      const v = j?.rates?.TRY;
+      if(!v) throw new Error("USDTRY missing");
+      return Number(v);
+    }
+
+    async function getXAUUSD(){
+      // goldprice.org: XAU bazında USD fiyatı döndürür
+      // endpoint: dbXRates/USD → içinde "items":[{"xauPrice": ...}] gibi gelir
+      const j = await fetchJSON("https://data-asg.goldprice.org/dbXRates/USD");
+      const x = j?.items?.[0]?.xauPrice;
+      if(!x) throw new Error("XAUUSD missing");
+      return Number(x);
+    }
+
+    function setGoldMeta(text){
+      if(gramMeta) gramMeta.textContent = text;
+      if(ceyMeta)  ceyMeta.textContent  = text;
+      if(tamMeta)  tamMeta.textContent  = text;
     }
 
     async function updateGold(){
-      if(gramMeta) gramMeta.textContent = "Güncelleniyor…";
+      setGoldMeta("Güncelleniyor…");
+
       try{
-        const data = await fetchGoldFromDoviz();
-        if(gramEl) gramEl.textContent = formatTL(data.gram);
-        if(ceyEl)  ceyEl.textContent  = formatTL(data.ceyrek);
-        if(tamEl)  tamEl.textContent  = formatTL(data.tam);
-        const metaText = `Kaynak: ${data.source} • ${stampTR()}`;
-        if(gramMeta) gramMeta.textContent = metaText;
-        if(ceyMeta)  ceyMeta.textContent  = metaText;
-        if(tamMeta)  tamMeta.textContent  = metaText;
-        localStorage.setItem("femud_gold_cache", JSON.stringify({t:Date.now(), ...data}));
-      }catch(_){
+        const [usdtry, xauusd] = await Promise.all([getUSDTRY(), getXAUUSD()]);
+
+        // 1 ons altın (USD) / 31.1035 = gram USD
+        const gramUSD = xauusd / TROY_OZ_TO_GRAM;
+        const gramTRY = gramUSD * usdtry;
+
+        const ceyrekTRY = gramTRY * CEYREK_SAF_EQ_GR; // spot eşdeğer
+        const tamTRY    = gramTRY * TAM_SAF_EQ_GR;    // spot eşdeğer
+
+        if(gramEl) gramEl.textContent = formatTL(gramTRY);
+        if(ceyEl)  ceyEl.textContent  = formatTL(ceyrekTRY);
+        if(tamEl)  tamEl.textContent  = formatTL(tamTRY);
+
+        const metaText = `SPOT hesap (yaklaşık) • USD/TRY & XAU/USD • ${stampTR()}`;
+        setGoldMeta(metaText);
+
+        localStorage.setItem("femud_gold_cache", JSON.stringify({
+          t:Date.now(),
+          gram:gramTRY, ceyrek:ceyrekTRY, tam:tamTRY,
+          source:"spot"
+        }));
+      }catch(err){
         // cache fallback
         try{
           const cached = JSON.parse(localStorage.getItem("femud_gold_cache") || "null");
@@ -1192,18 +1226,16 @@ body.modalLock{ overflow:hidden !important; }
             if(ceyEl)  ceyEl.textContent  = formatTL(cached.ceyrek);
             if(tamEl)  tamEl.textContent  = formatTL(cached.tam);
             const lastOk = cached.t ? new Date(cached.t).toLocaleString("tr-TR",{dateStyle:"short", timeStyle:"short"}) : stampTR();
-            const metaText = `Cache • Son başarılı: ${lastOk}`;
-            if(gramMeta) gramMeta.textContent = metaText;
-            if(ceyMeta)  ceyMeta.textContent  = metaText;
-            if(tamMeta)  tamMeta.textContent  = metaText;
+            setGoldMeta(`Cache • Son başarılı: ${lastOk}`);
           }else{
-            if(gramMeta) gramMeta.textContent = "Altın verisi alınamadı (bağlantı/engel).";
+            setGoldMeta("Altın verisi alınamadı (bağlantı/engel).");
           }
-        }catch(__){
-          if(gramMeta) gramMeta.textContent = "Altın verisi alınamadı (bağlantı/engel).";
+        }catch(_){
+          setGoldMeta("Altın verisi alınamadı (bağlantı/engel).");
         }
       }
     }
+
     updateGold();
     setInterval(updateGold, 5*60*1000);
 
@@ -1241,33 +1273,33 @@ body.modalLock{ overflow:hidden !important; }
       return parseRss(xml);
     }
 
-    function renderNews(items, stamp){
+       function renderNews(items, stamp){
       if(!LIST_EL) return;
+
       if(!items || items.length===0){
         LIST_EL.innerHTML = `
           <div class="newsItem">
             <div class="newsTitle">Haberler şu an alınamadı.</div>
             <div class="newsMeta">Bağlantı / kaynak engeli olabilir. Daha sonra tekrar deneyin.</div>
-            <button class="newsBtn" type="button" id="femudNewsRetry">Tekrar Dene</button>
           </div>`;
-        document.getElementById("femudNewsRetry")?.addEventListener("click", ()=>fetchAndUpdate(true));
         setStamp(stamp || "-");
         return;
       }
 
       const slice = items.slice(0,10);
+
       LIST_EL.innerHTML = slice.map((n,i)=>`
-        <div class="newsItem">
+        <div class="newsItem femudNewsRow" data-link="${esc(n.link)}" data-title="${esc(n.title)}">
           <div class="newsTitle">${i+1}. ${esc(n.title)}</div>
           <div class="newsMeta">${esc(n.source)}${n.pub ? " • "+esc(n.pub) : ""}</div>
-          <button class="newsBtn" type="button" data-link="${esc(n.link)}" data-title="${esc(n.title)}">Tıkla Oku</button>
         </div>
       `).join("");
 
-      LIST_EL.querySelectorAll("button[data-link]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const url = btn.getAttribute("data-link");
-          const t = btn.getAttribute("data-title") || "Haber";
+      LIST_EL.querySelectorAll(".femudNewsRow").forEach(row=>{
+        row.style.cursor = "pointer";
+        row.addEventListener("click", ()=>{
+          const url = row.getAttribute("data-link");
+          const t = row.getAttribute("data-title") || "Haber";
           openModal(url, t);
         });
       });
@@ -1285,10 +1317,15 @@ body.modalLock{ overflow:hidden !important; }
       }catch(_){}
     }
 
-    const RSS_SOURCES = [
-      "https://news.google.com/rss/search?q=world+economy+markets+when:1d&hl=tr&gl=TR&ceid=TR:tr",
-      "https://news.google.com/rss/search?q=inflation+interest+rate+central+bank+when:1d&hl=tr&gl=TR&ceid=TR:tr",
-      "https://news.google.com/rss/search?q=oil+prices+energy+markets+when:1d&hl=tr&gl=TR&ceid=TR:tr"
+        const RSS_SOURCES = [
+      // Google News TR (yedek)
+      "https://news.google.com/rss/search?q=ekonomi+piyasalar+when:1d&hl=tr&gl=TR&ceid=TR:tr",
+
+      // Türkçe ekonomi kaynakları (RSS)
+      "https://www.trthaber.com/ekonomi_articles.rss",
+      "https://www.bloomberght.com/rss",
+      "https://www.dunya.com/rss?d=1",
+      "https://www.aa.com.tr/tr/rss/default?cat=ekonomi"
     ];
 
     async function fetchAndUpdate(force){
