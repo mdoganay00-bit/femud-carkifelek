@@ -1137,12 +1137,13 @@ body.modalLock{ overflow:hidden !important; }
       else alert("Bağlantı henüz yüklenmedi.");
     });
 
- <!-- =========================
-     ALTIN (GRAM / ÇEYREK / TAM)
-     ANLIK +/-% • SPARKLINE • 10 dk / 1 saat / 1 gün • A/B (primli/primsiz) • 1 Gün H/L
+<!-- =========================
+     ALTIN + HABERLER (CORS FIX + MODAL)
+     Eski altın/haber bloklarını silip bunu ekle.
      ========================= -->
 
 <style>
+  /* GOLD */
   .goldTopBar{
     margin-top:12px;
     border-radius:16px;
@@ -1171,7 +1172,6 @@ body.modalLock{ overflow:hidden !important; }
     font-weight:850;
     font-size:12px;
   }
-
   .goldGrid{
     margin-top:12px;
     display:grid;
@@ -1179,7 +1179,6 @@ body.modalLock{ overflow:hidden !important; }
     gap:12px;
   }
   @media(min-width:900px){ .goldGrid{ grid-template-columns: 1fr 1fr 1fr; } }
-
   .goldCard{
     border-radius: calc(var(--r) + 10px);
     border:1px solid var(--stroke);
@@ -1203,14 +1202,8 @@ body.modalLock{ overflow:hidden !important; }
     white-space:nowrap;
   }
   .goldBody{ padding:12px 12px 12px; }
-
-  .goldPriceRow{
-    display:flex; align-items:flex-end; justify-content:space-between; gap:12px;
-  }
-  .goldPrice{
-    font-size:22px; font-weight:990; letter-spacing:.2px; color:#fff;
-    line-height:1.15;
-  }
+  .goldPriceRow{ display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
+  .goldPrice{ font-size:22px; font-weight:990; letter-spacing:.2px; color:#fff; line-height:1.15; }
   .goldDeltaBox{ text-align:right; min-width: 160px; }
   .goldDelta{
     font-size:13px; font-weight:950; letter-spacing:.2px;
@@ -1231,11 +1224,7 @@ body.modalLock{ overflow:hidden !important; }
     padding:8px;
     overflow:hidden;
   }
-  .goldSpark{
-    width:100%;
-    height:44px;
-    display:block;
-  }
+  .goldSpark{ width:100%; height:44px; display:block; }
 
   .goldMeta{
     margin-top:10px;
@@ -1245,122 +1234,228 @@ body.modalLock{ overflow:hidden !important; }
     line-height:1.45;
     display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
   }
+
+  /* NEWS */
+  .newsList{ display:flex; flex-direction:column; gap:10px; }
+  .newsItem{
+    border-radius:16px;
+    border:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+    padding:12px 12px;
+    box-shadow: var(--shadow2);
+  }
+  .newsTitle{
+    margin:0;
+    font-size:14px;
+    font-weight:980;
+    color:#fff;
+    line-height:1.35;
+    cursor:pointer;
+  }
+  .newsTitle:hover{ text-decoration: underline; }
+  .newsMeta{
+    margin-top:6px;
+    display:flex; gap:10px; flex-wrap:wrap;
+    color: rgba(234,242,255,.76);
+    font-size:12px;
+    font-weight:850;
+  }
+
+  /* MODAL */
+  .modalBack{
+    position:fixed; inset:0;
+    background: rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:9999;
+    padding:14px;
+  }
+  .modalBox{
+    width:min(980px, 96vw);
+    height:min(86vh, 720px);
+    border-radius:18px;
+    border:1px solid rgba(255,255,255,.18);
+    background: rgba(10,14,25,.95);
+    box-shadow: 0 25px 70px rgba(0,0,0,.55);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+  }
+  .modalTop{
+    padding:10px 12px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    border-bottom:1px solid rgba(255,255,255,.14);
+    background: rgba(255,255,255,.06);
+  }
+  .modalTop b{ color:#fff; font-weight:980; font-size:13px; }
+  .modalTop .modalBtns{ display:flex; gap:8px; }
+  .mBtn{
+    appearance:none;border:none;cursor:pointer;
+    padding:8px 10px;border-radius:12px;
+    font-weight:950;font-size:12px;
+    color:#06131f;
+    background: linear-gradient(135deg, var(--acc), #8cf7ff, #4cc7ff);
+  }
+  .mBtn.ghost{
+    color: var(--txt);
+    background: rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.14);
+  }
+  .modalFrame{
+    width:100%;
+    height:100%;
+    border:none;
+    background:#fff;
+  }
 </style>
 
-<div class="goldTopBar" id="goldTopBar">
-  <div class="goldCtlRow" id="goldRangeBtns">
-    <button class="goldCtlBtn active" type="button" data-range="10m">10 dk</button>
-    <button class="goldCtlBtn" type="button" data-range="1h">1 saat</button>
-    <button class="goldCtlBtn" type="button" data-range="1d">1 gün</button>
+<!-- ===== ALTIN ===== -->
+<div class="panel" id="altinPanel">
+  <div class="panelHead">
+    <h2>Altın (Anlık)</h2>
+    <p>Gram • Çeyrek • Tam — +/-% ve mini grafik (bilgilendirme amaçlıdır)</p>
   </div>
+  <div class="panelBody">
 
-  <div class="goldCtlRow" id="goldPrimeBtns">
-    <!-- Etiketsiz: A=primli, B=primsiz -->
-    <button class="goldCtlBtn active" type="button" data-prime="A">A</button>
-    <button class="goldCtlBtn" type="button" data-prime="B">B</button>
+    <div class="goldTopBar">
+      <div class="goldCtlRow" id="goldRangeBtns">
+        <button class="goldCtlBtn active" type="button" data-range="10m">10 dk</button>
+        <button class="goldCtlBtn" type="button" data-range="1h">1 saat</button>
+        <button class="goldCtlBtn" type="button" data-range="1d">1 gün</button>
+      </div>
+
+      <div class="goldCtlRow" id="goldPrimeBtns">
+        <!-- Etiketsiz: A=primli, B=primsiz -->
+        <button class="goldCtlBtn active" type="button" data-prime="A">A</button>
+        <button class="goldCtlBtn" type="button" data-prime="B">B</button>
+      </div>
+
+      <div class="goldHint" id="goldHint">Bağlantı kontrol ediliyor…</div>
+    </div>
+
+    <div class="goldGrid" id="goldPanels">
+      <div class="goldCard">
+        <div class="goldHead"><b>🪙 Gram Altın</b><span class="goldPill">₺ / gr</span></div>
+        <div class="goldBody">
+          <div class="goldPriceRow">
+            <div class="goldPrice" id="gold_gram_price">-</div>
+            <div class="goldDeltaBox"><div class="goldDelta flat" id="gold_gram_delta">-</div></div>
+          </div>
+          <div class="goldSparkWrap"><canvas class="goldSpark" id="spark_gram" width="600" height="44"></canvas></div>
+          <div class="goldMeta">
+            <span id="gold_gram_src">Kaynak: -</span>
+            <span id="gold_gram_hl">H: - • L: -</span>
+            <span id="gold_gram_time">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="goldCard">
+        <div class="goldHead"><b>🪙 Çeyrek Altın</b><span class="goldPill">₺</span></div>
+        <div class="goldBody">
+          <div class="goldPriceRow">
+            <div class="goldPrice" id="gold_cey_price">-</div>
+            <div class="goldDeltaBox"><div class="goldDelta flat" id="gold_cey_delta">-</div></div>
+          </div>
+          <div class="goldSparkWrap"><canvas class="goldSpark" id="spark_cey" width="600" height="44"></canvas></div>
+          <div class="goldMeta">
+            <span id="gold_cey_src">Kaynak: -</span>
+            <span id="gold_cey_hl">H: - • L: -</span>
+            <span id="gold_cey_time">-</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="goldCard">
+        <div class="goldHead"><b>🪙 Tam Altın</b><span class="goldPill">₺</span></div>
+        <div class="goldBody">
+          <div class="goldPriceRow">
+            <div class="goldPrice" id="gold_tam_price">-</div>
+            <div class="goldDeltaBox"><div class="goldDelta flat" id="gold_tam_delta">-</div></div>
+          </div>
+          <div class="goldSparkWrap"><canvas class="goldSpark" id="spark_tam" width="600" height="44"></canvas></div>
+          <div class="goldMeta">
+            <span id="gold_tam_src">Kaynak: -</span>
+            <span id="gold_tam_hl">H: - • L: -</span>
+            <span id="gold_tam_time">-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <b>Not:</b> Veriler kaynaklara göre küçük fark gösterebilir. Yatırım tavsiyesi değildir.
+    </div>
   </div>
-
-  <div class="goldHint" id="goldHint">Anlık güncelleme • +/-% seçtiğin süreye göre</div>
 </div>
 
-<div class="goldGrid" id="goldPanels">
-  <!-- GRAM -->
-  <div class="goldCard">
-    <div class="goldHead">
-      <b>🪙 Gram Altın</b>
-      <span class="goldPill">₺ / gr</span>
-    </div>
-    <div class="goldBody">
-      <div class="goldPriceRow">
-        <div class="goldPrice" id="gold_gram_price">-</div>
-        <div class="goldDeltaBox">
-          <div class="goldDelta flat" id="gold_gram_delta">-</div>
-        </div>
-      </div>
-
-      <div class="goldSparkWrap">
-        <canvas class="goldSpark" id="spark_gram" width="600" height="44"></canvas>
-      </div>
-
-      <div class="goldMeta">
-        <span id="gold_gram_src">Kaynak: -</span>
-        <span id="gold_gram_hl">H: - • L: -</span>
-        <span id="gold_gram_time">-</span>
-      </div>
+<!-- ===== HABERLER ===== -->
+<div class="panel" id="haberPanel">
+  <div class="panelHead">
+    <h2>Dünya Gündemi (Ekonomi & Piyasa)</h2>
+    <p>En az 10 haber • 12 saatte bir güncellenir • Başlığa tıklayınca sayfa kapanmadan açılır</p>
+  </div>
+  <div class="panelBody">
+    <div class="newsList" id="newsList">
+      <div class="miniNote">Haberler yükleniyor…</div>
     </div>
   </div>
+</div>
 
-  <!-- ÇEYREK -->
-  <div class="goldCard">
-    <div class="goldHead">
-      <b>🪙 Çeyrek Altın</b>
-      <span class="goldPill">₺</span>
-    </div>
-    <div class="goldBody">
-      <div class="goldPriceRow">
-        <div class="goldPrice" id="gold_cey_price">-</div>
-        <div class="goldDeltaBox">
-          <div class="goldDelta flat" id="gold_cey_delta">-</div>
-        </div>
-      </div>
-
-      <div class="goldSparkWrap">
-        <canvas class="goldSpark" id="spark_cey" width="600" height="44"></canvas>
-      </div>
-
-      <div class="goldMeta">
-        <span id="gold_cey_src">Kaynak: -</span>
-        <span id="gold_cey_hl">H: - • L: -</span>
-        <span id="gold_cey_time">-</span>
+<!-- ===== MODAL (Haber Açma) ===== -->
+<div class="modalBack" id="newsModalBack">
+  <div class="modalBox">
+    <div class="modalTop">
+      <b id="newsModalTitle">Haber</b>
+      <div class="modalBtns">
+        <button class="mBtn ghost" id="openNewTabBtn" type="button">Yeni Sekme</button>
+        <button class="mBtn" id="closeModalBtn" type="button">Kapat</button>
       </div>
     </div>
-  </div>
-
-  <!-- TAM -->
-  <div class="goldCard">
-    <div class="goldHead">
-      <b>🪙 Tam Altın</b>
-      <span class="goldPill">₺</span>
-    </div>
-    <div class="goldBody">
-      <div class="goldPriceRow">
-        <div class="goldPrice" id="gold_tam_price">-</div>
-        <div class="goldDeltaBox">
-          <div class="goldDelta flat" id="gold_tam_delta">-</div>
-        </div>
-      </div>
-
-      <div class="goldSparkWrap">
-        <canvas class="goldSpark" id="spark_tam" width="600" height="44"></canvas>
-      </div>
-
-      <div class="goldMeta">
-        <span id="gold_tam_src">Kaynak: -</span>
-        <span id="gold_tam_hl">H: - • L: -</span>
-        <span id="gold_tam_time">-</span>
-      </div>
-    </div>
+    <iframe class="modalFrame" id="newsFrame" src="about:blank" title="Haber"></iframe>
   </div>
 </div>
 
 <script>
 /* =========================
-   ALTIN — ANLIK +/-% + SPARKLINE + ZAMAN SEÇİCİ + PRİM A/B + 1 Gün H/L
-   =========================
-   Not:
-   - _fetch(url, opts) ve fetchViaProxy(url) senin dosyanda varsa otomatik kullanır.
-   - Yoksa normal fetch ile de çoğu yerde çalışır.
-*/
+   CORS ÇÖZÜMÜ + ALTIN + HABERLER
+   ========================= */
 
+const PROXY_RAW = (u)=> `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`;
+
+async function fetchTextCors(url){
+  // 1) Direkt dene (bazı kaynaklar izin verir)
+  try{
+    const r = await fetch(url, {cache:"no-store"});
+    if(r.ok) return await r.text();
+  }catch(e){}
+
+  // 2) AllOrigins (CORS proxy)
+  const r2 = await fetch(PROXY_RAW(url), {cache:"no-store"});
+  if(!r2.ok) throw new Error("Proxy alınamadı");
+  return await r2.text();
+}
+async function fetchJSONCors(url){
+  const txt = await fetchTextCors(url);
+  return JSON.parse(txt);
+}
+
+/* =========================
+   ALTIN
+   ========================= */
 const GOLD = {
-  PRIME: { gram: 0.055, ceyrek: 0.105, tam: 0.095 }, // A modu (primli)
+  PRIME: { gram: 0.055, ceyrek: 0.105, tam: 0.095 }, // A modu
   TROY_OZ_TO_GRAM: 31.1034768,
   CEY_SAF_EQ_GR: 1.604,
   TAM_SAF_EQ_GR: 6.60,
   REFRESH_MS: 30000,
   KEEP_DAYS: 2,
-  STORE_KEY: "femud_gold_series_v2",
-  UI: { range: "10m", primeMode: "A" } // range: 10m/1h/1d, prime: A/B
+  STORE_KEY: "femud_gold_series_v3",
+  UI: { range: "10m", primeMode: "A" }
 };
 
 function tl(x){
@@ -1375,56 +1470,18 @@ function stamp(){
 }
 function applyPrime(v, pct){ return v * (1 + pct); }
 
-async function fetchJSON(url){
-  // 1) direkt dene
-  try{
-    const r = await (typeof _fetch==="function"
-      ? _fetch(url,{cache:"no-store"})
-      : fetch(url,{cache:"no-store"})
-    );
-    if(r.ok) return await r.json();
-  }catch(_){}
-
-  // 2) proxy fallback (varsa)
-  if(typeof fetchViaProxy === "function"){
-    const txt = await fetchViaProxy(url);
-    return JSON.parse(txt);
-  }
-  throw new Error("JSON alınamadı");
-}
-
-async function getUSDTRY(){
-  const j = await fetchJSON("https://open.er-api.com/v6/latest/USD");
-  const v = j?.rates?.TRY;
-  if(!v) throw new Error("USDTRY yok");
-  return Number(v);
-}
-async function getXAUUSD(){
-  const j = await fetchJSON("https://data-asg.goldprice.org/dbXRates/USD");
-  const x = j?.items?.[0]?.xauPrice;
-  if(!x) throw new Error("XAUUSD yok");
-  return Number(x);
-}
-
-/* ----- Seri (tarihçe) ----- */
 function loadSeries(){
   try{
     const s = JSON.parse(localStorage.getItem(GOLD.STORE_KEY) || "null");
     if(!s || !Array.isArray(s.points)) return { points: [] };
     return s;
-  }catch(_){
-    return { points: [] };
-  }
+  }catch(_){ return { points: [] }; }
 }
-function saveSeries(series){
-  try{ localStorage.setItem(GOLD.STORE_KEY, JSON.stringify(series)); }catch(_){}
-}
+function saveSeries(series){ try{ localStorage.setItem(GOLD.STORE_KEY, JSON.stringify(series)); }catch(_){} }
 function pruneSeries(series){
   const cutoff = Date.now() - GOLD.KEEP_DAYS*24*60*60*1000;
   series.points = series.points.filter(p => p.t >= cutoff);
 }
-
-/* ----- Zaman aralığı (delta için lookback) ----- */
 function rangeToMs(r){
   if(r==="10m") return 10*60*1000;
   if(r==="1h")  return 60*60*1000;
@@ -1440,8 +1497,6 @@ function findLookbackValue(points, key, lookbackMs){
   if(best==null && points.length) best = points[0][key];
   return best;
 }
-
-/* ----- 1 Gün High/Low ----- */
 function setHL(kind, hi, lo){
   const el = document.getElementById(`gold_${kind}_hl`);
   if(!el) return;
@@ -1460,22 +1515,17 @@ function computeHL(points, key, ms){
   return {hi, lo};
 }
 
-/* ----- Sparkline çizimi ----- */
 function drawSpark(canvasId, values){
   const c = document.getElementById(canvasId);
   if(!c) return;
   const ctx = c.getContext("2d");
   const w = c.width, h = c.height;
-
   ctx.clearRect(0,0,w,h);
 
   if(!values || values.length < 2){
     ctx.globalAlpha = 0.35;
     ctx.strokeStyle = "#ffffff";
-    ctx.beginPath();
-    ctx.moveTo(0, h/2);
-    ctx.lineTo(w, h/2);
-    ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(0, h/2); ctx.lineTo(w, h/2); ctx.stroke();
     ctx.globalAlpha = 1;
     return;
   }
@@ -1486,10 +1536,7 @@ function drawSpark(canvasId, values){
 
   ctx.globalAlpha = 0.20;
   ctx.strokeStyle = "#ffffff";
-  ctx.beginPath();
-  ctx.moveTo(0, h-1);
-  ctx.lineTo(w, h-1);
-  ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(0, h-1); ctx.lineTo(w, h-1); ctx.stroke();
   ctx.globalAlpha = 1;
 
   ctx.lineWidth = 2;
@@ -1498,23 +1545,19 @@ function drawSpark(canvasId, values){
   values.forEach((v,i)=>{
     const x = (i/(values.length-1)) * (w-2) + 1;
     const y = h - ((v-min)/span)*(h-6) - 3;
-    if(i===0) ctx.moveTo(x,y);
-    else ctx.lineTo(x,y);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
   });
   ctx.stroke();
 
   const lastV = values[values.length-1];
-  const lastX = (w-2) + 1;
+  const lastX = (w-2)+1;
   const lastY = h - ((lastV-min)/span)*(h-6) - 3;
-  ctx.fillStyle = "#ffffff";
-  ctx.beginPath();
-  ctx.arc(lastX, lastY, 2.8, 0, Math.PI*2);
-  ctx.fill();
+  ctx.fillStyle="#ffffff";
+  ctx.beginPath(); ctx.arc(lastX,lastY,2.8,0,Math.PI*2); ctx.fill();
 }
 
-/* ----- UI güncelle ----- */
 function setDelta(el, now, prev){
-  if(!el){ return; }
+  if(!el) return;
   if(prev==null || !isFinite(prev)){
     el.className = "goldDelta flat";
     el.textContent = "—";
@@ -1528,32 +1571,48 @@ function setDelta(el, now, prev){
   const sign = diff>0 ? "+" : diff<0 ? "" : "";
   el.textContent = `${arrow} ${sign}${tl(diff)}  (${sign}${pct.toFixed(2)}%)`;
 }
-
 function setRow(kind, price, prev, srcText){
   const pEl = document.getElementById(`gold_${kind}_price`);
   const dEl = document.getElementById(`gold_${kind}_delta`);
   const sEl = document.getElementById(`gold_${kind}_src`);
   const tEl = document.getElementById(`gold_${kind}_time`);
-
   if(pEl) pEl.textContent = tl(price);
   setDelta(dEl, price, prev);
   if(sEl) sEl.textContent = `Kaynak: ${srcText}`;
   if(tEl) tEl.textContent = stamp();
 }
 
-/* ----- Ana güncelleme ----- */
+/* Kaynaklar:
+   - USDTRY: open.er-api (CORS bazen ok, değilse proxy ile)
+   - XAUUSD: goldprice.org data-asg endpoint (proxy ile garanti)
+*/
+async function getUSDTRY(){
+  const j = await fetchJSONCors("https://open.er-api.com/v6/latest/USD");
+  const v = j?.rates?.TRY;
+  if(!v) throw new Error("USDTRY yok");
+  return Number(v);
+}
+async function getXAUUSD(){
+  const j = await fetchJSONCors("https://data-asg.goldprice.org/dbXRates/USD");
+  const x = j?.items?.[0]?.xauPrice;
+  if(!x) throw new Error("XAUUSD yok");
+  return Number(x);
+}
+
 async function updateGold(){
+  const hint = document.getElementById("goldHint");
   const series = loadSeries();
   pruneSeries(series);
 
   try{
+    if(hint) hint.textContent = "Veri çekiliyor…";
+
     const [usdtry, xauusd] = await Promise.all([getUSDTRY(), getXAUUSD()]);
 
-    const gramUSD = xauusd / GOLD.TROY_OZ_TO_GRAM;
+    const gramUSD  = xauusd / GOLD.TROY_OZ_TO_GRAM;
     const gramSpot = gramUSD * usdtry;
-
-    const ceySpot = gramSpot * GOLD.CEY_SAF_EQ_GR;
-    const tamSpot = gramSpot * GOLD.TAM_SAF_EQ_GR;
+    const ceySpot  = gramSpot * GOLD.CEY_SAF_EQ_GR;
+    const tamSpot  = gramSpot * GOLD.TAM_SAF_EQ_GR;
 
     const usePrime = (GOLD.UI.primeMode === "A");
     const gram = usePrime ? applyPrime(gramSpot, GOLD.PRIME.gram) : gramSpot;
@@ -1573,7 +1632,6 @@ async function updateGold(){
     setRow("cey",  cey,  prevCey,  "Gram bazlı");
     setRow("tam",  tam,  prevTam,  "Gram bazlı");
 
-    // 1 gün H/L
     const oneDay = 24*60*60*1000;
     const hlG = computeHL(series.points, "gram", oneDay);
     const hlC = computeHL(series.points, "cey",  oneDay);
@@ -1582,21 +1640,18 @@ async function updateGold(){
     setHL("cey",  hlC.hi, hlC.lo);
     setHL("tam",  hlT.hi, hlT.lo);
 
-    // sparkline: seçilen range penceresi
     const cutoff = Date.now() - lookback;
     const windowPts = series.points.filter(p => p.t >= cutoff);
-
     drawSpark("spark_gram", windowPts.map(p=>p.gram));
     drawSpark("spark_cey",  windowPts.map(p=>p.cey));
     drawSpark("spark_tam",  windowPts.map(p=>p.tam));
 
-    const hint = document.getElementById("goldHint");
     if(hint){
       const rr = GOLD.UI.range==="10m" ? "10 dk" : GOLD.UI.range==="1h" ? "1 saat" : "1 gün";
       hint.textContent = `Anlık güncelleme • +/-% (${rr})`;
     }
-
-  }catch(err){
+  }catch(e){
+    // Cache göster
     const last = loadSeries().points;
     if(last && last.length){
       const p = last[last.length-1];
@@ -1604,7 +1659,6 @@ async function updateGold(){
       setRow("cey",  p.cey,  null, "Cache");
       setRow("tam",  p.tam,  null, "Cache");
 
-      // 1 gün H/L (cache)
       const oneDay = 24*60*60*1000;
       const hlG = computeHL(last, "gram", oneDay);
       const hlC = computeHL(last, "cey",  oneDay);
@@ -1616,31 +1670,22 @@ async function updateGold(){
       drawSpark("spark_gram", last.slice(-30).map(x=>x.gram));
       drawSpark("spark_cey",  last.slice(-30).map(x=>x.cey));
       drawSpark("spark_tam",  last.slice(-30).map(x=>x.tam));
+
+      if(hint) hint.textContent = "Bağlantı kısıtlı • Cache gösteriliyor";
     }else{
-      ["gram","cey","tam"].forEach(k=>{
-        const pEl = document.getElementById(`gold_${k}_price`);
-        const dEl = document.getElementById(`gold_${k}_delta`);
-        const sEl = document.getElementById(`gold_${k}_src`);
-        const tEl = document.getElementById(`gold_${k}_time`);
-        const hEl = document.getElementById(`gold_${k}_hl`);
-        if(pEl) pEl.textContent = "-";
-        if(dEl){ dEl.className="goldDelta flat"; dEl.textContent="Veri alınamadı"; }
-        if(sEl) sEl.textContent = "Kaynak: -";
-        if(hEl) hEl.textContent = "H: - • L: -";
-        if(tEl) tEl.textContent = stamp();
-      });
+      if(hint) hint.textContent = "Altın verisi alınamadı (bağlantı/engel)";
     }
   }
 }
 
-/* ----- UI butonları ----- */
+// Gold UI
 (function initGoldUI(){
   const rBtns = document.querySelectorAll("#goldRangeBtns .goldCtlBtn[data-range]");
   rBtns.forEach(b=>{
     b.addEventListener("click", ()=>{
       GOLD.UI.range = b.getAttribute("data-range");
       rBtns.forEach(x=>x.classList.toggle("active", x===b));
-      try{ localStorage.setItem("femud_gold_range", GOLD.UI.range); }catch(_){}
+      localStorage.setItem("femud_gold_range", GOLD.UI.range);
       updateGold();
     });
   });
@@ -1650,166 +1695,139 @@ async function updateGold(){
     b.addEventListener("click", ()=>{
       GOLD.UI.primeMode = b.getAttribute("data-prime");
       pBtns.forEach(x=>x.classList.toggle("active", x===b));
-      try{ localStorage.setItem("femud_gold_primeMode", GOLD.UI.primeMode); }catch(_){}
+      localStorage.setItem("femud_gold_primeMode", GOLD.UI.primeMode);
       updateGold();
     });
   });
 
   const savedRange = localStorage.getItem("femud_gold_range");
   const savedPrime = localStorage.getItem("femud_gold_primeMode");
-  if(savedRange){
-    GOLD.UI.range = savedRange;
-    rBtns.forEach(x=>x.classList.toggle("active", x.getAttribute("data-range")===savedRange));
-  }
-  if(savedPrime){
-    GOLD.UI.primeMode = savedPrime;
-    pBtns.forEach(x=>x.classList.toggle("active", x.getAttribute("data-prime")===savedPrime));
-  }
+  if(savedRange){ GOLD.UI.range = savedRange; rBtns.forEach(x=>x.classList.toggle("active", x.getAttribute("data-range")===savedRange)); }
+  if(savedPrime){ GOLD.UI.primeMode = savedPrime; pBtns.forEach(x=>x.classList.toggle("active", x.getAttribute("data-prime")===savedPrime)); }
 })();
 
-updateGold();
-setInterval(updateGold, GOLD.REFRESH_MS);
-</script>
+/* =========================
+   HABERLER (Google News RSS -> proxy -> XML parse)
+   ========================= */
+const NEWS = {
+  RSS: "https://news.google.com/rss/search?q=ekonomi%20piyasa%20d%C3%BCnya%20OR%20borsa%20OR%20enflasyon%20OR%20faiz&hl=tr&gl=TR&ceid=TR:tr",
+  STORE_KEY: "femud_news_cache_v1",
+  REFRESH_MS: 12 * 60 * 60 * 1000, // 12 saat
+  MAX: 10
+};
 
-    /* ========= HABERLER (10+) 12 SAAT ========= */
-    const LIST_EL = document.getElementById("femudNewsList");
-    const STAMP_EL = document.getElementById("femudNewsStamp");
-    const REFRESH_MS = 12 * 60 * 60 * 1000;
-    const LS_KEY_TIME = "femud_news_last_fetch";
-    const LS_KEY_DATA = "femud_news_cache";
+function parseRssDate(d){
+  try{ return new Date(d).toLocaleString("tr-TR",{dateStyle:"short", timeStyle:"short"}); }catch(_){ return d || "-"; }
+}
+function stripHtml(s){ return (s||"").replace(/<[^>]*>/g,"").trim(); }
 
-    function setStamp(t){ if(STAMP_EL) STAMP_EL.textContent = "Son güncelleme: " + (t || "-"); }
-    function esc(s){
-      return String(s||"")
-        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;").replaceAll("'","&#39;");
+async function fetchNews(){
+  const box = document.getElementById("newsList");
+  if(!box) return;
+
+  // cache kontrol (12 saat)
+  try{
+    const cached = JSON.parse(localStorage.getItem(NEWS.STORE_KEY) || "null");
+    if(cached && cached.t && (Date.now()-cached.t) < NEWS.REFRESH_MS && Array.isArray(cached.items) && cached.items.length){
+      renderNews(cached.items);
+      return;
     }
-    function parseRss(xmlText){
-      const doc = new DOMParser().parseFromString(xmlText, "text/xml");
-      const items = Array.from(doc.querySelectorAll("item"));
-      return items.map(it => ({
-        title: it.querySelector("title")?.textContent?.trim() || "Haber",
-        link:  it.querySelector("link")?.textContent?.trim() || "",
-        pub:   it.querySelector("pubDate")?.textContent?.trim() || "",
-        source: it.querySelector("source")?.textContent?.trim() || "Google News"
-      })).filter(x=>x.link);
-    }
-    function uniqByLink(arr){
-      const s = new Set(); const out=[];
-      for(const x of arr){ if(!x.link) continue; if(s.has(x.link)) continue; s.add(x.link); out.push(x); }
-      return out;
-    }
+  }catch(_){}
 
-    async function fetchRssDirect(rssUrl){
-      const xml = await fetchViaProxy(rssUrl);
-      return parseRss(xml);
-    }
+  box.innerHTML = `<div class="miniNote">Haberler güncelleniyor…</div>`;
 
-       function renderNews(items, stamp){
-      if(!LIST_EL) return;
+  try{
+    const xmlText = await fetchTextCors(NEWS.RSS);
+    const xml = new DOMParser().parseFromString(xmlText, "text/xml");
+    const items = Array.from(xml.querySelectorAll("item")).slice(0, NEWS.MAX).map(it=>{
+      const titleRaw = it.querySelector("title")?.textContent || "";
+      // Google News title genelde "Başlık - Kaynak" gibi gelir
+      let title = titleRaw;
+      let source = "";
+      if(titleRaw.includes(" - ")){
+        const parts = titleRaw.split(" - ");
+        title = parts.slice(0,-1).join(" - ").trim();
+        source = parts[parts.length-1].trim();
+      }
+      const link = it.querySelector("link")?.textContent || "";
+      const pubDate = it.querySelector("pubDate")?.textContent || "";
+      return {
+        title: stripHtml(title),
+        source: stripHtml(source || "Google News"),
+        date: parseRssDate(pubDate),
+        link
+      };
+    });
 
-      if(!items || items.length===0){
-        LIST_EL.innerHTML = `
-          <div class="newsItem">
-            <div class="newsTitle">Haberler şu an alınamadı.</div>
-            <div class="newsMeta">Bağlantı / kaynak engeli olabilir. Daha sonra tekrar deneyin.</div>
-          </div>`;
-        setStamp(stamp || "-");
+    localStorage.setItem(NEWS.STORE_KEY, JSON.stringify({t: Date.now(), items}));
+    renderNews(items);
+  }catch(e){
+    // cache varsa göster
+    try{
+      const cached = JSON.parse(localStorage.getItem(NEWS.STORE_KEY) || "null");
+      if(cached?.items?.length){
+        renderNews(cached.items);
         return;
       }
+    }catch(_){}
+    box.innerHTML = `<div class="miniNote">Haber alınamadı (bağlantı/engel).</div>`;
+  }
+}
 
-      const slice = items.slice(0,10);
+function renderNews(items){
+  const box = document.getElementById("newsList");
+  if(!box) return;
+  box.innerHTML = "";
+  items.forEach((n, idx)=>{
+    const div = document.createElement("div");
+    div.className = "newsItem";
+    div.innerHTML = `
+      <p class="newsTitle" data-link="${encodeURIComponent(n.link)}">${idx+1}. ${n.title}</p>
+      <div class="newsMeta">
+        <span>${n.source}</span>
+        <span>•</span>
+        <span>${n.date}</span>
+      </div>
+    `;
+    box.appendChild(div);
+  });
 
-      LIST_EL.innerHTML = slice.map((n,i)=>`
-        <div class="newsItem femudNewsRow" data-link="${esc(n.link)}" data-title="${esc(n.title)}">
-          <div class="newsTitle">${i+1}. ${esc(n.title)}</div>
-          <div class="newsMeta">${esc(n.source)}${n.pub ? " • "+esc(n.pub) : ""}</div>
-        </div>
-      `).join("");
+  box.querySelectorAll(".newsTitle").forEach(el=>{
+    el.addEventListener("click", ()=>{
+      const link = decodeURIComponent(el.getAttribute("data-link") || "");
+      openNewsModal(el.textContent || "Haber", link);
+    });
+  });
+}
 
-      LIST_EL.querySelectorAll(".femudNewsRow").forEach(row=>{
-        row.style.cursor = "pointer";
-        row.addEventListener("click", ()=>{
-          const url = row.getAttribute("data-link");
-          const t = row.getAttribute("data-title") || "Haber";
-          openModal(url, t);
-        });
-      });
+/* Modal open */
+const modalBack = document.getElementById("newsModalBack");
+const modalTitle = document.getElementById("newsModalTitle");
+const newsFrame = document.getElementById("newsFrame");
+const closeModalBtn = document.getElementById("closeModalBtn");
+const openNewTabBtn = document.getElementById("openNewTabBtn");
+let currentNewsUrl = "";
 
-      setStamp(stamp || stampTR());
-    }
+function openNewsModal(title, url){
+  currentNewsUrl = url;
+  if(modalTitle) modalTitle.textContent = (title||"Haber").slice(0,110);
+  if(newsFrame) newsFrame.src = url;
+  if(modalBack) modalBack.style.display = "flex";
+}
+function closeNewsModal(){
+  if(modalBack) modalBack.style.display = "none";
+  if(newsFrame) newsFrame.src = "about:blank";
+  currentNewsUrl = "";
+}
 
-    function loadCache(){
-      try{ return JSON.parse(localStorage.getItem(LS_KEY_DATA) || "null"); }catch(_){ return null; }
-    }
-    function saveCache(items){
-      try{
-        localStorage.setItem(LS_KEY_DATA, JSON.stringify(items));
-        localStorage.setItem(LS_KEY_TIME, String(Date.now()));
-      }catch(_){}
-    }
+if(closeModalBtn) closeModalBtn.addEventListener("click", closeNewsModal);
+if(modalBack) modalBack.addEventListener("click", (e)=>{ if(e.target === modalBack) closeNewsModal(); });
+if(openNewTabBtn) openNewTabBtn.addEventListener("click", ()=>{ if(currentNewsUrl) window.open(currentNewsUrl, "_blank"); });
 
-        const RSS_SOURCES = [
-      // Google News TR (yedek)
-      "https://news.google.com/rss/search?q=ekonomi+piyasalar+when:1d&hl=tr&gl=TR&ceid=TR:tr",
+/* Başlat */
+updateGold();
+setInterval(updateGold, GOLD.REFRESH_MS);
 
-      // Türkçe ekonomi kaynakları (RSS)
-      "https://www.trthaber.com/ekonomi_articles.rss",
-      "https://www.bloomberght.com/rss",
-      "https://www.dunya.com/rss?d=1",
-      "https://www.aa.com.tr/tr/rss/default?cat=ekonomi"
-    ];
-
-    async function fetchAndUpdate(force){
-      const cached = loadCache();
-      const last = Number(localStorage.getItem(LS_KEY_TIME) || "0");
-      const fresh = (Date.now() - last) < REFRESH_MS;
-
-      if(cached && Array.isArray(cached) && cached.length){
-        const stamp = last ? new Date(last).toLocaleString("tr-TR",{dateStyle:"short", timeStyle:"short"}) : stampTR();
-        renderNews(cached, stamp);
-      }
-      if(!force && fresh && cached && cached.length) return;
-
-      if(LIST_EL){
-        LIST_EL.innerHTML = `
-          <div class="newsItem">
-            <div class="newsTitle">Haberler güncelleniyor…</div>
-            <div class="newsMeta">Kaynaklar kontrol ediliyor.</div>
-            <button class="newsBtn" type="button" disabled>Bekleyin</button>
-          </div>`;
-      }
-
-      try{
-        let all = [];
-        for(const src of RSS_SOURCES){
-          const part = await fetchRssDirect(src);
-          all = all.concat(part);
-        }
-        all = uniqByLink(all);
-
-        if(all.length < 10){
-          const fallback = await fetchRssDirect("https://news.google.com/rss/search?q=global+markets+economy+when:3d&hl=tr&gl=TR&ceid=TR:tr");
-          all = uniqByLink(all.concat(fallback));
-        }
-
-        const finalList = all.slice(0,20);
-        saveCache(finalList);
-        renderNews(finalList, stampTR());
-      }catch(_){
-        const cached2 = loadCache();
-        if(cached2 && cached2.length) renderNews(cached2, "Cache (bağlantı yok)");
-        else renderNews([], "-");
-      }
-    }
-
-    fetchAndUpdate(false);
-
-    // Refresh butonu basılınca haberleri de zorla tazele (sayfa zaten reload da ediyor ama hızlı olsun)
-    document.getElementById("refreshBtn")?.addEventListener("click", ()=>fetchAndUpdate(true));
-
-  })();
-  </script>
-
-</body>
-</html>
+fetchNews();
+setInterval(fetchNews, 30*60*1000); // listeyi 30dk'da bir dene ama cache 12 saatte yenilenir
+</script>
