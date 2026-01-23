@@ -1302,75 +1302,137 @@ body.modalLock{ overflow:hidden !important; }
       else alert("Bağlantı henüz yüklenmedi.");
     });
 
-    /* ========= ALTIN (Gram/Çeyrek/Tam) ========= */
-    const gramEl = document.getElementById("femudGramAltin");
-    const ceyEl  = document.getElementById("femudCeyrekAltin");
-    const tamEl  = document.getElementById("femudTamAltin");
-    const gramMeta = document.getElementById("femudGramAltinMeta");
-    const ceyMeta  = document.getElementById("femudCeyrekAltinMeta");
-    const tamMeta  = document.getElementById("femudTamAltinMeta");
+  /* ========= ALTIN (Gram/Çeyrek/Tam) — KUYUMCU MODU (PRİMLİ) ========= */
+const gramEl = document.getElementById("femudGramAltin");
+const ceyEl  = document.getElementById("femudCeyrekAltin");
+const tamEl  = document.getElementById("femudTamAltin");
 
-    async function fetchGoldFromDoviz(){
-      const urls = {
-        gram:"https://www.doviz.com/altin/gram-altin",
-        ceyrek:"https://www.doviz.com/altin/ceyrek-altin",
-        tam:"https://www.doviz.com/altin/tam-altin"
-      };
-      async function getOne(u){
-        const html = await fetchViaProxy(u);
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        let valText =
-          doc.querySelector(".value")?.textContent ||
-          doc.querySelector('meta[property="og:price:amount"]')?.getAttribute("content") ||
-          doc.querySelector('meta[itemprop="price"]')?.getAttribute("content") ||
-          "";
-        let val = tryNumber(valText);
-        if(val == null){
-          const mm = html.match(/"selling"\s*:\s*"([^"]+)"/i) || html.match(/"price"\s*:\s*"([^"]+)"/i);
-          if(mm && mm[1]) val = tryNumber(mm[1]);
-        }
-        return val;
-      }
-      const [g,c,t] = await Promise.all([getOne(urls.gram), getOne(urls.ceyrek), getOne(urls.tam)]);
-      if(g && c && t) return {gram:g, ceyrek:c, tam:t, source:"doviz.com"};
-      throw new Error("doviz parse failed");
-    }
+const gramMeta = document.getElementById("femudGramAltinMeta");
+const ceyMeta  = document.getElementById("femudCeyrekAltinMeta");
+const tamMeta  = document.getElementById("femudTamAltinMeta");
 
-    async function updateGold(){
-      if(gramMeta) gramMeta.textContent = "Güncelleniyor…";
-      try{
-        const data = await fetchGoldFromDoviz();
-        if(gramEl) gramEl.textContent = formatTL(data.gram);
-        if(ceyEl)  ceyEl.textContent  = formatTL(data.ceyrek);
-        if(tamEl)  tamEl.textContent  = formatTL(data.tam);
-        const metaText = `Kaynak: ${data.source} • ${stampTR()}`;
-        if(gramMeta) gramMeta.textContent = metaText;
-        if(ceyMeta)  ceyMeta.textContent  = metaText;
-        if(tamMeta)  tamMeta.textContent  = metaText;
-        localStorage.setItem("femud_gold_cache", JSON.stringify({t:Date.now(), ...data}));
-      }catch(_){
-        // cache fallback
-        try{
-          const cached = JSON.parse(localStorage.getItem("femud_gold_cache") || "null");
-          if(cached?.gram && cached?.ceyrek && cached?.tam){
-            if(gramEl) gramEl.textContent = formatTL(cached.gram);
-            if(ceyEl)  ceyEl.textContent  = formatTL(cached.ceyrek);
-            if(tamEl)  tamEl.textContent  = formatTL(cached.tam);
-            const lastOk = cached.t ? new Date(cached.t).toLocaleString("tr-TR",{dateStyle:"short", timeStyle:"short"}) : stampTR();
-            const metaText = `Cache • Son başarılı: ${lastOk}`;
-            if(gramMeta) gramMeta.textContent = metaText;
-            if(ceyMeta)  ceyMeta.textContent  = metaText;
-            if(tamMeta)  tamMeta.textContent  = metaText;
-          }else{
-            if(gramMeta) gramMeta.textContent = "Altın verisi alınamadı (bağlantı/engel).";
-          }
-        }catch(__){
-          if(gramMeta) gramMeta.textContent = "Altın verisi alınamadı (bağlantı/engel).";
-        }
+// ==== KUYUMCU PRİM AYARLARI (istersen değiştir) ====
+// Spot üstüne prim eklenerek kuyumcuya daha yakın gösterir.
+const PRIME = {
+  gram: 0.045,   // %4.5
+  ceyrek: 0.095, // %9.5
+  tam: 0.085     // %8.5
+};
+
+function applyPrime(value, pct){
+  return value * (1 + pct);
+}
+
+const TROY_OZ_TO_GRAM = 31.1034768;
+
+// Çeyrek/Tam için yaklaşık saf altın eşdeğeri (SPOT bazlı):
+// Çeyrek altın (22 ayar) ~ 1.75g * 0.916 = 1.604g saf altın eşdeğeri
+// Tam altın (Cumhuriyet) yaklaşık saf eşdeğer ~ 6.60g (piyasa tipine göre değişebilir)
+const CEYREK_SAF_EQ_GR = 1.604;
+const TAM_SAF_EQ_GR    = 6.60;
+
+function setGoldMeta(text){
+  if(gramMeta) gramMeta.textContent = text;
+  if(ceyMeta)  ceyMeta.textContent  = text;
+  if(tamMeta)  tamMeta.textContent  = text;
+}
+
+// fetch helper: önce direkt, olmazsa proxy
+async function fetchJSON(url){
+  try{
+    const r = await _fetch(url, {cache:"no-store"});
+    if(r.ok) return await r.json();
+  }catch(_){}
+
+  const txt = await fetchViaProxy(url); // senin PART 10’daki proxy fonksiyonun
+  try{
+    return JSON.parse(txt);
+  }catch(_){
+    throw new Error("json parse failed");
+  }
+}
+
+async function getUSDTRY(){
+  // Genelde sorunsuz JSON
+  const j = await fetchJSON("https://open.er-api.com/v6/latest/USD");
+  const v = j?.rates?.TRY;
+  if(!v) throw new Error("USDTRY missing");
+  return Number(v);
+}
+
+async function getXAUUSD(){
+  // 1 ons altının USD fiyatını verir (JSON)
+  const j = await fetchJSON("https://data-asg.goldprice.org/dbXRates/USD");
+  const x = j?.items?.[0]?.xauPrice;
+  if(!x) throw new Error("XAUUSD missing");
+  return Number(x);
+}
+
+async function updateGold(){
+  setGoldMeta("Güncelleniyor…");
+
+  try{
+    const [usdtry, xauusd] = await Promise.all([getUSDTRY(), getXAUUSD()]);
+
+    // Spot gram altın (24K) TRY:
+    // 1 ons altın (USD) / 31.1035 = gram USD, sonra USD/TRY
+    const gramUSD = xauusd / TROY_OZ_TO_GRAM;
+    const gramTRY_spot = gramUSD * usdtry;
+
+    // Çeyrek/Tam spot eşdeğeri (saf gram karşılığı üzerinden)
+    const ceyrekTRY_spot = gramTRY_spot * CEYREK_SAF_EQ_GR;
+    const tamTRY_spot    = gramTRY_spot * TAM_SAF_EQ_GR;
+
+    // Kuyumcu modu (primli)
+    const gramK = applyPrime(gramTRY_spot, PRIME.gram);
+    const ceyK  = applyPrime(ceyrekTRY_spot, PRIME.ceyrek);
+    const tamK  = applyPrime(tamTRY_spot, PRIME.tam);
+
+    if(gramEl) gramEl.textContent = formatTL(gramK);
+    if(ceyEl)  ceyEl.textContent  = formatTL(ceyK);
+    if(tamEl)  tamEl.textContent  = formatTL(tamK);
+
+    const metaText =
+      `Kuyumcu modu (+prim) • Gram %${Math.round(PRIME.gram*100)} • Çeyrek %${Math.round(PRIME.ceyrek*100)} • Tam %${Math.round(PRIME.tam*100)} • ${stampTR()}`;
+    setGoldMeta(metaText);
+
+    // Cache (bağlantı koparsa son başarılı değerler görünsün)
+    localStorage.setItem("femud_gold_cache", JSON.stringify({
+      t: Date.now(),
+      gram: gramK,
+      ceyrek: ceyK,
+      tam: tamK,
+      usdtry,
+      xauusd,
+      prime: PRIME
+    }));
+
+  }catch(err){
+    // cache fallback
+    try{
+      const cached = JSON.parse(localStorage.getItem("femud_gold_cache") || "null");
+      if(cached?.gram && cached?.ceyrek && cached?.tam){
+        if(gramEl) gramEl.textContent = formatTL(cached.gram);
+        if(ceyEl)  ceyEl.textContent  = formatTL(cached.ceyrek);
+        if(tamEl)  tamEl.textContent  = formatTL(cached.tam);
+
+        const lastOk = cached.t
+          ? new Date(cached.t).toLocaleString("tr-TR",{dateStyle:"short", timeStyle:"short"})
+          : stampTR();
+
+        setGoldMeta(`Cache • Son başarılı: ${lastOk}`);
+      }else{
+        setGoldMeta("Altın verisi alınamadı (bağlantı/engel).");
       }
+    }catch(_){
+      setGoldMeta("Altın verisi alınamadı (bağlantı/engel).");
     }
-    updateGold();
-    setInterval(updateGold, 5*60*1000);
+  }
+}
+
+// ilk yükleme + 5 dk’da bir
+updateGold();
+setInterval(updateGold, 5*60*1000);
 
     /* ========= HABERLER (10+) 12 SAAT ========= */
     const LIST_EL = document.getElementById("femudNewsList");
