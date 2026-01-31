@@ -3,373 +3,483 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>FEMUD | Ürünler & Hediye Oyun Merkezi</title>
+  <title>FEMUD | Zincir Market Sunumu</title>
+
+  <meta name="description" content="FEMUD – Doğadan gelen güç! Zincir marketler için premium kişisel bakım ürünleri ve müşteri çekim sistemi." />
+  <meta name="theme-color" content="#b78bff"/>
 
   <style>
     :root{
-      /* LAVANTA (AÇIK) TEMA */
-      --bgA:#f7f2ff;
-      --bgB:#efe6ff;
+      /* Premium Lavanta */
+      --bgA:#fbf7ff;
+      --bgB:#efe7ff;
       --lav1:#b78bff;
       --lav2:#7b4dff;
+      --lav3:#5b2cff;
       --ink:#1a1630;
       --muted:rgba(26,22,48,.68);
       --stroke:rgba(26,22,48,.12);
       --card:rgba(255,255,255,.72);
       --shadow:0 18px 55px rgba(27,15,60,.12);
+      --shadow2:0 10px 26px rgba(27,15,60,.10);
       --radius:18px;
     }
-
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(900px 520px at 15% 12%, rgba(183,139,255,.28), transparent 60%),
-        radial-gradient(700px 440px at 85% 20%, rgba(123,77,255,.18), transparent 60%),
+        radial-gradient(900px 520px at 12% 8%, rgba(183,139,255,.32), transparent 60%),
+        radial-gradient(720px 460px at 86% 16%, rgba(123,77,255,.22), transparent 60%),
         linear-gradient(180deg, var(--bgA), var(--bgB));
-      min-height:100vh;
     }
 
-    .wrap{max-width:980px;margin:0 auto;padding:18px 14px 40px;}
+    .wrap{max-width:1080px;margin:0 auto;padding:18px 14px 42px;}
 
-    /* ÜST MARKA KARTI */
-    .brand{
-      display:flex;align-items:center;gap:14px;
-      padding:14px 14px;border-radius:24px;
-      background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.60));
+    /* Top bar */
+    .top{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      padding:12px 12px;border-radius:22px;
+      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.62));
       border:1px solid var(--stroke);
       box-shadow:var(--shadow);
       backdrop-filter: blur(10px);
+      position:sticky;top:10px;z-index:20;
     }
 
-    /* YATAY LOGO + DIŞ HALKA YUVARLAK */
+    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
     .mark{
-      width:74px;height:74px;border-radius:50%;
-      border:2px solid rgba(183,139,255,.75);
+      width:64px;height:64px;border-radius:50%;
+      border:2px solid rgba(183,139,255,.80);
       box-shadow:0 0 0 6px rgba(183,139,255,.18);
+      background:rgba(255,255,255,.78);
       display:flex;align-items:center;justify-content:center;
-      background:rgba(255,255,255,.75);
       overflow:hidden;flex:0 0 auto;
     }
-    .mark img{
-      width:88%;
-      height:auto;
-      display:block;
-      object-fit:contain;
+    .mark img{width:92%;height:auto;object-fit:contain;display:block}
+
+    .brandText{min-width:0}
+    .brandText .name{
+      font-weight:950;letter-spacing:.5px;font-size:18px;margin:0;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    }
+    .brandText .tagline{
+      margin:3px 0 0 0;color:var(--muted);font-size:12px;font-weight:700;
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
 
-    .brand h1{margin:0;font-size:28px;letter-spacing:.4px;line-height:1.05;}
-    .brand p{margin:6px 0 0;color:var(--muted);font-size:13px;line-height:1.35;}
-
-    /* ANA BUTONLAR */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap:12px;
-      margin-top:14px;
+    .nav{
+      display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;
     }
-    @media (max-width:680px){
-      .grid{grid-template-columns:1fr}
-      .brand h1{font-size:24px}
+    .chip{
+      border:1px solid rgba(123,77,255,.22);
+      background:rgba(255,255,255,.75);
+      padding:10px 12px;border-radius:14px;
+      font-weight:950;font-size:12px;cursor:pointer;
+      color:var(--ink);
+      transition:transform .12s ease,border-color .12s ease;
     }
+    .chip:hover{transform:translateY(-1px);border-color:rgba(123,77,255,.38)}
+    .chip:active{transform:translateY(0px) scale(.99)}
 
-    .btnCard{
-      border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
-      border-radius:var(--radius);
-      box-shadow:0 14px 40px rgba(27,15,60,.10);
-      padding:16px;cursor:pointer;
-      transition: transform .12s ease, border-color .12s ease;
-      user-select:none;position:relative;overflow:hidden;
-    }
-    .btnCard:hover{transform: translateY(-1px); border-color: rgba(123,77,255,.30);}
-    .btnCard:active{transform: translateY(0px) scale(.99);}
-
-    .btnTitle{font-size:16px;margin:0 0 6px 0;font-weight:900;letter-spacing:.2px;}
-    .btnSub{margin:0;color:var(--muted);font-size:13px;line-height:1.35;}
-    .tag{
-      display:inline-flex;gap:8px;align-items:center;
-      padding:6px 10px;border-radius:999px;
-      border:1px solid rgba(123,77,255,.25);
-      background:rgba(183,139,255,.14);
-      color:rgba(26,22,48,.85);
-      font-size:12px;margin-top:10px;
-      font-weight:800;
-    }
-
-    /* PANEL (BÖLÜM) */
-    .panel{
-      display:none;
+    /* Hero */
+    .hero{
       margin-top:14px;
       border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.62));
-      border-radius:24px;
+      border-radius:28px;
+      background:
+        radial-gradient(900px 420px at 20% 10%, rgba(123,77,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .panel.active{display:block;}
+    .heroInner{
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap:14px;
+      padding:18px;
+    }
+    @media (max-width:900px){
+      .heroInner{grid-template-columns:1fr}
+      .top{position:relative;top:0}
+    }
 
-    .panelHead{
+    .hTitle{margin:0;font-size:30px;letter-spacing:.2px;font-weight:1000;line-height:1.08}
+    .hSub{margin:10px 0 0 0;color:var(--muted);font-size:14px;line-height:1.5;font-weight:700;max-width:62ch}
+
+    .heroActions{
+      display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;
+    }
+    .btn{
+      border:none;cursor:pointer;
+      padding:12px 14px;border-radius:16px;
+      font-weight:1000;font-size:13px;
+      box-shadow:var(--shadow2);
+      transition:transform .12s ease, filter .12s ease;
+    }
+    .btn:active{transform:scale(.99)}
+    .btnPrimary{
+      background:linear-gradient(135deg, var(--lav2), var(--lav3));
+      color:white;
+    }
+    .btnGhost{
+      background:rgba(255,255,255,.78);
+      border:1px solid rgba(123,77,255,.22);
+      color:var(--ink);
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btnPrimary:hover{filter:brightness(1.03)}
+    .btnGhost:hover{border-color:rgba(123,77,255,.38)}
+
+    .kpis{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      align-content:start;
+    }
+    .kpi{
+      border:1px solid rgba(26,22,48,.10);
+      background:rgba(255,255,255,.80);
+      border-radius:18px;
+      padding:14px;
+    }
+    .kpi b{display:block;font-size:13px}
+    .kpi span{display:block;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.4;font-weight:700}
+
+    /* Sections */
+    .section{
+      margin-top:14px;
+      border:1px solid var(--stroke);
+      border-radius:26px;
+      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      display:none;
+    }
+    .section.active{display:block}
+    .sHead{
       display:flex;align-items:center;justify-content:space-between;gap:12px;
       padding:12px 12px;
       background:linear-gradient(135deg, rgba(183,139,255,.22), rgba(255,255,255,.65));
       border-bottom:1px solid var(--stroke);
     }
-    .panelHead h2{margin:0;font-size:15px;letter-spacing:.3px;font-weight:950;}
-
-    .backBtn{
-      appearance:none;
+    .sHead h2{margin:0;font-size:14px;letter-spacing:.4px;font-weight:1000}
+    .back{
       border:1px solid rgba(123,77,255,.22);
-      background:rgba(255,255,255,.72);
-      color:var(--ink);
-      padding:10px 12px;border-radius:12px;
-      cursor:pointer;font-weight:950;
+      background:rgba(255,255,255,.78);
+      padding:10px 12px;border-radius:14px;
+      font-weight:1000;font-size:12px;cursor:pointer;
     }
-    .backBtn:hover{border-color:rgba(123,77,255,.40);}
+    .back:hover{border-color:rgba(123,77,255,.40)}
+    .sBody{padding:14px}
+    .note{margin:0 0 10px 0;color:var(--muted);font-size:13px;line-height:1.55;font-weight:700}
 
-    .panelBody{padding:12px;}
-    .note{color:var(--muted);font-size:13px;line-height:1.45;margin:0 0 10px 0;}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
 
-    /* VİDEOLAR */
+    .card{
+      border:1px solid rgba(26,22,48,.10);
+      background:rgba(255,255,255,.82);
+      border-radius:18px;
+      padding:14px;
+    }
+    .card h3{margin:0 0 8px 0;font-size:13px;font-weight:1000}
+    .card p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.55;font-weight:700}
+
+    /* Video section */
     .videoGrid{
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:12px;
     }
-    @media (max-width:680px){ .videoGrid{grid-template-columns:1fr} }
-
+    @media (max-width:900px){.videoGrid{grid-template-columns:1fr}}
     .vCard{
       border:1px solid rgba(26,22,48,.10);
-      background:rgba(255,255,255,.80);
-      border-radius:16px;
+      background:rgba(255,255,255,.82);
+      border-radius:18px;
       padding:12px;
       overflow:hidden;
     }
-    .vTitle{margin:0 0 8px 0;font-weight:950;font-size:14px;}
-    video{width:100%;border-radius:12px;background:#000;}
-    .mini{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.35;}
+    .vTitle{margin:0 0 8px 0;font-weight:1000;font-size:13px}
+    video{width:100%;border-radius:14px;background:#000}
+    .vMeta{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45;font-weight:700}
 
-    /* OYUN BUTONLARI */
-    .actionRow{
+    /* Gift buttons */
+    .actions{
       display:grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:12px;
     }
-    @media (max-width:680px){ .actionRow{grid-template-columns:1fr} }
-
+    @media (max-width:900px){.actions{grid-template-columns:1fr}}
     .cta{
-      display:flex;flex-direction:column;gap:6px;
       border:1px solid rgba(26,22,48,.12);
-      background:rgba(255,255,255,.82);
-      border-radius:16px;
+      background:rgba(255,255,255,.84);
+      border-radius:18px;
       padding:14px;
       cursor:pointer;
-      box-shadow:0 10px 26px rgba(27,15,60,.08);
+      box-shadow:var(--shadow2);
       transition:transform .12s ease,border-color .12s ease;
     }
-    .cta:hover{transform:translateY(-1px);border-color:rgba(123,77,255,.30);}
-    .cta:active{transform:translateY(0px) scale(.99);}
-    .cta b{font-size:14px}
-    .cta span{font-size:12px;color:var(--muted);line-height:1.35}
+    .cta:hover{transform:translateY(-1px);border-color:rgba(123,77,255,.30)}
+    .cta:active{transform:translateY(0px) scale(.99)}
+    .cta b{display:block;font-size:13.5px;font-weight:1000}
+    .cta span{display:block;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.45;font-weight:700}
 
-    .footer{margin-top:14px;text-align:center;color:rgba(26,22,48,.55);font-size:12px;font-weight:700;}
+    .footer{
+      margin-top:14px;
+      text-align:center;
+      color:rgba(26,22,48,.55);
+      font-size:12px;
+      font-weight:800;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <!-- ANA SAYFA -->
-    <section id="home">
-      <div class="brand">
+    <!-- Sticky Top -->
+    <div class="top">
+      <div class="brand" onclick="goHome()" style="cursor:pointer">
         <div class="mark">
-          <!-- logo dosyan: femud_logo.png -->
-          <img src="femud_logo.png" alt="FEMUD Logo" />
+          <!-- repo ana dizindeki logo: femud_logo.png -->
+          <img src="femud_logo.png" alt="FEMUD" />
         </div>
+        <div class="brandText">
+          <p class="name">FEMUD</p>
+          <p class="tagline">Zincir market sunumu • Premium kişisel bakım • Müşteri çekim sistemi</p>
+        </div>
+      </div>
+
+      <div class="nav">
+        <button class="chip" onclick="openSection('secProducts')">Ürün Videoları</button>
+        <button class="chip" onclick="openSection('secWhy')">Neden Zincir Market?</button>
+        <button class="chip" onclick="openSection('secGifts')">Hediye/Oyun</button>
+        <button class="chip" onclick="openSection('secContact')">İletişim</button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <section class="hero" id="home">
+      <div class="heroInner">
         <div>
-          <h1>FEMUD</h1>
-          <p>Doğadan gelen güç! • Ürün videoları ve hediye oyun merkezi.</p>
+          <h1 class="hTitle">Doğal algı + premium görünüm + hızlı satış kurgusu.</h1>
+          <p class="hSub">
+            FEMUD; zincir market rafına yakışan ambalaj dili, güçlü “ferahlık & temizlik” algısı ve
+            müşteri trafiğini artıran hediye/oyun kurgusuyla büyümeye hazır bir markadır.
+          </p>
+
+          <div class="heroActions">
+            <button class="btn btnPrimary" onclick="openSection('secProducts')">Ürün Videolarını İzle</button>
+            <button class="btn btnGhost" onclick="openSection('secWhy')">CEO İçin 1 Dakika Özet</button>
+            <button class="btn btnGhost" onclick="openSection('secGifts')">Hediye/Oyun Sistemini Gör</button>
+          </div>
+        </div>
+
+        <div class="kpis">
+          <div class="kpi">
+            <b>Raf Uyumlu Premium Kimlik</b>
+            <span>Lavanta tonları + sade tasarım + net mesaj. Kurumsal görünüm.</span>
+          </div>
+          <div class="kpi">
+            <b>Satışa Yardımcı Pazarlama Kurgusu</b>
+            <span>Hediye/Oyun merkezi ile sosyal medya ve mağaza içi aksiyonlar.</span>
+          </div>
+          <div class="kpi">
+            <b>Hızlı Pilot & Yaygınlaştırma</b>
+            <span>Önce pilot mağaza → ölçüm → ölçekleme planı.</span>
+          </div>
         </div>
       </div>
-
-      <div class="grid">
-        <div class="btnCard" onclick="openPanel('panelProducts')">
-          <p class="btnTitle">Femud ürünleri gör</p>
-          <p class="btnSub">5 ürün videosu burada. Tıklayıp izleyebilirsin.</p>
-          <div class="tag">▶︎ Ürün Videoları</div>
-        </div>
-
-        <div class="btnCard" onclick="openPanel('panelGifts')">
-          <p class="btnTitle">Femud hediye ürünleri kazan</p>
-          <p class="btnSub">Çarkıfelek ve kazı-kazan oyunlarına gir.</p>
-          <div class="tag">🎁 Oyunlar</div>
-        </div>
-
-        <div class="btnCard" onclick="openPanel('panelIG')">
-          <p class="btnTitle">Femud Instagram sayfasına git</p>
-          <p class="btnSub">Tek tıkla Instagram’a geç.</p>
-          <div class="tag">📌 Instagram</div>
-        </div>
-
-        <div class="btnCard" onclick="openPanel('panelAbout')">
-          <p class="btnTitle">Femud markasını tanıyalım</p>
-          <p class="btnSub">Marka ve doğal üretim vurgusu.</p>
-          <div class="tag">🌿 Marka</div>
-        </div>
-      </div>
-
-      <div class="footer">Lavanta tema • Açık görünüm • Tek sayfa</div>
     </section>
 
-    <!-- ÜRÜN VİDEOLARI -->
-    <section class="panel" id="panelProducts">
-      <div class="panelHead">
-        <h2>Femud Ürün Videoları</h2>
-        <button class="backBtn" onclick="goHome()">← Ana sayfaya dön</button>
+    <!-- PRODUCTS -->
+    <section class="section" id="secProducts">
+      <div class="sHead">
+        <h2>Ürün Videoları</h2>
+        <button class="back" onclick="goHome()">← Ana sayfa</button>
       </div>
-      <div class="panelBody">
+      <div class="sBody">
         <p class="note">
-          Videolar <b>/videos/</b> klasöründen açılır. (GitHub “Unable to view file” diyebilir; web sayfada çalışır.)
+          Bu bölüm zincir market yöneticisine “ürün gerçek, marka hazır” hissini verir.
+          Videolar <b>/videos/</b> klasöründen çalışır.
         </p>
         <div class="videoGrid" id="videoGrid"></div>
+        <div class="footer">Not: GitHub dosya önizleme açmayabilir; sayfada video oynar.</div>
       </div>
     </section>
 
-    <!-- HEDİYE / OYUNLAR -->
-    <section class="panel" id="panelGifts">
-      <div class="panelHead">
-        <h2>Hediye Oyun Merkezi</h2>
-        <button class="backBtn" onclick="goHome()">← Ana sayfaya dön</button>
+    <!-- WHY CHAIN -->
+    <section class="section" id="secWhy">
+      <div class="sHead">
+        <h2>Neden Zincir Market İçin Uygun?</h2>
+        <button class="back" onclick="goHome()">← Ana sayfa</button>
       </div>
-      <div class="panelBody">
-        <p class="note">Aşağıdaki oyunlara tıkla. (Dosyalar repoda kökte olmalı.)</p>
+      <div class="sBody">
+        <div class="grid2">
+          <div class="card">
+            <h3>1) Raf Dili: Net & Premium</h3>
+            <p>Minimal, temiz ve güven veren görünüm. Müşteri ilk bakışta “kaliteli” algısı alır.</p>
+          </div>
+          <div class="card">
+            <h3>2) Kategori Uyumu: Kişisel Bakım</h3>
+            <p>Şampuan/temizlik/ferahlık teması zincir market alışverişinde hızlı karar ürünüdür.</p>
+          </div>
+          <div class="card">
+            <h3>3) Trafik Artıran Sistem: Hediye/Oyun</h3>
+            <p>Mağaza içi QR, sosyal medya yönlendirme ve kampanya kurgusu ile tekrar ziyaret etkisi.</p>
+          </div>
+          <div class="card">
+            <h3>4) Pilot → Ölçek</h3>
+            <p>Önce seçili mağazalarda pilot. Sonra veriye göre yaygınlaştırma ve promosyon planı.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-        <div class="actionRow">
+    <!-- GIFTS -->
+    <section class="section" id="secGifts">
+      <div class="sHead">
+        <h2>Hediye / Oyun Sistemi</h2>
+        <button class="back" onclick="goHome()">← Ana sayfa</button>
+      </div>
+      <div class="sBody">
+        <p class="note">
+          Bu bölüm CEO’ya “Müşteriyi mağazaya ve markaya bağlayan mekanizma var” mesajını verir.
+        </p>
+
+        <div class="actions">
           <div class="cta" onclick="goFile('carkifelek.html')">
             <b>Çarkıfelek</b>
-            <span>carkifelek.html açılır</span>
+            <span>Kampanya ve hediye senaryosu için hazır (carkifelek.html).</span>
           </div>
-
           <div class="cta" onclick="goFile('kazikazan4x4.html')">
             <b>Kazı Kazan</b>
-            <span>kazikazan4x4.html açılır</span>
+            <span>Mağaza içi ve sosyal medya aktivasyonu (kazikazan4x4.html).</span>
           </div>
-
-          <!-- İstersen hazırda OyunMerkezi.html varsa -->
           <div class="cta" onclick="goFile('OyunMerkezi.html')">
             <b>Oyun Merkezi (Toplu)</b>
-            <span>OyunMerkezi.html açılır (varsa)</span>
+            <span>Varsa toplu oyun sayfası (OyunMerkezi.html).</span>
           </div>
-
-          <!-- hediyemerkezi.html varsa -->
           <div class="cta" onclick="goFile('hediyemerkezi.html')">
             <b>Hediye Merkezi</b>
-            <span>hediyemerkezi.html açılır (varsa)</span>
+            <span>Varsa kampanya sayfası (hediyemerkezi.html).</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="secContact">
+      <div class="sHead">
+        <h2>İletişim & Sosyal</h2>
+        <button class="back" onclick="goHome()">← Ana sayfa</button>
+      </div>
+      <div class="sBody">
+        <div class="grid2">
+          <div class="card">
+            <h3>Instagram</h3>
+            <p>CEO sunumunda sosyal kanıt için tek tık yönlendirme.</p>
+            <div style="margin-top:10px">
+              <button class="btn btnPrimary" onclick="window.open('https://instagram.com/femud_tr','_blank')">Instagram’a Git</button>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Kısa Mesaj (Sunum Notu)</h3>
+            <p>
+              “Pilot mağazalarda raf performansını ölçelim. Kampanya kurgusunu hediye/oyun sistemiyle destekleyelim.
+              Başarılı metriklerde yaygınlaştırma planını birlikte kurgulayalım.”
+            </p>
           </div>
         </div>
 
-        <p class="mini" style="margin-top:10px">
-          Eğer oyun açılmıyorsa %99 sebep: dosya adı farklıdır ya da küçük/büyük harf uyuşmuyordur.
-        </p>
+        <div class="footer">FEMUD • Doğadan gelen güç!</div>
       </div>
     </section>
 
-    <!-- INSTAGRAM -->
-    <section class="panel" id="panelIG">
-      <div class="panelHead">
-        <h2>Instagram</h2>
-        <button class="backBtn" onclick="goHome()">← Ana sayfaya dön</button>
-      </div>
-      <div class="panelBody">
-        <p class="note">Aşağıdaki linki kendi hesabınla değiştir.</p>
-        <div class="cta" onclick="window.open('https://instagram.com/femud_tr','_blank')">
-          <b>Femud Instagram’a Git</b>
-          <span>@femud_tr (örnek)</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- MARKA -->
-    <section class="panel" id="panelAbout">
-      <div class="panelHead">
-        <h2>Femud Markasını Tanıyalım</h2>
-        <button class="backBtn" onclick="goHome()">← Ana sayfaya dön</button>
-      </div>
-      <div class="panelBody">
-        <p class="note">
-          FEMUD; doğallık, ferahlık ve temiz içerik yaklaşımıyla ürün geliştirmeyi hedefler.
-        </p>
-        <div class="vCard">
-          <p class="vTitle">Slogan</p>
-          <div class="mini" style="margin:0">“Femud, doğadan gelen güç!”</div>
-        </div>
-      </div>
-    </section>
+    <div class="footer">Bu sayfa zincir market CEO sunumu için premium tek sayfa olarak hazırlanmıştır.</div>
 
   </div>
 
   <script>
-    // ✅ 5 VİDEO DOSYA ADIN (videos klasöründeki isimlerle birebir olmalı)
-    // Sen isimleri sonra değiştireceğini söyledin, şimdilik UUID'li bıraktım.
+    // ✅ Senin repoya yüklediğin 5 video (videos klasöründen)
+    // İsimleri sonradan istersen değiştirirsin. Şimdilik çalışsın diye birebir bıraktım.
     const videos = [
-      { file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4", title: "Mentollü şampuan – Termal su ile üretim", desc: "Ferahlık etkisi • Ürün tanıtımı" },
-      { file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4", title: "Ürün Videosu 2", desc: "Başlığı sonra değiştirebilirsin" },
-      { file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4", title: "Ürün Videosu 3", desc: "Başlığı sonra değiştirebilirsin" },
-      { file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4", title: "Ürün Videosu 4", desc: "Başlığı sonra değiştirebilirsin" },
-      { file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4", title: "Ürün Videosu 5", desc: "Başlığı sonra değiştirebilirsin" }
+      {
+        file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4",
+        title: "Mentollü Şampuan – Termal Su ile Üretim",
+        desc: "Ferahlık etkisi • Premium algı • Raf uyumu"
+      },
+      {
+        file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4",
+        title: "Ürün Videosu 2",
+        desc: "Başlığı sonra değiştirebilirsin"
+      },
+      {
+        file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4",
+        title: "Ürün Videosu 3",
+        desc: "Başlığı sonra değiştirebilirsin"
+      },
+      {
+        file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4",
+        title: "Ürün Videosu 4",
+        desc: "Başlığı sonra değiştirebilirsin"
+      },
+      {
+        file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4",
+        title: "Ürün Videosu 5",
+        desc: "Başlığı sonra değiştirebilirsin"
+      }
     ];
 
-    function openPanel(id){
-      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+    function openSection(id){
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
       const el = document.getElementById(id);
       if(el) el.classList.add("active");
 
-      if(id === "panelProducts") renderVideos(); // her açılışta garanti
+      if(id === "secProducts") renderVideos();
       window.scrollTo({top:0, behavior:"smooth"});
     }
 
     function goHome(){
-      document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
       window.scrollTo({top:0, behavior:"smooth"});
     }
 
     function goFile(file){
-      // Aynı sekmede aç (GitHub Pages için en temiz)
+      // aynı sekmede aç
       window.location.href = file;
     }
 
     function renderVideos(){
       const grid = document.getElementById("videoGrid");
       if(!grid) return;
-
-      // HER SEFERİNDE TEMİZLE (ürünler yok hatasını bitirir)
       grid.innerHTML = "";
 
-      videos.forEach(v => {
+      videos.forEach(v=>{
         const card = document.createElement("div");
         card.className = "vCard";
 
-        const title = document.createElement("p");
-        title.className = "vTitle";
-        title.textContent = v.title;
+        const t = document.createElement("p");
+        t.className = "vTitle";
+        t.textContent = v.title;
 
         const vid = document.createElement("video");
         vid.controls = true;
         vid.playsInline = true;
         vid.preload = "metadata";
-
-        // ✅ EN ÖNEMLİ: videos/ klasöründen çağırıyoruz
         vid.src = "videos/" + v.file;
 
-        const desc = document.createElement("div");
-        desc.className = "mini";
-        desc.textContent = v.desc;
+        const meta = document.createElement("div");
+        meta.className = "vMeta";
+        meta.textContent = v.desc;
 
-        card.appendChild(title);
+        card.appendChild(t);
         card.appendChild(vid);
-        card.appendChild(desc);
+        card.appendChild(meta);
         grid.appendChild(card);
       });
     }
