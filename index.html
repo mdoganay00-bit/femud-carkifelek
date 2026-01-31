@@ -9,11 +9,10 @@
     :root{
       --bg1:#0b0f1a;
       --bg2:#141a2b;
-      --lila:#b79bff;      /* lila ton */
+      --lila:#b79bff;
       --lila2:#7d5cff;
       --text:#eef1ff;
       --muted:rgba(238,241,255,.72);
-      --card:rgba(255,255,255,.06);
       --stroke:rgba(255,255,255,.14);
       --shadow:0 20px 60px rgba(0,0,0,.45);
       --radius:18px;
@@ -31,62 +30,35 @@
       min-height:100vh;
     }
 
-    .wrap{
-      max-width:980px;
-      margin:0 auto;
-      padding:22px 16px 40px;
-    }
+    .wrap{max-width:980px;margin:0 auto;padding:22px 16px 40px;}
 
-    /* HEADER / LOGO */
     .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      padding:16px;
-      border-radius:24px;
+      display:flex;align-items:center;gap:14px;
+      padding:16px;border-radius:24px;
       background:linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.04));
       border:1px solid var(--stroke);
       box-shadow:var(--shadow);
       backdrop-filter: blur(10px);
     }
-    .mark{
-      width:74px;
-      height:74px;
-      border-radius:50%;
-      border:2px solid rgba(183,155,255,.65);  /* dış halka yuvarlak */
-      box-shadow: 0 0 0 6px rgba(183,155,255,.12);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex:0 0 auto;
-      background:rgba(10,12,20,.35);
-      overflow:hidden;
-    }
-    .mark img{
-      width:86%;
-      height:auto;
-      display:block;
-      object-fit:contain;
-    }
-    .brand h1{
-      margin:0;
-      font-size:28px;
-      letter-spacing:.4px;
-      line-height:1.05;
-    }
-    .brand p{
-      margin:6px 0 0;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.35;
-    }
 
-    /* HOME BUTTONS */
+    /* Logo: yatay içerik + dış halka yuvarlak */
+    .mark{
+      width:74px;height:74px;border-radius:50%;
+      border:2px solid rgba(183,155,255,.65);
+      box-shadow:0 0 0 6px rgba(183,155,255,.12);
+      display:flex;align-items:center;justify-content:center;
+      background:rgba(10,12,20,.35);
+      overflow:hidden;flex:0 0 auto;
+    }
+    .mark img{width:86%;height:auto;display:block;object-fit:contain;}
+
+    .brand h1{margin:0;font-size:28px;letter-spacing:.4px;line-height:1.05;}
+    .brand p{margin:6px 0 0;color:var(--muted);font-size:14px;line-height:1.35;}
+
     .grid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap:14px;
-      margin-top:16px;
+      gap:14px;margin-top:16px;
     }
     @media (max-width:680px){
       .grid{grid-template-columns:1fr}
@@ -98,45 +70,26 @@
       background:linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
       border-radius:var(--radius);
       box-shadow:0 14px 44px rgba(0,0,0,.35);
-      padding:16px;
-      cursor:pointer;
+      padding:16px;cursor:pointer;
       transition: transform .12s ease, border-color .12s ease;
-      user-select:none;
-      position:relative;
-      overflow:hidden;
+      user-select:none;position:relative;overflow:hidden;
     }
     .btnCard:hover{transform: translateY(-1px); border-color: rgba(183,155,255,.55);}
     .btnCard:active{transform: translateY(0px) scale(.99);}
 
-    .btnTitle{
-      font-size:16px;
-      margin:0 0 6px 0;
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    .btnSub{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.35;
-    }
+    .btnTitle{font-size:16px;margin:0 0 6px 0;font-weight:800;letter-spacing:.2px;}
+    .btnSub{margin:0;color:var(--muted);font-size:13px;line-height:1.35;}
     .tag{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:6px 10px;
-      border-radius:999px;
+      display:inline-flex;gap:8px;align-items:center;
+      padding:6px 10px;border-radius:999px;
       border:1px solid rgba(183,155,255,.35);
       background:rgba(183,155,255,.12);
       color:rgba(238,241,255,.92);
-      font-size:12px;
-      margin-top:10px;
+      font-size:12px;margin-top:10px;
     }
 
-    /* PANELS */
     .panel{
-      display:none;
-      margin-top:16px;
+      display:none;margin-top:16px;
       border:1px solid var(--stroke);
       background:rgba(255,255,255,.05);
       border-radius:24px;
@@ -146,40 +99,26 @@
     .panel.active{display:block;}
 
     .panelHead{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
       padding:14px 14px;
       background:linear-gradient(135deg, rgba(183,155,255,.18), rgba(255,255,255,.04));
       border-bottom:1px solid var(--stroke);
     }
-    .panelHead h2{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.3px;
-    }
+    .panelHead h2{margin:0;font-size:16px;letter-spacing:.3px;}
+
     .backBtn{
       appearance:none;
       border:1px solid rgba(255,255,255,.22);
       background:rgba(0,0,0,.18);
       color:var(--text);
-      padding:10px 12px;
-      border-radius:12px;
-      cursor:pointer;
-      font-weight:700;
+      padding:10px 12px;border-radius:12px;
+      cursor:pointer;font-weight:800;
     }
     .backBtn:hover{border-color:rgba(183,155,255,.55);}
 
     .panelBody{padding:14px;}
-    .note{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-      margin:0 0 12px 0;
-    }
+    .note{color:var(--muted);font-size:13px;line-height:1.45;margin:0 0 12px 0;}
 
-    /* VIDEO LIST */
     .videoGrid{
       display:grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -194,48 +133,20 @@
       padding:12px;
       overflow:hidden;
     }
-    .vTitle{
-      margin:0 0 8px 0;
-      font-weight:800;
-      font-size:14px;
-    }
-    video{
-      width:100%;
-      border-radius:12px;
-      background:#000;
-    }
-    .mini{
-      margin-top:8px;
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.35;
-    }
+    .vTitle{margin:0 0 8px 0;font-weight:900;font-size:14px;}
+    video{width:100%;border-radius:12px;background:#000;}
+    .mini{margin-top:8px;font-size:12px;color:var(--muted);line-height:1.35;}
 
-    /* FOOTER */
-    .footer{
-      margin-top:16px;
-      text-align:center;
-      color:rgba(238,241,255,.65);
-      font-size:12px;
-    }
-
-    a.link{
-      color:rgba(183,155,255,.95);
-      text-decoration:none;
-      font-weight:800;
-    }
-    a.link:hover{text-decoration:underline;}
+    .footer{margin-top:16px;text-align:center;color:rgba(238,241,255,.65);font-size:12px;}
   </style>
 </head>
 
 <body>
   <div class="wrap">
 
-    <!-- HOME -->
     <section id="home">
       <div class="brand">
         <div class="mark">
-          <!-- Logo dosyan: femud_logo.png (repo kökünde görünüyor) -->
           <img src="femud_logo.png" alt="FEMUD Logo" />
         </div>
         <div>
@@ -244,6 +155,7 @@
         </div>
       </div>
 
+      <!-- İstediğin sekmeler (alt alta görünür) -->
       <div class="grid">
         <div class="btnCard" onclick="openPanel('panelProducts')">
           <p class="btnTitle">Femud ürünleri gör</p>
@@ -253,29 +165,27 @@
 
         <div class="btnCard" onclick="openPanel('panelGifts')">
           <p class="btnTitle">Femud hediye ürünleri kazan</p>
-          <p class="btnSub">Hediye/çekiliş sayfasına yönlendirme alanı.</p>
+          <p class="btnSub">Hediye merkezi sayfasına giriş.</p>
           <div class="tag">🎁 Hediye</div>
         </div>
 
         <div class="btnCard" onclick="openPanel('panelIG')">
           <p class="btnTitle">Femud Instagram sayfasına git</p>
-          <p class="btnSub">Tek tıkla resmi Instagram hesabına geç.</p>
+          <p class="btnSub">Tek tıkla Instagram hesabına geç.</p>
           <div class="tag">📌 Instagram</div>
         </div>
 
         <div class="btnCard" onclick="openPanel('panelAbout')">
           <p class="btnTitle">Femud markasını tanıyalım</p>
-          <p class="btnSub">Marka hikayesi, değerler, doğal üretim vurgusu.</p>
+          <p class="btnSub">Marka bilgisi ve doğal üretim vurgusu.</p>
           <div class="tag">🌿 Marka</div>
         </div>
       </div>
 
-      <div class="footer">
-        © FEMUD • Tasarım: Lila & doğal his
-      </div>
+      <div class="footer">© FEMUD • Lila & doğal görünüm</div>
     </section>
 
-    <!-- PRODUCTS PANEL -->
+    <!-- ÜRÜN VİDEOLARI -->
     <section class="panel" id="panelProducts">
       <div class="panelHead">
         <h2>Femud Ürün Videoları</h2>
@@ -283,40 +193,32 @@
       </div>
       <div class="panelBody">
         <p class="note">
-          Videoların çalışması için MP4 dosyaları <b>/videos/</b> klasöründe olmalı ve isimleri burada yazanlarla
-          <b>birebir aynı</b> olmalı.
+          Videolar <b>/videos/</b> klasöründen çağrılır. Dosya adları birebir aynı olmalı.
         </p>
-
         <div class="videoGrid" id="videoGrid"></div>
-
         <p class="mini">
-          Not: GitHub uygulaması “Unable to view file” yazabilir. Bu sadece uygulama içi önizleme sorunu olabilir.
-          Sayfada video çalışması için önemli olan: dosya adının doğru olması.
+          GitHub uygulamasında “Unable to view file” görmen normal olabilir. Web sayfada video yine çalışır.
         </p>
       </div>
     </section>
 
-    <!-- GIFTS PANEL -->
+    <!-- HEDİYE MERKEZİ -->
     <section class="panel" id="panelGifts">
       <div class="panelHead">
         <h2>Hediye Merkezi</h2>
         <button class="backBtn" onclick="goHome()">← Ana sayfaya dön</button>
       </div>
       <div class="panelBody">
-        <p class="note">
-          Burayı istersen “kazıkazan/çarkıfelek” gibi sayfana bağlayacağız.
-        </p>
-
-        <!-- Senin mevcut dosyaların var: OyunMerkezi.html / hediyemerkezi.html vs -->
-        <div class="btnCard" style="cursor:auto" onclick="location.href='hediyemerkezi.html'">
+        <p class="note">Buradan hediyemerkezi.html sayfana geçiş var.</p>
+        <div class="btnCard" onclick="location.href='hediyemerkezi.html'">
           <p class="btnTitle">Hediye Merkezine Git</p>
-          <p class="btnSub">hediyemerkezi.html sayfasını açar.</p>
+          <p class="btnSub">hediyemerkezi.html açılır.</p>
           <div class="tag">🎁 Aç</div>
         </div>
       </div>
     </section>
 
-    <!-- IG PANEL -->
+    <!-- INSTAGRAM -->
     <section class="panel" id="panelIG">
       <div class="panelHead">
         <h2>Instagram</h2>
@@ -324,16 +226,15 @@
       </div>
       <div class="panelBody">
         <p class="note">Aşağıdaki linki kendi Instagram adresinle değiştir.</p>
-
-        <div class="btnCard" style="cursor:auto" onclick="window.open('https://instagram.com/femud_tr','_blank')">
+        <div class="btnCard" onclick="window.open('https://instagram.com/femud_tr','_blank')">
           <p class="btnTitle">Femud Instagram’a Git</p>
-          <p class="btnSub">@femud_tr (örnek) • Yeni sekmede açılır.</p>
+          <p class="btnSub">@femud_tr (örnek)</p>
           <div class="tag">📌 Aç</div>
         </div>
       </div>
     </section>
 
-    <!-- ABOUT PANEL -->
+    <!-- MARKA -->
     <section class="panel" id="panelAbout">
       <div class="panelHead">
         <h2>Femud Markasını Tanıyalım</h2>
@@ -342,15 +243,13 @@
       <div class="panelBody">
         <p class="note">
           FEMUD; doğallık, ferahlık ve temiz içerik yaklaşımıyla ürün geliştirmeyi hedefler.
-          Lila ton, “premium + doğal” hissi için ana renk olarak kullanıldı.
         </p>
-
         <div class="vCard">
           <p class="vTitle">Öne Çıkan Vurgu</p>
           <p class="mini" style="margin:0">
             • Doğadan gelen güç<br/>
-            • Ürün sunumlarında net, temiz ve güven veren görünüm<br/>
-            • Video içerikleri ile hızlı tanıtım
+            • Premium + doğal his (lila ton)<br/>
+            • Ürün videoları ile hızlı tanıtım
           </p>
         </div>
       </div>
@@ -359,45 +258,20 @@
   </div>
 
   <script>
-    // BURADAKİ 5 DOSYA ADI: senin videos klasöründe görünen isimlerle birebir yazıldı.
-    // İstersen sonra buradaki title ve açıklamaları değiştirebilirsin.
+    // SENİN 5 VİDEO DOSYA ADIN (videos klasöründekiyle birebir)
     const videos = [
-      {
-        file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4",
-        title: "Mentollü Şampuan – Termal su ile üretim",
-        desc: "Ferahlık etkisi • Ürün tanıtım videosu"
-      },
-      {
-        file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4",
-        title: "Ürün Videosu 2",
-        desc: "Başlığı sonradan değiştirebilirsin"
-      },
-      {
-        file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4",
-        title: "Ürün Videosu 3",
-        desc: "Başlığı sonradan değiştirebilirsin"
-      },
-      {
-        file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4",
-        title: "Ürün Videosu 4",
-        desc: "Başlığı sonradan değiştirebilirsin"
-      },
-      {
-        file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4",
-        title: "Ürün Videosu 5",
-        desc: "Başlığı sonradan değiştirebilirsin"
-      }
+      { file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4", title: "Mentollü şampuan – Termal su ile üretim", desc: "Ferahlık etkisi • Ürün tanıtım videosu" },
+      { file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4", title: "Ürün Videosu 2", desc: "Başlığı istersen değiştirirsin" },
+      { file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4", title: "Ürün Videosu 3", desc: "Başlığı istersen değiştirirsin" },
+      { file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4", title: "Ürün Videosu 4", desc: "Başlığı istersen değiştirirsin" },
+      { file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4", title: "Ürün Videosu 5", desc: "Başlığı istersen değiştirirsin" }
     ];
 
     function openPanel(id){
-      // tüm panelleri kapat
       document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
-      // aç
       const el = document.getElementById(id);
       if(el) el.classList.add("active");
-      // ürün paneline girince videoları bir kere bas
       if(id === "panelProducts") renderVideos();
-      // sayfayı panelin başına al (hayalet boşluk hissini azaltır)
       window.scrollTo({top:0, behavior:"smooth"});
     }
 
@@ -423,10 +297,10 @@
         title.textContent = v.title;
 
         const vid = document.createElement("video");
-        vid.setAttribute("controls", "");
-        vid.setAttribute("playsinline", "");
-        vid.setAttribute("preload", "metadata");
-        vid.src = "videos/" + v.file;
+        vid.controls = true;
+        vid.playsInline = true;
+        vid.preload = "metadata";
+        vid.src = "videos/" + v.file; // EN ÖNEMLİ SATIR
 
         const desc = document.createElement("div");
         desc.className = "mini";
