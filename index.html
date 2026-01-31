@@ -3,26 +3,27 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-  <title>FEMUD | Zincir Market Sunumu</title>
-
-  <meta name="description" content="FEMUD – Doğadan gelen güç! Zincir marketler için premium kişisel bakım ürünleri ve müşteri çekim sistemi." />
-  <meta name="theme-color" content="#b78bff"/>
-
+  <title>FEMUD</title>
+  <meta name="description" content="FEMUD — Doğadan gelen güç. Premium kişisel bakım ürünleri ve kampanya merkezi." />
+  <meta name="theme-color" content="#7b4dff" />
   <style>
     :root{
-      /* Premium Lavanta */
-      --bgA:#fbf7ff;
-      --bgB:#efe7ff;
-      --lav1:#b78bff;
-      --lav2:#7b4dff;
-      --lav3:#5b2cff;
-      --ink:#1a1630;
-      --muted:rgba(26,22,48,.68);
-      --stroke:rgba(26,22,48,.12);
-      --card:rgba(255,255,255,.72);
-      --shadow:0 18px 55px rgba(27,15,60,.12);
-      --shadow2:0 10px 26px rgba(27,15,60,.10);
-      --radius:18px;
+      --bg0:#fbf9ff;
+      --bg1:#f2ebff;
+      --ink:#18142c;
+      --mut:rgba(24,20,44,.66);
+      --lav1:#c8b0ff;
+      --lav2:#9a74ff;
+      --lav3:#6a36ff;
+      --card:rgba(255,255,255,.78);
+      --stroke:rgba(24,20,44,.12);
+      --stroke2:rgba(106,54,255,.18);
+      --shadow:0 18px 60px rgba(24,20,44,.12);
+      --shadow2:0 10px 26px rgba(24,20,44,.10);
+      --r18:18px;
+      --r22:22px;
+      --r28:28px;
+      --max:1120px;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -31,208 +32,288 @@
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(900px 520px at 12% 8%, rgba(183,139,255,.32), transparent 60%),
-        radial-gradient(720px 460px at 86% 16%, rgba(123,77,255,.22), transparent 60%),
-        linear-gradient(180deg, var(--bgA), var(--bgB));
+        radial-gradient(900px 520px at 10% 12%, rgba(154,116,255,.26), transparent 60%),
+        radial-gradient(800px 520px at 92% 18%, rgba(106,54,255,.16), transparent 62%),
+        linear-gradient(180deg,var(--bg0),var(--bg1));
+      overflow-x:hidden;
     }
+    .wrap{max-width:var(--max); margin:0 auto; padding:14px 14px 46px;}
 
-    .wrap{max-width:1080px;margin:0 auto;padding:18px 14px 42px;}
+    /* ======= ONLY TICKER (TOP STRIP) ======= */
+    .tickerBar{
+      border-radius:22px;
+      border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70));
+      box-shadow:var(--shadow);
+      backdrop-filter: blur(12px);
+      overflow:hidden;
+      padding:8px 10px;
+      position:sticky; top:10px; z-index:60;
+    }
+    @media (max-width:920px){ .tickerBar{position:relative; top:0} }
+    .tvBox{border-radius:16px; overflow:hidden;}
+    .tvBox .tradingview-widget-container{margin:0}
 
-    /* Top bar */
+    /* ======= HEADER ======= */
     .top{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      padding:12px 12px;border-radius:22px;
-      background:linear-gradient(180deg, rgba(255,255,255,.86), rgba(255,255,255,.62));
+      margin-top:12px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 12px;
+      border-radius:26px;
+      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.64));
       border:1px solid var(--stroke);
       box-shadow:var(--shadow);
-      backdrop-filter: blur(10px);
-      position:sticky;top:10px;z-index:20;
+      backdrop-filter: blur(12px);
+    }
+    @media(max-width:920px){ .top{flex-direction:column; align-items:stretch;} }
+
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      user-select:none;
+      min-width:0;
     }
 
-    .brand{display:flex;align-items:center;gap:12px;min-width:0;}
+    /* yuvarlak dış halka + yatay logo algısı */
     .mark{
-      width:64px;height:64px;border-radius:50%;
-      border:2px solid rgba(183,139,255,.80);
-      box-shadow:0 0 0 6px rgba(183,139,255,.18);
-      background:rgba(255,255,255,.78);
-      display:flex;align-items:center;justify-content:center;
-      overflow:hidden;flex:0 0 auto;
+      width:64px; height:64px; border-radius:50%;
+      border:2px solid rgba(106,54,255,.55);
+      box-shadow:0 0 0 8px rgba(106,54,255,.14);
+      background:rgba(255,255,255,.90);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+      flex:0 0 auto;
     }
-    .mark img{width:92%;height:auto;object-fit:contain;display:block}
+    .mark img{width:95%; height:auto; display:block; object-fit:contain;}
 
     .brandText{min-width:0}
     .brandText .name{
-      font-weight:950;letter-spacing:.5px;font-size:18px;margin:0;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+      margin:0;
+      font-weight:1000;
+      letter-spacing:.9px;
+      font-size:20px;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
-    .brandText .tagline{
-      margin:3px 0 0 0;color:var(--muted);font-size:12px;font-weight:700;
-      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    .brandText .sub{
+      margin:5px 0 0 0;
+      font-weight:850;
+      color:var(--mut);
+      font-size:12.5px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
     .nav{
-      display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;
+      display:flex; flex-wrap:wrap; gap:8px;
+      justify-content:flex-end;
     }
     .chip{
-      border:1px solid rgba(123,77,255,.22);
-      background:rgba(255,255,255,.75);
-      padding:10px 12px;border-radius:14px;
-      font-weight:950;font-size:12px;cursor:pointer;
+      appearance:none;
+      border:1px solid var(--stroke2);
+      background:rgba(255,255,255,.76);
       color:var(--ink);
-      transition:transform .12s ease,border-color .12s ease;
+      padding:10px 12px;
+      border-radius:14px;
+      font-weight:1000;
+      font-size:12px;
+      cursor:pointer;
+      transition:transform .12s ease, border-color .12s ease, filter .12s ease;
+      white-space:nowrap;
     }
-    .chip:hover{transform:translateY(-1px);border-color:rgba(123,77,255,.38)}
-    .chip:active{transform:translateY(0px) scale(.99)}
+    .chip:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.32)}
+    .chip:active{transform:translateY(0) scale(.99)}
 
-    /* Hero */
+    /* ======= HOME HERO ======= */
     .hero{
       margin-top:14px;
+      border-radius:var(--r28);
       border:1px solid var(--stroke);
-      border-radius:28px;
       background:
-        radial-gradient(900px 420px at 20% 10%, rgba(123,77,255,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+        radial-gradient(900px 460px at 25% 10%, rgba(106,54,255,.14), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .heroInner{
+    .heroIn{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
       gap:14px;
       padding:18px;
+      align-items:start;
     }
-    @media (max-width:900px){
-      .heroInner{grid-template-columns:1fr}
-      .top{position:relative;top:0}
+    @media (max-width:920px){ .heroIn{grid-template-columns:1fr} }
+    .hTitle{
+      margin:0;
+      font-size:34px;
+      line-height:1.06;
+      font-weight:1100;
+      letter-spacing:.2px;
     }
-
-    .hTitle{margin:0;font-size:30px;letter-spacing:.2px;font-weight:1000;line-height:1.08}
-    .hSub{margin:10px 0 0 0;color:var(--muted);font-size:14px;line-height:1.5;font-weight:700;max-width:62ch}
-
-    .heroActions{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;
+    .hSub{
+      margin:12px 0 0 0;
+      color:var(--mut);
+      font-weight:850;
+      font-size:14px;
+      line-height:1.65;
+      max-width:70ch;
     }
+    .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
     .btn{
-      border:none;cursor:pointer;
-      padding:12px 14px;border-radius:16px;
-      font-weight:1000;font-size:13px;
+      border:none;
+      border-radius:16px;
+      padding:12px 14px;
+      font-weight:1050;
+      font-size:13px;
+      cursor:pointer;
       box-shadow:var(--shadow2);
-      transition:transform .12s ease, filter .12s ease;
+      transition:transform .12s ease, filter .12s ease, border-color .12s ease;
+      white-space:nowrap;
     }
     .btn:active{transform:scale(.99)}
-    .btnPrimary{
-      background:linear-gradient(135deg, var(--lav2), var(--lav3));
-      color:white;
-    }
-    .btnGhost{
-      background:rgba(255,255,255,.78);
-      border:1px solid rgba(123,77,255,.22);
-      color:var(--ink);
-    }
-    .btn:hover{transform:translateY(-1px)}
-    .btnPrimary:hover{filter:brightness(1.03)}
-    .btnGhost:hover{border-color:rgba(123,77,255,.38)}
+    .btnPrimary{color:#fff; background:linear-gradient(135deg, var(--lav2), var(--lav3));}
+    .btnPrimary:hover{filter:brightness(1.05); transform:translateY(-1px)}
+    .btnGhost{background:rgba(255,255,255,.84); border:1px solid var(--stroke2); color:var(--ink);}
+    .btnGhost:hover{border-color:rgba(106,54,255,.34); transform:translateY(-1px)}
 
-    .kpis{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-      align-content:start;
-    }
+    .kpis{display:grid; gap:10px; align-content:start;}
     .kpi{
-      border:1px solid rgba(26,22,48,.10);
-      background:rgba(255,255,255,.80);
+      border:1px solid rgba(24,20,44,.10);
+      background:rgba(255,255,255,.84);
       border-radius:18px;
       padding:14px;
     }
-    .kpi b{display:block;font-size:13px}
-    .kpi span{display:block;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.4;font-weight:700}
+    .kpi b{display:block; font-size:13px; font-weight:1050}
+    .kpi span{display:block; margin-top:6px; color:var(--mut); font-weight:850; font-size:12px; line-height:1.45}
 
-    /* Sections */
-    .section{
+    /* ======= PANELS (no ghost) ======= */
+    .panel{
       margin-top:14px;
+      border-radius:var(--r28);
       border:1px solid var(--stroke);
-      border-radius:26px;
-      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.62));
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
       box-shadow:var(--shadow);
       overflow:hidden;
       display:none;
     }
-    .section.active{display:block}
-    .sHead{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
+    .panel.active{display:block}
+    .pHead{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
       padding:12px 12px;
-      background:linear-gradient(135deg, rgba(183,139,255,.22), rgba(255,255,255,.65));
+      background:linear-gradient(135deg, rgba(200,176,255,.22), rgba(255,255,255,.70));
       border-bottom:1px solid var(--stroke);
     }
-    .sHead h2{margin:0;font-size:14px;letter-spacing:.4px;font-weight:1000}
+    .pHead h2{
+      margin:0;
+      font-size:13px;
+      letter-spacing:.55px;
+      font-weight:1100;
+      text-transform:uppercase;
+    }
     .back{
-      border:1px solid rgba(123,77,255,.22);
-      background:rgba(255,255,255,.78);
-      padding:10px 12px;border-radius:14px;
-      font-weight:1000;font-size:12px;cursor:pointer;
+      border:1px solid var(--stroke2);
+      background:rgba(255,255,255,.86);
+      border-radius:14px;
+      padding:10px 12px;
+      font-weight:1050;
+      font-size:12px;
+      cursor:pointer;
+      transition:transform .12s ease, border-color .12s ease;
+      white-space:nowrap;
     }
-    .back:hover{border-color:rgba(123,77,255,.40)}
-    .sBody{padding:14px}
-    .note{margin:0 0 10px 0;color:var(--muted);font-size:13px;line-height:1.55;font-weight:700}
-
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
-
-    .card{
-      border:1px solid rgba(26,22,48,.10);
-      background:rgba(255,255,255,.82);
-      border-radius:18px;
-      padding:14px;
+    .back:hover{border-color:rgba(106,54,255,.34); transform:translateY(-1px)}
+    .back:active{transform:translateY(0) scale(.99)}
+    .pBody{padding:14px}
+    .note{
+      margin:0 0 12px 0;
+      color:var(--mut);
+      font-weight:850;
+      font-size:13px;
+      line-height:1.6;
     }
-    .card h3{margin:0 0 8px 0;font-size:13px;font-weight:1000}
-    .card p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.55;font-weight:700}
 
-    /* Video section */
-    .videoGrid{
+    .tiles{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
       gap:12px;
     }
-    @media (max-width:900px){.videoGrid{grid-template-columns:1fr}}
-    .vCard{
-      border:1px solid rgba(26,22,48,.10);
-      background:rgba(255,255,255,.82);
-      border-radius:18px;
-      padding:12px;
-      overflow:hidden;
-    }
-    .vTitle{margin:0 0 8px 0;font-weight:1000;font-size:13px}
-    video{width:100%;border-radius:14px;background:#000}
-    .vMeta{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.45;font-weight:700}
+    @media (max-width:920px){ .tiles{grid-template-columns:1fr} }
 
-    /* Gift buttons */
-    .actions{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:12px;
-    }
-    @media (max-width:900px){.actions{grid-template-columns:1fr}}
-    .cta{
-      border:1px solid rgba(26,22,48,.12);
-      background:rgba(255,255,255,.84);
+    .tile{
+      border:1px solid rgba(24,20,44,.10);
+      background:rgba(255,255,255,.86);
       border-radius:18px;
       padding:14px;
       cursor:pointer;
       box-shadow:var(--shadow2);
-      transition:transform .12s ease,border-color .12s ease;
+      transition:transform .12s ease, border-color .12s ease;
     }
-    .cta:hover{transform:translateY(-1px);border-color:rgba(123,77,255,.30)}
-    .cta:active{transform:translateY(0px) scale(.99)}
-    .cta b{display:block;font-size:13.5px;font-weight:1000}
-    .cta span{display:block;margin-top:6px;color:var(--muted);font-size:12px;line-height:1.45;font-weight:700}
+    .tile:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.28)}
+    .tile:active{transform:translateY(0) scale(.99)}
+    .tile b{display:block; font-weight:1100; font-size:13.5px}
+    .tile span{display:block; margin-top:6px; color:var(--mut); font-weight:850; font-size:12px; line-height:1.45}
+
+    /* ======= VIDEO GRID ======= */
+    .vgrid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+    }
+    @media (max-width:920px){ .vgrid{grid-template-columns:1fr} }
+
+    .vcard{
+      border:1px solid rgba(24,20,44,.10);
+      background:rgba(255,255,255,.86);
+      border-radius:18px;
+      padding:12px;
+      overflow:hidden;
+    }
+    .vtitle{margin:0 0 8px 0; font-weight:1100; font-size:13px;}
+    video{
+      width:100%;
+      border-radius:14px;
+      background:#000;
+      outline:none;
+    }
+    .vmeta{margin-top:8px; color:var(--mut); font-weight:850; font-size:12px; line-height:1.45}
+
+    /* ======= QUICK CONTACT ======= */
+    .quick{
+      position:fixed;
+      right:14px; bottom:14px;
+      display:flex; flex-direction:column; gap:10px;
+      z-index:80;
+    }
+    .qBtn{
+      display:flex; gap:10px; align-items:center;
+      padding:12px 14px;
+      border-radius:18px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:1050;
+      box-shadow:0 14px 34px rgba(24,20,44,.18);
+      background:linear-gradient(135deg, rgba(106,54,255,.92), rgba(154,116,255,.92));
+      border:1px solid rgba(255,255,255,.22);
+      backdrop-filter: blur(10px);
+    }
+    .qBtn.wa{background:linear-gradient(135deg, rgba(37,211,102,.92), rgba(16,185,129,.92));}
+    .qIco{
+      width:30px; height:30px; border-radius:12px;
+      display:grid; place-items:center;
+      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.18);
+    }
+    .qTxt small{display:block; font-weight:850; opacity:.92}
 
     .footer{
       margin-top:14px;
       text-align:center;
-      color:rgba(26,22,48,.55);
+      color:rgba(24,20,44,.55);
+      font-weight:900;
       font-size:12px;
-      font-weight:800;
+      padding-bottom:6px;
     }
   </style>
 </head>
@@ -240,249 +321,288 @@
 <body>
   <div class="wrap">
 
-    <!-- Sticky Top -->
+    <!-- TOP STRIP: ONLY FX + GOLD -->
+    <div class="tickerBar" aria-label="Döviz ve altın fiyatları şeridi">
+      <div class="tvBox">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+            "symbols": [
+              {"proName":"FX_IDC:USDTRY","title":"USD/TRY"},
+              {"proName":"FX_IDC:EURTRY","title":"EUR/TRY"},
+              {"proName":"OANDA:XAUUSD","title":"ALTIN (XAU/USD)"},
+              {"proName":"OANDA:XAGUSD","title":"GÜMÜŞ (XAG/USD)"}
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "colorTheme": "light",
+            "locale": "tr"
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- HEADER -->
     <div class="top">
-      <div class="brand" onclick="goHome()" style="cursor:pointer">
+      <div class="brand">
         <div class="mark">
-          <!-- repo ana dizindeki logo: femud_logo.png -->
-          <img src="femud_logo.png" alt="FEMUD" />
+          <!-- repoda logonun adı bu olsun -->
+          <img src="femud_logo.png" alt="FEMUD Logo" />
         </div>
         <div class="brandText">
           <p class="name">FEMUD</p>
-          <p class="tagline">Zincir market sunumu • Premium kişisel bakım • Müşteri çekim sistemi</p>
+          <p class="sub">Doğadan gelen güç • Premium kişisel bakım</p>
         </div>
       </div>
 
       <div class="nav">
-        <button class="chip" onclick="openSection('secProducts')">Ürün Videoları</button>
-        <button class="chip" onclick="openSection('secWhy')">Neden Zincir Market?</button>
-        <button class="chip" onclick="openSection('secGifts')">Hediye/Oyun</button>
-        <button class="chip" onclick="openSection('secContact')">İletişim</button>
+        <button class="chip" type="button" onclick="openPanel('pProducts')">Femud Ürünleri</button>
+        <button class="chip" type="button" onclick="openPanel('pGifts')">Femud Hediye Ürünleri Kazan</button>
+        <button class="chip" type="button" onclick="openPanel('pInsta')">Femud Instagram sayfasına git</button>
+        <button class="chip" type="button" onclick="openPanel('pAbout')">Femud markasını tanıyalım</button>
       </div>
     </div>
 
-    <!-- HERO -->
+    <!-- HOME -->
     <section class="hero" id="home">
-      <div class="heroInner">
+      <div class="heroIn">
         <div>
-          <h1 class="hTitle">Doğal algı + premium görünüm + hızlı satış kurgusu.</h1>
+          <h1 class="hTitle">Sade. Premium. Güven veren.</h1>
           <p class="hSub">
-            FEMUD; zincir market rafına yakışan ambalaj dili, güçlü “ferahlık & temizlik” algısı ve
-            müşteri trafiğini artıran hediye/oyun kurgusuyla büyümeye hazır bir markadır.
+            FEMUD, premium tasarım dili ile “doğal bakım” algısını birleştirir.
+            Ürün videolarını izleyin, kampanya merkezine geçin ve markayı yakından tanıyın.
           </p>
 
-          <div class="heroActions">
-            <button class="btn btnPrimary" onclick="openSection('secProducts')">Ürün Videolarını İzle</button>
-            <button class="btn btnGhost" onclick="openSection('secWhy')">CEO İçin 1 Dakika Özet</button>
-            <button class="btn btnGhost" onclick="openSection('secGifts')">Hediye/Oyun Sistemini Gör</button>
+          <div class="actions">
+            <button class="btn btnPrimary" type="button" onclick="openPanel('pProducts')">Femud Ürünleri</button>
+            <button class="btn btnGhost" type="button" onclick="openPanel('pGifts')">Femud Hediye Ürünleri Kazan</button>
+            <button class="btn btnGhost" type="button" onclick="openPanel('pInsta')">Femud Instagram sayfasına git</button>
+            <button class="btn btnGhost" type="button" onclick="openPanel('pAbout')">Femud markasını tanıyalım</button>
           </div>
         </div>
 
         <div class="kpis">
           <div class="kpi">
-            <b>Raf Uyumlu Premium Kimlik</b>
-            <span>Lavanta tonları + sade tasarım + net mesaj. Kurumsal görünüm.</span>
+            <b>Premium Sunum</b>
+            <span>Kurumsal, sade ve güven veren görünüm.</span>
           </div>
           <div class="kpi">
-            <b>Satışa Yardımcı Pazarlama Kurgusu</b>
-            <span>Hediye/Oyun merkezi ile sosyal medya ve mağaza içi aksiyonlar.</span>
+            <b>Doğal Algı</b>
+            <span>Temizlik, ferahlık ve bakım hissi.</span>
           </div>
           <div class="kpi">
-            <b>Hızlı Pilot & Yaygınlaştırma</b>
-            <span>Önce pilot mağaza → ölçüm → ölçekleme planı.</span>
+            <b>Etkileşim</b>
+            <span>Oyun/hediye kurgusu ile geri dönüş.</span>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PRODUCTS -->
-    <section class="section" id="secProducts">
-      <div class="sHead">
-        <h2>Ürün Videoları</h2>
-        <button class="back" onclick="goHome()">← Ana sayfa</button>
+    <!-- PRODUCTS PANEL -->
+    <section class="panel" id="pProducts">
+      <div class="pHead">
+        <h2>FEMUD ÜRÜNLERİ</h2>
+        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
       </div>
-      <div class="sBody">
+      <div class="pBody">
         <p class="note">
-          Bu bölüm zincir market yöneticisine “ürün gerçek, marka hazır” hissini verir.
-          Videolar <b>/videos/</b> klasöründen çalışır.
+          Buradaki videolar <b>videos/</b> klasöründen oynar.  
+          Eğer video açılmıyorsa, en sık sebep: <b>dosya adı / uzantı</b> farklıdır.
         </p>
-        <div class="videoGrid" id="videoGrid"></div>
-        <div class="footer">Not: GitHub dosya önizleme açmayabilir; sayfada video oynar.</div>
+        <div class="vgrid" id="videoGrid"></div>
+        <div class="footer">FEMUD • Doğadan gelen güç</div>
       </div>
     </section>
 
-    <!-- WHY CHAIN -->
-    <section class="section" id="secWhy">
-      <div class="sHead">
-        <h2>Neden Zincir Market İçin Uygun?</h2>
-        <button class="back" onclick="goHome()">← Ana sayfa</button>
+    <!-- GIFTS PANEL -->
+    <section class="panel" id="pGifts">
+      <div class="pHead">
+        <h2>FEMUD HEDİYE ÜRÜNLERİ KAZAN</h2>
+        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
       </div>
-      <div class="sBody">
-        <div class="grid2">
-          <div class="card">
-            <h3>1) Raf Dili: Net & Premium</h3>
-            <p>Minimal, temiz ve güven veren görünüm. Müşteri ilk bakışta “kaliteli” algısı alır.</p>
-          </div>
-          <div class="card">
-            <h3>2) Kategori Uyumu: Kişisel Bakım</h3>
-            <p>Şampuan/temizlik/ferahlık teması zincir market alışverişinde hızlı karar ürünüdür.</p>
-          </div>
-          <div class="card">
-            <h3>3) Trafik Artıran Sistem: Hediye/Oyun</h3>
-            <p>Mağaza içi QR, sosyal medya yönlendirme ve kampanya kurgusu ile tekrar ziyaret etkisi.</p>
-          </div>
-          <div class="card">
-            <h3>4) Pilot → Ölçek</h3>
-            <p>Önce seçili mağazalarda pilot. Sonra veriye göre yaygınlaştırma ve promosyon planı.</p>
-          </div>
-        </div>
-      </div>
-    </section>
+      <div class="pBody">
+        <p class="note">Aşağıdaki seçeneklerden birini seçerek devam edebilirsin.</p>
 
-    <!-- GIFTS -->
-    <section class="section" id="secGifts">
-      <div class="sHead">
-        <h2>Hediye / Oyun Sistemi</h2>
-        <button class="back" onclick="goHome()">← Ana sayfa</button>
-      </div>
-      <div class="sBody">
-        <p class="note">
-          Bu bölüm CEO’ya “Müşteriyi mağazaya ve markaya bağlayan mekanizma var” mesajını verir.
-        </p>
-
-        <div class="actions">
-          <div class="cta" onclick="goFile('carkifelek.html')">
+        <div class="tiles">
+          <div class="tile" onclick="goFile('carkifelek.html')">
             <b>Çarkıfelek</b>
-            <span>Kampanya ve hediye senaryosu için hazır (carkifelek.html).</span>
+            <span>Tek dokunuşla katılım, anlık ödül senaryosu.</span>
           </div>
-          <div class="cta" onclick="goFile('kazikazan4x4.html')">
+
+          <div class="tile" onclick="goFile('kazikazan4x4.html')">
             <b>Kazı Kazan</b>
-            <span>Mağaza içi ve sosyal medya aktivasyonu (kazikazan4x4.html).</span>
-          </div>
-          <div class="cta" onclick="goFile('OyunMerkezi.html')">
-            <b>Oyun Merkezi (Toplu)</b>
-            <span>Varsa toplu oyun sayfası (OyunMerkezi.html).</span>
-          </div>
-          <div class="cta" onclick="goFile('hediyemerkezi.html')">
-            <b>Hediye Merkezi</b>
-            <span>Varsa kampanya sayfası (hediyemerkezi.html).</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section class="section" id="secContact">
-      <div class="sHead">
-        <h2>İletişim & Sosyal</h2>
-        <button class="back" onclick="goHome()">← Ana sayfa</button>
-      </div>
-      <div class="sBody">
-        <div class="grid2">
-          <div class="card">
-            <h3>Instagram</h3>
-            <p>CEO sunumunda sosyal kanıt için tek tık yönlendirme.</p>
-            <div style="margin-top:10px">
-              <button class="btn btnPrimary" onclick="window.open('https://instagram.com/femud_tr','_blank')">Instagram’a Git</button>
-            </div>
-          </div>
-
-          <div class="card">
-            <h3>Kısa Mesaj (Sunum Notu)</h3>
-            <p>
-              “Pilot mağazalarda raf performansını ölçelim. Kampanya kurgusunu hediye/oyun sistemiyle destekleyelim.
-              Başarılı metriklerde yaygınlaştırma planını birlikte kurgulayalım.”
-            </p>
+            <span>Hızlı etkileşim ve kampanya kurgusu için uygundur.</span>
           </div>
         </div>
 
-        <div class="footer">FEMUD • Doğadan gelen güç!</div>
+        <div class="footer">FEMUD • Kampanya Merkezi</div>
       </div>
     </section>
 
-    <div class="footer">Bu sayfa zincir market CEO sunumu için premium tek sayfa olarak hazırlanmıştır.</div>
+    <!-- INSTAGRAM PANEL -->
+    <section class="panel" id="pInsta">
+      <div class="pHead">
+        <h2>FEMUD INSTAGRAM</h2>
+        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
+      </div>
+      <div class="pBody">
+        <p class="note">Sosyal medya sayfasına tek dokunuşla geçiş.</p>
 
+        <div class="tiles">
+          <div class="tile" onclick="window.open('https://instagram.com/femud_tr','_blank','noopener')">
+            <b>Instagram’a Git</b>
+            <span>@femud_tr</span>
+          </div>
+          <div class="tile" onclick="openPanel('pProducts')">
+            <b>Ürün Videolarına Dön</b>
+            <span>Ürün içeriklerini izlemeye devam et.</span>
+          </div>
+        </div>
+
+        <div class="footer">FEMUD • Sosyal</div>
+      </div>
+    </section>
+
+    <!-- ABOUT PANEL -->
+    <section class="panel" id="pAbout">
+      <div class="pHead">
+        <h2>FEMUD MARKASINI TANIYALIM</h2>
+        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
+      </div>
+      <div class="pBody">
+        <p class="note">
+          FEMUD, premium görsel dil ile “doğal bakım” algısını birleştirir.
+          Sunum dili: <b>net fayda</b>, <b>şeffaf iletişim</b>, <b>güven veren tasarım</b>.
+        </p>
+
+        <div class="tiles">
+          <div class="tile">
+            <b>Vizyon</b>
+            <span>Premium kaliteyi, güçlü ve sade bir sunumla erişilebilir kılmak.</span>
+          </div>
+          <div class="tile">
+            <b>Misyon</b>
+            <span>Ürünleri anlaşılır fayda diliyle sunmak; kullanıcı deneyimini güçlendirmek.</span>
+          </div>
+          <div class="tile">
+            <b>Kalite Yaklaşımı</b>
+            <span>İstikrar, güven, düzenli iletişim ve yüksek algı.</span>
+          </div>
+          <div class="tile" onclick="openPanel('pGifts')">
+            <b>Kampanya Merkezine Geç</b>
+            <span>Oyun/hediye kurgusunu aç.</span>
+          </div>
+        </div>
+
+        <div class="footer">FEMUD • Doğadan gelen güç</div>
+      </div>
+    </section>
+
+    <div class="footer">© FEMUD</div>
+  </div>
+
+  <!-- Quick Contact (Instagram + WhatsApp) -->
+  <div class="quick" aria-label="Hızlı iletişim">
+    <a class="qBtn" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">
+      <span class="qIco">📩</span>
+      <span class="qTxt"><b>Instagram</b><small>@femud_tr</small></span>
+    </a>
+
+    <!-- WhatsApp: numaranı buraya yaz -->
+    <a class="qBtn wa" id="waBtn" href="javascript:void(0)">
+      <span class="qIco">💬</span>
+      <span class="qTxt"><b>WhatsApp</b><small>Numara eklenince aktif</small></span>
+    </a>
   </div>
 
   <script>
-    // ✅ Senin repoya yüklediğin 5 video (videos klasöründen)
-    // İsimleri sonradan istersen değiştirirsin. Şimdilik çalışsın diye birebir bıraktım.
-    const videos = [
-      {
-        file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4",
-        title: "Mentollü Şampuan – Termal Su ile Üretim",
-        desc: "Ferahlık etkisi • Premium algı • Raf uyumu"
-      },
-      {
-        file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4",
-        title: "Ürün Videosu 2",
-        desc: "Başlığı sonra değiştirebilirsin"
-      },
-      {
-        file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4",
-        title: "Ürün Videosu 3",
-        desc: "Başlığı sonra değiştirebilirsin"
-      },
-      {
-        file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4",
-        title: "Ürün Videosu 4",
-        desc: "Başlığı sonra değiştirebilirsin"
-      },
-      {
-        file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4",
-        title: "Ürün Videosu 5",
-        desc: "Başlığı sonra değiştirebilirsin"
-      }
+    /* ========= 1) VIDEO LİSTESİ (BURASI KRİTİK) =========
+       videos klasöründe BU DOSYA ADLARI birebir olmalı.
+       Eğer senin dosya adların farklıysa sadece aşağıyı değiştir.
+    */
+    const VIDEOS = [
+      { title: "Video 1", file: "videos/video1.mp4", desc: "Ürün videosu." },
+      { title: "Video 2", file: "videos/video2.mp4", desc: "Ürün videosu." },
+      { title: "Video 3", file: "videos/video3.mp4", desc: "Ürün videosu." },
+      { title: "Video 4", file: "videos/video4.mp4", desc: "Ürün videosu." },
+      { title: "Video 5", file: "videos/video5.mp4", desc: "Ürün videosu." }
     ];
-
-    function openSection(id){
-      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-      const el = document.getElementById(id);
-      if(el) el.classList.add("active");
-
-      if(id === "secProducts") renderVideos();
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-
-    function goHome(){
-      document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-
-    function goFile(file){
-      // aynı sekmede aç
-      window.location.href = file;
-    }
 
     function renderVideos(){
       const grid = document.getElementById("videoGrid");
       if(!grid) return;
       grid.innerHTML = "";
 
-      videos.forEach(v=>{
+      VIDEOS.forEach(v=>{
         const card = document.createElement("div");
-        card.className = "vCard";
-
-        const t = document.createElement("p");
-        t.className = "vTitle";
-        t.textContent = v.title;
-
-        const vid = document.createElement("video");
-        vid.controls = true;
-        vid.playsInline = true;
-        vid.preload = "metadata";
-        vid.src = "videos/" + v.file;
-
-        const meta = document.createElement("div");
-        meta.className = "vMeta";
-        meta.textContent = v.desc;
-
-        card.appendChild(t);
-        card.appendChild(vid);
-        card.appendChild(meta);
+        card.className = "vcard";
+        card.innerHTML = `
+          <p class="vtitle">${escapeHtml(v.title)}</p>
+          <video controls playsinline preload="metadata">
+            <source src="${v.file}" type="video/mp4" />
+            Tarayıcınız video oynatmayı desteklemiyor.
+          </video>
+          <div class="vmeta">${escapeHtml(v.desc || "")}</div>
+        `;
         grid.appendChild(card);
       });
     }
+
+    function escapeHtml(s){
+      return String(s||"")
+        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;").replaceAll("'","&#39;");
+    }
+
+    /* ========= 2) PANEL SİSTEMİ (HAYALET BOŞLUK YOK) ========= */
+    const panels = ["pProducts","pGifts","pInsta","pAbout"].map(id=>document.getElementById(id));
+
+    function hideAll(){
+      panels.forEach(p=>p && p.classList.remove("active"));
+      document.getElementById("home")?.scrollIntoView({behavior:"smooth"});
+    }
+
+    window.openPanel = function(id){
+      panels.forEach(p=>p && p.classList.remove("active"));
+      const el = document.getElementById(id);
+      if(el){
+        el.classList.add("active");
+        el.scrollIntoView({behavior:"smooth"});
+      }
+      if(id==="pProducts"){ renderVideos(); }
+    }
+
+    window.goHome = function(){
+      panels.forEach(p=>p && p.classList.remove("active"));
+      document.getElementById("home")?.scrollIntoView({behavior:"smooth"});
+    }
+
+    /* ========= 3) OYUN DOSYASINA GİT ========= */
+    window.goFile = function(file){
+      // aynı repoda varsa açar
+      window.location.href = file;
+    }
+
+    /* ========= 4) WHATSAPP ========= */
+    const WHATSAPP_NUMBER = ""; // örn: 905551112233
+    const waBtn = document.getElementById("waBtn");
+    if(waBtn){
+      if(WHATSAPP_NUMBER && /^\d{10,15}$/.test(WHATSAPP_NUMBER)){
+        const msg = encodeURIComponent("Merhaba, Femud ürünleri hakkında bilgi almak istiyorum.");
+        waBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+        waBtn.target = "_blank";
+        waBtn.rel = "noopener";
+        waBtn.querySelector("small").textContent = "Mesaj gönder";
+      }else{
+        waBtn.addEventListener("click", ()=> alert("WhatsApp numarası eklenmedi. Kodda WHATSAPP_NUMBER alanına numara yaz."));
+      }
+    }
+
+    // İlk yükleme
+    renderVideos();
   </script>
 </body>
 </html>
