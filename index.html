@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FEMUD | Video & Oyun Merkezi</title>
+  <title>FEMUD | Ürünler & Videolar</title>
 
   <style>
     :root{
       --bg1:#070a12;
       --bg2:#0a1630;
-      --glass:rgba(255,255,255,.07);
       --stroke:rgba(255,255,255,.14);
       --txt:#eaf2ff;
       --muted:rgba(234,242,255,.72);
-      --accent:#b58cff;    /* lila */
-      --accent2:#78ffd6;   /* doğal ferahlık */
+      --accent:#b58cff;
+      --accent2:#78ffd6;
       --shadow:0 18px 55px rgba(0,0,0,.45);
       --radius:18px;
     }
@@ -44,7 +43,7 @@
       backdrop-filter: blur(10px);
     }
 
-    /* FEMUD badge: dış halka yuvarlak, içte yatay FEMUD */
+    /* FEMUD badge */
     .brand{
       display:flex; align-items:center; gap:10px;
       text-decoration:none; color:var(--txt);
@@ -94,7 +93,6 @@
     }
     .pill:hover{ transform:translateY(-1px); background:rgba(255,255,255,.09); }
 
-    /* Hero */
     .hero{ margin-top:12px; display:grid; grid-template-columns: 1.2fr .8fr; gap:12px; }
     @media (max-width: 860px){ .hero{ grid-template-columns:1fr; } }
 
@@ -120,7 +118,7 @@
     .title{ font-size:22px; margin:10px 0 6px; letter-spacing:.2px; }
     .desc{ margin:0 0 14px; color:var(--muted); font-size:14px; line-height:1.45; }
 
-    /* Sekmeler (alt alta) */
+    /* Alt alta sekmeler */
     .quick-tabs{ display:flex; flex-direction:column; gap:10px; margin-top:10px; }
     .qbtn{
       display:flex; align-items:center; justify-content:space-between;
@@ -143,8 +141,35 @@
     .section{ margin-top:12px; padding:14px; }
     .section h2{ margin:0 0 10px; font-size:16px; letter-spacing:.6px; color:rgba(234,242,255,.92); }
 
-    /* Video slider */
-    .slider-wrap{ position:relative; }
+    /* Ürün görsel + liste */
+    .product-hero{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      align-items:start;
+      margin-bottom:14px;
+    }
+    @media (max-width: 860px){ .product-hero{ grid-template-columns:1fr; } }
+
+    .imgbox{
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+    }
+    .imgbox img{ width:100%; height:auto; display:block; }
+
+    .list{ display:flex; flex-direction:column; gap:10px; }
+    .item{
+      padding:12px 12px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+    }
+    .item b{ display:block; margin-bottom:4px; }
+    .item small{ color:var(--muted); line-height:1.35; display:block; }
+
+    /* Video slider (ÜRÜNLER içinde) */
     .slider{
       display:flex; gap:12px;
       overflow:auto;
@@ -182,38 +207,8 @@
     }
     .small-link:hover{ background:rgba(255,255,255,.09); }
 
-    /* Ürün görsel alanı */
-    .product-hero{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-      align-items:start;
-    }
-    @media (max-width: 860px){ .product-hero{ grid-template-columns:1fr; } }
-
-    .imgbox{
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.05);
-    }
-    .imgbox img{ width:100%; height:auto; display:block; }
-
-    .list{
-      display:flex; flex-direction:column; gap:10px;
-    }
-    .item{
-      padding:12px 12px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.12);
-      background:rgba(255,255,255,.05);
-    }
-    .item b{ display:block; margin-bottom:4px; }
-    .item small{ color:var(--muted); line-height:1.35; display:block; }
-
     footer{ margin-top:14px; padding:14px 10px 0; color:rgba(234,242,255,.55); font-size:12px; text-align:center; }
 
-    /* Ana sayfaya dön butonu */
     .home-fab{
       position:fixed;
       right:14px;
@@ -247,8 +242,8 @@
       </a>
 
       <nav class="nav">
-        <a class="pill" href="#videolar">Videolar</a>
-        <a class="pill" href="#urunler">Ürünler</a>
+        <a class="pill" href="#urunler">Ürünler + Videolar</a>
+        <a class="pill" href="hediyemerkezi.html">Hediye Kazan</a>
         <a class="pill" href="OyunMerkezi.html">Oyun Merkezi</a>
         <a class="pill" href="carkifelek.html">Çarkıfelek</a>
         <a class="pill" href="kazikazan4x4.html">Kazı Kazan</a>
@@ -259,16 +254,16 @@
       <div class="card">
         <div class="card-pad">
           <div class="chip"><span class="dot"></span> FEMUD • Doğal • Premium</div>
-          <h1 class="title">Ürün Videoları ve Merkez</h1>
+          <h1 class="title">FEMUD Ürünler</h1>
           <p class="desc">
-            Videolar aşağıda kaydırmalı şekilde çalışır. İsimleri sonra istersen değiştirirsin.
+            Tüm videolar <b>ÜRÜNLER</b> bölümünün içinde kaydırmalı olarak yer alır.
           </p>
 
           <div class="quick-tabs">
             <a class="qbtn" href="#urunler">
               <div>
                 Femud ürünleri gör
-                <div class="sub">Ürün görseli + liste</div>
+                <div class="sub">Ürünler + videolar aynı yerde</div>
               </div>
               <div class="arrow">›</div>
             </a>
@@ -317,17 +312,9 @@
       </div>
     </section>
 
-    <!-- VIDEOLAR -->
-    <section class="card section" id="videolar">
-      <h2>VİDEOLAR</h2>
-      <div class="slider-wrap">
-        <div class="slider" id="videoSlider"></div>
-      </div>
-    </section>
-
-    <!-- ÜRÜNLER -->
+    <!-- ÜRÜNLER + TÜM VİDEOLAR -->
     <section class="card section" id="urunler">
-      <h2>FEMUD ÜRÜNLER</h2>
+      <h2>FEMUD ÜRÜNLER + VİDEOLAR</h2>
 
       <div class="product-hero">
         <div class="imgbox">
@@ -351,12 +338,11 @@
             <b>Hediye Ürünleri</b>
             <small>Hediye merkezi üzerinden kazanma fırsatı</small>
           </div>
-          <div class="item">
-            <b>Femud</b>
-            <small>Doğadan gelen güç • marka duruşu</small>
-          </div>
         </div>
       </div>
+
+      <!-- ✅ TÜM VİDEOLAR BURADA -->
+      <div class="slider" id="videoSlider"></div>
     </section>
 
     <!-- MARKA TANITIM -->
@@ -378,8 +364,7 @@
   <a class="home-fab" href="index.html">Ana Sayfaya Dön</a>
 
   <script>
-    // 5 video: videos/ klasöründe (sen yükledin)
-    // İsimleri sonra istersen değiştirirsin.
+    // ✅ 5 video: videos/ klasöründe
     const VIDEOS = [
       {
         title: "Mentollü Şampuan – Termal Su ile Üretim",
