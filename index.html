@@ -1,365 +1,508 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#7b4bb7" />
   <title>FEMUD</title>
 
   <style>
     :root{
-      --bg0:#fbf8ff;
-      --bg1:#f2eaff;
-      --ink:#1b1333;
-      --mut:rgba(27,19,51,.72);
-      --lav1:#cdb7ff;
-      --lav2:#9a74ff;
-      --lav3:#6a36ff;
-      --card:rgba(255,255,255,.92);
-      --stroke:rgba(27,19,51,.12);
-      --shadow:0 18px 60px rgba(27,19,51,.14);
-      --shadow2:0 10px 26px rgba(27,19,51,.12);
-      --r:22px; --r2:16px;
-      --max:1120px;
+      --lav1:#130a22;
+      --lav2:#2a0f4b;
+      --lav3:#3a1670;
+      --lav4:#7b4bb7;
+      --lav5:#b79cff;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-      color:var(--ink);
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Helvetica Neue", "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
       background:
-        radial-gradient(900px 520px at 10% 12%, rgba(154,116,255,.26), transparent 60%),
-        radial-gradient(800px 520px at 92% 18%, rgba(106,54,255,.16), transparent 62%),
-        linear-gradient(180deg,var(--bg0),var(--bg1));
+        radial-gradient(1200px 700px at 20% 10%, rgba(183,156,255,.28), transparent 55%),
+        radial-gradient(900px 650px at 80% 20%, rgba(123,75,183,.34), transparent 60%),
+        radial-gradient(900px 700px at 50% 90%, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(160deg, var(--lav1), var(--lav2) 40%, #0b0616);
       overflow-x:hidden;
     }
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:14px 14px 74px;}
 
-    /* only top strip */
-    .tickerBar{
-      border-radius:22px;
-      border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.76));
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(12px);
-      overflow:hidden;
-      padding:8px 10px;
-      position:sticky; top:10px; z-index:50;
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px 16px 34px;
     }
-    @media (max-width:920px){ .tickerBar{position:relative; top:0} }
-    .tvBox{border-radius:16px; overflow:hidden;}
 
-    /* header */
+    /* Header */
     .top{
-      margin-top:12px;
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-      padding:12px;
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.72));
-      border:1px solid var(--stroke);
-      box-shadow:var(--shadow);
-      backdrop-filter: blur(12px);
-      flex-wrap:wrap;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding: 10px 2px 14px;
     }
-    .brand{display:flex; align-items:center; gap:12px; user-select:none;}
-    .mark{
-      width:70px; height:70px; border-radius:50%;
-      border:2px solid rgba(106,54,255,.55);
-      box-shadow:0 0 0 9px rgba(106,54,255,.14);
-      background:rgba(255,255,255,.92);
-      display:flex; align-items:center; justify-content:center;
-      overflow:hidden; flex:0 0 auto;
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width: 0;
     }
-    .mark img{width:92%; height:auto; display:block; object-fit:contain;}
-    .name{
+
+    .badge{
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      position:relative;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.20), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(183,156,255,.18), transparent 60%),
+        rgba(255,255,255,.04);
+      border: 2px solid rgba(183,156,255,.55);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      flex:0 0 auto;
+    }
+
+    /* dış halka yuvarlak – içte yatay FEMUD */
+    .badge::before{
+      content:"";
+      position:absolute;
+      inset:-8px;
+      border-radius: 999px;
+      border: 2px solid rgba(123,75,183,.55);
+      box-shadow:
+        0 0 0 6px rgba(255,255,255,.03),
+        0 18px 40px rgba(0,0,0,.35);
+      background: radial-gradient(circle at 50% 50%, rgba(183,156,255,.08), transparent 65%);
+    }
+
+    .logoText{
+      font-weight: 900;
+      letter-spacing: .10em;
+      font-size: 15px;
+      color: rgba(255,255,255,.94);
+      text-shadow: 0 2px 18px rgba(183,156,255,.35);
+      transform: translateY(1px);
+      white-space:nowrap;
+    }
+
+    .titleBlock{
+      min-width:0;
+    }
+
+    .title{
       margin:0;
-      font-weight:1200;
-      letter-spacing:1px;
-      font-size:20px;
+      font-size: 18px;
+      letter-spacing:.02em;
       line-height:1.1;
       white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .nav{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;}
+    .subtitle{
+      margin:6px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+      color: rgba(255,255,255,.86);
+      font-size: 12.5px;
+      user-select:none;
+    }
+
+    /* Home cards */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 760px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .card{
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(800px 260px at 20% 10%, rgba(183,156,255,.16), transparent 60%);
+      opacity:.9;
+    }
+
+    .cardInner{
+      position:relative;
+      z-index:2;
+      padding: 16px;
+    }
+
+    .cardTitle{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.01em;
+    }
+
+    .cardDesc{
+      margin:8px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .btnRow{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
     .btn{
-      border:1px solid rgba(106,54,255,.22);
-      background:rgba(255,255,255,.90);
-      border-radius:14px;
-      padding:10px 12px;
-      font-weight:1150;
-      font-size:12px;
-      box-shadow:var(--shadow2);
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing:.01em;
+      cursor:pointer;
+      transition: transform .10s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.085); border-color: rgba(183,156,255,.35); }
+    .btn:active{ transform: translateY(0px) scale(.99); }
+
+    .btnPrimary{
+      background: linear-gradient(135deg, rgba(183,156,255,.30), rgba(123,75,183,.18));
+      border-color: rgba(183,156,255,.45);
+    }
+
+    /* Pages (single-file navigation) */
+    .page{
+      display:none;
+      margin-top: 12px;
+    }
+    .page.active{ display:block; }
+
+    .pageHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 10px 0 12px;
+    }
+
+    .pageHeader h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.01em;
+    }
+
+    .backBtn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.90);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
       cursor:pointer;
       user-select:none;
-      white-space:nowrap;
-    }
-    .btn.primary{
-      color:#fff;
-      border:none;
-      background:linear-gradient(135deg, var(--lav2), var(--lav3));
     }
 
-    /* views */
-    .view{display:none; margin-top:14px;}
-    .view.active{display:block;}
-
-    .panel{
-      border-radius:22px;
-      border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.78));
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .head{
-      padding:12px 12px;
-      background:linear-gradient(135deg, rgba(205,183,255,.22), rgba(255,255,255,.80));
-      border-bottom:1px solid var(--stroke);
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    .head h2{margin:0; font-size:13px; font-weight:1200; letter-spacing:.6px; text-transform:uppercase;}
-    .body{padding:12px}
-
-    /* videos */
-    .vgrid{
+    /* Video gallery */
+    .videos{
       display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:12px;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
-    @media (max-width:920px){ .vgrid{grid-template-columns:1fr} }
-    .vcard{
-      border:1px solid rgba(27,19,51,.10);
-      background:rgba(255,255,255,.94);
-      border-radius:18px;
-      padding:12px;
-      box-shadow:var(--shadow2);
-      overflow:hidden;
+    @media (min-width: 860px){
+      .videos{ grid-template-columns: 1fr 1fr; }
     }
-    .vtitle{margin:0 0 8px 0; font-weight:1200; font-size:13px;}
-    video{width:100%; border-radius:14px; background:#000; outline:none}
-    .vlink{display:inline-block; margin-top:8px; font-weight:1100; font-size:12px; color:rgba(106,54,255,.98)}
-    .vlink:hover{text-decoration:underline}
 
-    /* quick */
-    .quick{
-      position:fixed; right:14px; bottom:14px;
-      display:flex; flex-direction:column; gap:10px;
-      z-index:80;
+    .videoCard{
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
     }
-    .qBtn{
-      display:flex; gap:10px; align-items:center;
-      padding:12px 14px;
-      border-radius:18px;
-      color:#fff;
-      font-weight:1200;
-      box-shadow:0 14px 34px rgba(27,19,51,.18);
-      background:linear-gradient(135deg, rgba(106,54,255,.92), rgba(154,116,255,.92));
-      border:1px solid rgba(255,255,255,.22);
-      backdrop-filter: blur(10px);
+
+    .videoTop{
+      padding: 12px 12px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
     }
-    .qBtn.wa{background:linear-gradient(135deg, rgba(37,211,102,.92), rgba(16,185,129,.92));}
-    .qIco{
-      width:30px; height:30px; border-radius:12px;
-      display:grid; place-items:center;
-      background:rgba(0,0,0,.18);
-      border:1px solid rgba(255,255,255,.18);
+
+    .videoName{
+      margin:0;
+      font-size: 14px;
+      font-weight: 800;
     }
-    .qTxt small{display:block; font-weight:950; opacity:.92}
+
+    .videoHint{
+      margin:6px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .err{
+      color: rgba(255,155,155,.95);
+      font-weight: 800;
+    }
+
+    video{
+      width:100%;
+      height:auto;
+      display:block;
+      background: rgba(0,0,0,.35);
+    }
+
+    .footer{
+      margin-top: 16px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      text-align:center;
+    }
+
+    a.link{
+      color: rgba(183,156,255,.92);
+      text-decoration:none;
+      font-weight: 800;
+    }
+    a.link:hover{ text-decoration:underline; }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-
-    <!-- only strip -->
-    <div class="tickerBar">
-      <div class="tvBox">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-          {
-            "symbols": [
-              {"proName":"FX_IDC:USDTRY","title":"USD/TRY"},
-              {"proName":"FX_IDC:EURTRY","title":"EUR/TRY"},
-              {"proName":"OANDA:XAUUSD","title":"ALTIN (XAU/USD)"},
-              {"proName":"OANDA:XAGUSD","title":"GÜMÜŞ (XAG/USD)"}
-            ],
-            "showSymbolLogo": true,
-            "isTransparent": true,
-            "displayMode": "adaptive",
-            "colorTheme": "light",
-            "locale": "tr"
-          }
-          </script>
-        </div>
-      </div>
-    </div>
-
-    <!-- header -->
+    <!-- Top -->
     <div class="top">
       <div class="brand">
-        <div class="mark"><img src="femud_logo.png" alt="FEMUD"/></div>
-        <p class="name">FEMUD</p>
+        <div class="badge" aria-label="FEMUD">
+          <div class="logoText">FEMUD</div>
+        </div>
+        <div class="titleBlock">
+          <h1 class="title">FEMUD</h1>
+          <p class="subtitle">Doğadan gelen güç</p>
+        </div>
       </div>
-
-      <!-- 1'er buton -->
-      <div class="nav">
-        <button class="btn primary" data-go="home" type="button">Ana Sayfa</button>
-        <button class="btn" data-go="urunler" type="button">Femud Ürünleri</button>
-        <button class="btn" data-go="hediye" type="button">Femud Hediye Ürünleri Kazan</button>
-        <button class="btn" data-go="marka" type="button">Femud Markasını Tanıyalım</button>
-        <button class="btn" data-go="instagram" type="button">Instagram</button>
-      </div>
+      <div class="pill" id="statusPill">Hazır</div>
     </div>
 
     <!-- HOME -->
-    <section class="view active" id="view-home">
-      <div class="panel">
-        <div class="head"><h2>Ana Sayfa</h2></div>
-        <div class="body">
-          <!-- boş: sadece temiz ana sayfa -->
-        </div>
-      </div>
-    </section>
+    <section class="page active" id="home">
+      <div class="grid">
 
-    <!-- URUNLER (5 video) -->
-    <section class="view" id="view-urunler">
-      <div class="panel">
-        <div class="head">
-          <h2>Femud Ürünleri</h2>
-          <button class="btn" data-go="home" type="button">Ana Sayfa</button>
-        </div>
-
-        <div class="body">
-          <div class="vgrid">
-
-            <div class="vcard">
-              <p class="vtitle">Video 1</p>
-              <video controls playsinline preload="metadata">
-                <source src="videos/video1.mp4" type="video/mp4">
-              </video>
-              <a class="vlink" href="videos/video1.mp4" target="_blank" rel="noopener">Video’yu Aç</a>
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Ürünleri</h3>
+            <p class="cardDesc">Ürün videolarını buradan izleyin.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('products')">Videoları Aç</button>
             </div>
-
-            <div class="vcard">
-              <p class="vtitle">Video 2</p>
-              <video controls playsinline preload="metadata">
-                <source src="videos/video2.mp4" type="video/mp4">
-              </video>
-              <a class="vlink" href="videos/video2.mp4" target="_blank" rel="noopener">Video’yu Aç</a>
-            </div>
-
-            <div class="vcard">
-              <p class="vtitle">Video 3</p>
-              <video controls playsinline preload="metadata">
-                <source src="videos/video3.mp4" type="video/mp4">
-              </video>
-              <a class="vlink" href="videos/video3.mp4" target="_blank" rel="noopener">Video’yu Aç</a>
-            </div>
-
-            <div class="vcard">
-              <p class="vtitle">Video 4</p>
-              <video controls playsinline preload="metadata">
-                <source src="videos/video4.mp4" type="video/mp4">
-              </video>
-              <a class="vlink" href="videos/video4.mp4" target="_blank" rel="noopener">Video’yu Aç</a>
-            </div>
-
-            <div class="vcard">
-              <p class="vtitle">Video 5</p>
-              <video controls playsinline preload="metadata">
-                <source src="videos/video5.mp4" type="video/mp4">
-              </video>
-              <a class="vlink" href="videos/video5.mp4" target="_blank" rel="noopener">Video’yu Aç</a>
-            </div>
-
           </div>
         </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Hediye Ürünleri Kazan</h3>
+            <p class="cardDesc">Hediye oyunlarına buradan geçin.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('gifts')">Hediye Oyunları</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Instagram Sayfasına Git</h3>
+            <p class="cardDesc">Resmî Instagram hesabımıza ulaşın.</p>
+            <div class="btnRow">
+              <a class="btn btnPrimary link" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Markasını Tanıyalım</h3>
+            <p class="cardDesc">Marka yaklaşımı ve ürün vizyonu.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('about')">Tanıtım</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer">© FEMUD</div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="page" id="products">
+      <div class="pageHeader">
+        <h2>Femud Ürün Videoları</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="videos" id="videoGrid"></div>
+      <div class="footer">Videolar açılmıyorsa: dosya adı / klasör adı (videos) birebir aynı olmalı.</div>
+    </section>
+
+    <!-- GIFTS -->
+    <section class="page" id="gifts">
+      <div class="pageHeader">
+        <h2>Hediye Oyunları</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="card">
+        <div class="cardInner">
+          <h3 class="cardTitle">Oyun Merkezi</h3>
+          <p class="cardDesc">Mevcut oyun dosyalarına yönlendirme.</p>
+          <div class="btnRow">
+            <a class="btn btnPrimary link" href="OyunMerkezi.html">Oyun Merkezi</a>
+            <a class="btn link" href="carkifelek.html">Çarkıfelek</a>
+            <a class="btn link" href="kazikazan4x4.html">Kazı Kazan</a>
+            <a class="btn link" href="hediyemerkezi.html">Hediye Merkezi</a>
+          </div>
+          <p class="cardDesc" style="margin-top:12px">Not: Bu sayfalar repoda yoksa butonlar açılmaz. Dosya adları birebir aynı olmalı.</p>
+        </div>
       </div>
     </section>
 
-    <!-- HEDIYE (oyunlar) -->
-    <section class="view" id="view-hediye">
-      <div class="panel">
-        <div class="head">
-          <h2>Hediye Oyunları</h2>
-          <button class="btn" data-go="home" type="button">Ana Sayfa</button>
-        </div>
-        <div class="body" style="display:flex; gap:10px; flex-wrap:wrap;">
-          <a class="btn primary" href="carkifelek.html">Çarkıfelek</a>
-          <a class="btn" href="kazikazan4x4.html">Kazı Kazan</a>
+    <!-- ABOUT -->
+    <section class="page" id="about">
+      <div class="pageHeader">
+        <h2>FEMUD Hakkında</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="card">
+        <div class="cardInner">
+          <h3 class="cardTitle">Doğadan İlham Alan Bakım</h3>
+          <p class="cardDesc">
+            FEMUD; günlük bakım rutinini sade, güçlü ve güven veren bir deneyime dönüştürmek için tasarlanmış bir markadır.
+            Ürün anlatımı ve içerik sunumu bu sayfada video ve görsellerle desteklenir.
+          </p>
+          <p class="cardDesc" style="margin-top:10px">
+            İstersen bu metni daha kurumsal “katalog dili” ile yeniden yazarım; sadece hangi satış kanalına (zincir market / e-ticaret / bayi) sunacağını söyle.
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- MARKA -->
-    <section class="view" id="view-marka">
-      <div class="panel">
-        <div class="head">
-          <h2>Marka</h2>
-          <button class="btn" data-go="home" type="button">Ana Sayfa</button>
-        </div>
-        <div class="body">
-          <!-- burada senin profesyonel metnini sonra ekleriz -->
-        </div>
-      </div>
-    </section>
-
-    <!-- INSTAGRAM -->
-    <section class="view" id="view-instagram">
-      <div class="panel">
-        <div class="head">
-          <h2>Instagram</h2>
-          <button class="btn" data-go="home" type="button">Ana Sayfa</button>
-        </div>
-        <div class="body">
-          <a class="btn primary" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">Instagram’a Git</a>
-        </div>
-      </div>
-    </section>
-
-  </div>
-
-  <!-- quick -->
-  <div class="quick">
-    <a class="qBtn" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">
-      <span class="qIco">📩</span>
-      <span class="qTxt"><b>Instagram</b><small>@femud_tr</small></span>
-    </a>
-    <a class="qBtn wa" id="waBtn" href="javascript:void(0)">
-      <span class="qIco">💬</span>
-      <span class="qTxt"><b>WhatsApp</b><small>Numara eklenince aktif</small></span>
-    </a>
   </div>
 
   <script>
-    // sekme sistemi (hash yok, iPhone'da kesin çalışır)
-    const views = ["home","urunler","hediye","marka","instagram"];
-    function showView(name){
-      views.forEach(v=>{
-        const el = document.getElementById("view-"+v);
-        if(el) el.classList.toggle("active", v===name);
-      });
-      window.scrollTo({top:0, behavior:"smooth"});
-    }
-    document.querySelectorAll("[data-go]").forEach(b=>{
-      b.addEventListener("click", ()=> showView(b.getAttribute("data-go")));
-    });
+    // ✅ Repodaki gerçek video dosyaları (sen daha sonra isimleri değiştirirsin)
+    const VIDEOS = [
+      { title: "Mentollü Şampuan — Termal su ile üretim", file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4" },
+      { title: "Ürün Video 2", file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4" },
+      { title: "Ürün Video 3", file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4" },
+      { title: "Ürün Video 4", file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4" },
+      { title: "Ürün Video 5", file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4" },
+    ];
 
-    // WhatsApp
-    const WHATSAPP_NUMBER = ""; // örn: 905551112233
-    const waBtn = document.getElementById("waBtn");
-    if(waBtn){
-      if(WHATSAPP_NUMBER && /^\d{10,15}$/.test(WHATSAPP_NUMBER)){
-        const msg = encodeURIComponent("Merhaba, Femud ürünleri hakkında bilgi almak istiyorum.");
-        waBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
-        waBtn.target = "_blank";
-        waBtn.rel = "noopener";
-        waBtn.querySelector("small").textContent = "Mesaj gönder";
-      }else{
-        waBtn.addEventListener("click", ()=> alert("WhatsApp numarası eklenmedi. Kodda WHATSAPP_NUMBER alanına numara yaz."));
-      }
+    function go(pageId){
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      const el = document.getElementById(pageId);
+      if(el) el.classList.add("active");
+      window.scrollTo({top: 0, behavior:"smooth"});
     }
+
+    function setStatus(text){
+      document.getElementById("statusPill").textContent = text;
+    }
+
+    function createVideoCard(v){
+      const src = "videos/" + v.file; // ✅ klasör adı: videos (birebir)
+      const wrap = document.createElement("div");
+      wrap.className = "videoCard";
+
+      const top = document.createElement("div");
+      top.className = "videoTop";
+
+      const left = document.createElement("div");
+      const h = document.createElement("p");
+      h.className = "videoName";
+      h.textContent = v.title;
+
+      const hint = document.createElement("p");
+      hint.className = "videoHint";
+      hint.textContent = "Oynatmak için videoyu başlatın.";
+
+      left.appendChild(h);
+      left.appendChild(hint);
+
+      top.appendChild(left);
+      wrap.appendChild(top);
+
+      const video = document.createElement("video");
+      // iPhone uyumu:
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      video.controls = true;
+      video.preload = "metadata";
+      video.src = src;
+
+      // Hata olursa kullanıcıya net göster
+      video.addEventListener("error", () => {
+        hint.innerHTML = `<span class="err">Dosya bulunamadı veya desteklenmiyor:</span><br><span style="opacity:.9">${src}</span>`;
+      });
+
+      wrap.appendChild(video);
+      return wrap;
+    }
+
+    function renderVideos(){
+      const grid = document.getElementById("videoGrid");
+      grid.innerHTML = "";
+      VIDEOS.forEach(v => grid.appendChild(createVideoCard(v)));
+    }
+
+    // İlk yükleme
+    renderVideos();
+    setStatus("Lavanta Tema • Hazır");
   </script>
 </body>
 </html>
