@@ -1,165 +1,810 @@
 <!doctype html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
-<meta name="theme-color" content="#7b4bb7" />
-<title>FEMUD</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#7b4bb7" />
+  <title>FEMUD</title>
 
-<style>
-/* === MEVCUT STİLLERİN AYNISI === */
-:root{
-  --lav1:#130a22;
-  --lav2:#2a0f4b;
-  --lav3:#3a1670;
-  --lav4:#7b4bb7;
-  --lav5:#b79cff;
-  --card: rgba(255,255,255,.06);
-  --stroke: rgba(255,255,255,.14);
-  --text: rgba(255,255,255,.92);
-  --muted: rgba(255,255,255,.70);
-  --shadow: 0 18px 60px rgba(0,0,0,.45);
-  --radius: 18px;
-}
-*{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial;
-  color:var(--text);
-  background:linear-gradient(160deg,var(--lav1),var(--lav2));
-}
-.wrap{max-width:980px;margin:auto;padding:18px}
+  <style>
+    :root{
+      --lav1:#130a22;
+      --lav2:#2a0f4b;
+      --lav3:#3a1670;
+      --lav4:#7b4bb7;
+      --lav5:#b79cff;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
 
-/* === FOTO GALERİ === */
-.photos{
-  display:grid;
-  grid-template-columns:1fr;
-  gap:14px;
-}
-@media(min-width:760px){.photos{grid-template-columns:1fr 1fr}}
-@media(min-width:980px){.photos{grid-template-columns:1fr 1fr 1fr}}
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Helvetica Neue", "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(183,156,255,.28), transparent 55%),
+        radial-gradient(900px 650px at 80% 20%, rgba(123,75,183,.34), transparent 60%),
+        radial-gradient(900px 700px at 50% 90%, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(160deg, var(--lav1), var(--lav2) 40%, #0b0616);
+      overflow-x:hidden;
+    }
 
-.photoCard{
-  border-radius:18px;
-  overflow:hidden;
-  background:rgba(0,0,0,.35);
-  border:1px solid rgba(255,255,255,.14);
-  box-shadow:0 14px 45px rgba(0,0,0,.45);
-  cursor:pointer;
-  transition:transform .2s ease;
-}
-.photoCard:hover{transform:translateY(-4px)}
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px 16px 34px;
+    }
 
-.photoCard img{
-  width:100%;
-  height:260px;
-  object-fit:cover;
-  display:block;
-}
+    /* Header */
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding: 10px 2px 14px;
+    }
 
-.photoInfo{
-  padding:14px;
-}
-.photoTitle{
-  margin:0;
-  font-size:14px;
-  font-weight:800;
-}
-.photoDesc{
-  margin-top:6px;
-  font-size:12.5px;
-  color:var(--muted);
-  line-height:1.45;
-}
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      min-width: 0;
+    }
 
-/* === BÜYÜTME (LIGHTBOX) === */
-.lightbox{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.85);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-.lightbox.active{display:flex}
-.lightbox img{
-  max-width:92%;
-  max-height:92%;
-  border-radius:18px;
-  box-shadow:0 0 60px rgba(183,156,255,.45);
-}
-</style>
+    .badge{
+      width: 58px;
+      height: 58px;
+      border-radius: 999px;
+      position:relative;
+      display:grid;
+      place-items:center;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.20), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(183,156,255,.18), transparent 60%),
+        rgba(255,255,255,.04);
+      border: 2px solid rgba(183,156,255,.55);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      flex:0 0 auto;
+    }
+
+    /* dış halka yuvarlak – içte yatay FEMUD */
+    .badge::before{
+      content:"";
+      position:absolute;
+      inset:-8px;
+      border-radius: 999px;
+      border: 2px solid rgba(123,75,183,.55);
+      box-shadow:
+        0 0 0 6px rgba(255,255,255,.03),
+        0 18px 40px rgba(0,0,0,.35);
+      background: radial-gradient(circle at 50% 50%, rgba(183,156,255,.08), transparent 65%);
+    }
+
+    .logoText{
+      font-weight: 900;
+      letter-spacing: .10em;
+      font-size: 15px;
+      color: rgba(255,255,255,.94);
+      text-shadow: 0 2px 18px rgba(183,156,255,.35);
+      transform: translateY(1px);
+      white-space:nowrap;
+    }
+
+    .titleBlock{
+      min-width:0;
+    }
+
+    .title{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.02em;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .subtitle{
+      margin:6px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 10px 28px rgba(0,0,0,.22);
+      color: rgba(255,255,255,.86);
+      font-size: 12.5px;
+      user-select:none;
+    }
+
+    /* Home cards */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (min-width: 760px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .card{
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(800px 260px at 20% 10%, rgba(183,156,255,.16), transparent 60%);
+      opacity:.9;
+    }
+
+    .cardInner{
+      position:relative;
+      z-index:2;
+      padding: 16px;
+    }
+
+    .cardTitle{
+      margin:0;
+      font-size: 16px;
+      letter-spacing:.01em;
+    }
+
+    .cardDesc{
+      margin:8px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .btnRow{
+      margin-top: 14px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .btn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing:.01em;
+      cursor:pointer;
+      transition: transform .10s ease, background .15s ease, border-color .15s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.085); border-color: rgba(183,156,255,.35); }
+    .btn:active{ transform: translateY(0px) scale(.99); }
+
+    .btnPrimary{
+      background: linear-gradient(135deg, rgba(183,156,255,.30), rgba(123,75,183,.18));
+      border-color: rgba(183,156,255,.45);
+    }
+
+    /* Pages (single-file navigation) */
+    .page{
+      display:none;
+      margin-top: 12px;
+    }
+    .page.active{ display:block; }
+
+    .pageHeader{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin: 10px 0 12px;
+    }
+
+    .pageHeader h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:.01em;
+    }
+
+    .backBtn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.05);
+      color: rgba(255,255,255,.90);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 13px;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    /* Video gallery */
+    .videos{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 860px){
+      .videos{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .videoCard{
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+    }
+
+    .videoTop{
+      padding: 12px 12px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .videoName{
+      margin:0;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .videoHint{
+      margin:6px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .err{
+      color: rgba(255,155,155,.95);
+      font-weight: 800;
+    }
+
+    video{
+      width:100%;
+      height:auto;
+      display:block;
+      background: rgba(0,0,0,.35);
+    }
+
+    .footer{
+      margin-top: 16px;
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      text-align:center;
+    }
+
+    a.link{
+      color: rgba(183,156,255,.92);
+      text-decoration:none;
+      font-weight: 800;
+    }
+    a.link:hover{ text-decoration:underline; }
+
+    /* ✅ EK: FOTO KART GALERİSİ */
+    .photos{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+    @media (min-width: 760px){
+      .photos{ grid-template-columns: 1fr 1fr; }
+    }
+    @media (min-width: 980px){
+      .photos{ grid-template-columns: 1fr 1fr 1fr; }
+    }
+
+    .photoCard{
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.20);
+      border: 1px solid rgba(255,255,255,.14);
+      overflow:hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+      position:relative;
+      cursor: zoom-in;
+    }
+
+    .photoThumb{
+      width:100%;
+      aspect-ratio: 4 / 5;
+      background: rgba(0,0,0,.35);
+      display:block;
+      overflow:hidden;
+    }
+
+    .photoThumb img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      transform: scale(1.01);
+      transition: transform .18s ease;
+    }
+    .photoCard:hover .photoThumb img{ transform: scale(1.05); }
+
+    .photoMeta{
+      padding: 12px 12px 14px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.10));
+    }
+
+    .photoName{
+      margin:0;
+      font-size: 13.5px;
+      font-weight: 900;
+      letter-spacing:.01em;
+      color: rgba(255,255,255,.92);
+    }
+
+    .photoDesc{
+      margin:8px 0 0;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.74);
+      line-height: 1.45;
+    }
+
+    .photoHint2{
+      margin:10px 0 0;
+      font-size: 12px;
+      color: rgba(183,156,255,.85);
+      font-weight: 800;
+    }
+
+    /* ✅ EK: BÜYÜTME (LIGHTBOX) */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      display:none;
+      z-index:9999;
+      background: rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 16px;
+    }
+    .lightbox.show{ display:flex; align-items:center; justify-content:center; }
+
+    .lightboxPanel{
+      width:min(980px, 100%);
+      max-height: min(88vh, 900px);
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(15,8,26,.88);
+      box-shadow: 0 22px 80px rgba(0,0,0,.65);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .lightboxTop{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      padding: 12px 12px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      background: radial-gradient(700px 260px at 20% 10%, rgba(183,156,255,.14), transparent 60%);
+    }
+
+    .lightboxTitle{
+      margin:0;
+      font-size: 14px;
+      font-weight: 900;
+    }
+    .lightboxDesc{
+      margin:6px 0 0;
+      font-size: 12.5px;
+      color: rgba(255,255,255,.72);
+      line-height: 1.45;
+    }
+
+    .closeBtn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.92);
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      font-weight: 1000;
+      cursor:pointer;
+      flex: 0 0 auto;
+    }
+
+    .lightboxBody{
+      background: rgba(0,0,0,.25);
+    }
+    .lightboxBody img{
+      width:100%;
+      height:auto;
+      max-height: 76vh;
+      object-fit: contain;
+      display:block;
+      background: rgba(0,0,0,.35);
+    }
+  </style>
 </head>
 
 <body>
-<div class="wrap">
-
-<h2>Femud Ürün Fotoğrafları</h2>
-
-<div class="photos" id="photoGrid"></div>
-
-</div>
-
-<!-- BÜYÜTME ALANI -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox()">
-  <img id="lightboxImg">
-</div>
-
-<script>
-/* === FOTOĞRAFLAR + AÇIKLAMALAR (BEN YAZDIM) === */
-const IMAGES = [
-{
-  title:"Mentollü Şampuan",
-  file:"26b3226d-e411-4ec8-b6d5-84a830c3a547.jpeg",
-  desc:"Mentol ferahlığı sağlar. Termal su ile üretilmiştir. Günlük kullanıma uygundur. Saç derisini canlandırır."
-},
-{
-  title:"Bitkisel Bakım Formülü",
-  file:"875b9390-dec2-4305-a74a-16b47b8a2eb5.jpeg",
-  desc:"Doğal özler içerir. Saçı yıpratmadan temizler. Kimyasal yükü azaltılmış formül."
-},
-{
-  title:"Onarıcı Etkili Şampuan",
-  file:"b9df6859-e595-4570-95d0-852943543fd9.jpeg",
-  desc:"Yıpranmış saçlar için onarıcı etki sağlar. Saça canlılık ve parlaklık kazandırır."
-},
-{
-  title:"Günlük Bakım Serisi",
-  file:"ba498f14-42b7-4812-b68d-3d3d046337c7.jpeg",
-  desc:"Hassas saç tipleri için uygundur. Saçın doğal dengesini korumaya yardımcı olur."
-},
-{
-  title:"Doğal İçerikli Bakım",
-  file:"d3ec26d3-c005-4e7d-98eb-e52cec3bd15f.jpeg",
-  desc:"Yerli üretim. Doğadan ilham alan içerikler. Uzun süreli ferahlık hissi verir."
-}
-];
-
-const grid=document.getElementById("photoGrid");
-
-IMAGES.forEach(p=>{
-  const card=document.createElement("div");
-  card.className="photoCard";
-  card.innerHTML=`
-    <img src="images/${p.file}" alt="${p.title}">
-    <div class="photoInfo">
-      <p class="photoTitle">${p.title}</p>
-      <p class="photoDesc">${p.desc}</p>
+  <div class="wrap">
+    <!-- Top -->
+    <div class="top">
+      <div class="brand">
+        <div class="badge" aria-label="FEMUD">
+          <div class="logoText">FEMUD</div>
+        </div>
+        <div class="titleBlock">
+          <h1 class="title">FEMUD</h1>
+          <p class="subtitle">Doğadan gelen güç</p>
+        </div>
+      </div>
+      <div class="pill" id="statusPill">Hazır</div>
     </div>
-  `;
-  card.onclick=()=>openLightbox("images/"+p.file);
-  grid.appendChild(card);
-});
 
-/* === BÜYÜT / KAPAT === */
-function openLightbox(src){
-  document.getElementById("lightboxImg").src=src;
-  document.getElementById("lightbox").classList.add("active");
-}
-function closeLightbox(){
-  document.getElementById("lightbox").classList.remove("active");
-}
-</script>
+    <!-- HOME -->
+    <section class="page active" id="home">
+      <div class="grid">
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Ürünleri</h3>
+            <p class="cardDesc">Ürün videolarını buradan izleyin.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('products')">Videoları Aç</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ EK: Yeni sekme/kart -->
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud ürün fotoğrafları</h3>
+            <p class="cardDesc">Ürün görsellerini buradan inceleyin.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('photos')">Fotoğrafları Aç</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Hediye Ürünleri Kazan</h3>
+            <p class="cardDesc">Hediye oyunlarına buradan geçin.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('gifts')">Hediye Oyunları</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Instagram Sayfasına Git</h3>
+            <p class="cardDesc">Resmî Instagram hesabımıza ulaşın.</p>
+            <div class="btnRow">
+              <a class="btn btnPrimary link" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">Instagram</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="cardInner">
+            <h3 class="cardTitle">Femud Markasını Tanıyalım</h3>
+            <p class="cardDesc">Marka yaklaşımı ve ürün vizyonu.</p>
+            <div class="btnRow">
+              <button class="btn btnPrimary" type="button" onclick="go('about')">Tanıtım</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="footer">© FEMUD</div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section class="page" id="products">
+      <div class="pageHeader">
+        <h2>Femud Ürün Videoları</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="videos" id="videoGrid"></div>
+      <div class="footer">Videolar açılmıyorsa: dosya adı / klasör adı (videos) birebir aynı olmalı.</div>
+    </section>
+
+    <!-- ✅ EK: PHOTOS -->
+    <section class="page" id="photos">
+      <div class="pageHeader">
+        <h2>Femud ürün fotoğrafları</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="photos" id="photoGrid"></div>
+      <div class="footer">Fotoğraflar açılmıyorsa: dosya adı / klasör adı (images) birebir aynı olmalı.</div>
+    </section>
+
+    <!-- GIFTS -->
+    <section class="page" id="gifts">
+      <div class="pageHeader">
+        <h2>Hediye Oyunları</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="card">
+        <div class="cardInner">
+          <h3 class="cardTitle">Oyun Merkezi</h3>
+          <p class="cardDesc">Mevcut oyun dosyalarına yönlendirme.</p>
+          <div class="btnRow">
+            <a class="btn btnPrimary link" href="OyunMerkezi.html">Oyun Merkezi</a>
+            <a class="btn link" href="carkifelek.html">Çarkıfelek</a>
+            <a class="btn link" href="kazikazan4x4.html">Kazı Kazan</a>
+            <a class="btn link" href="hediyemerkezi.html">Hediye Merkezi</a>
+          </div>
+          <p class="cardDesc" style="margin-top:12px">Not: Bu Oyunlar Tamamen yasal ve ücretsizdir.Amaç Kullanıcıya İndirim Fırsatı sunmaktır .</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="page" id="about">
+      <div class="pageHeader">
+        <h2>FEMUD Hakkında</h2>
+        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
+      </div>
+
+      <div class="card">
+        <div class="cardInner">
+          <h3 class="cardTitle">Doğadan İlham Alan Bakım</h3>
+          <p class="cardDesc">
+            FEMUD; günlük bakım rutinini sade, güçlü ve güven veren bir deneyime dönüştürmek için tasarlanmış bir markadır.
+            Ürün anlatımı ve içerik sunumu bu sayfada video ve görsellerle desteklenir.
+          </p>
+          <p class="cardDesc" style="margin-top:10px">
+            Femud Markası %100 Yerli Üretimi destekler. 
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ✅ EK: LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="lightboxPanel" role="dialog" aria-modal="true" aria-label="Görsel">
+      <div class="lightboxTop">
+        <div>
+          <p class="lightboxTitle" id="lbTitle">Ürün</p>
+          <p class="lightboxDesc" id="lbDesc">Açıklama</p>
+        </div>
+        <button class="closeBtn" type="button" id="lbClose" aria-label="Kapat">✕</button>
+      </div>
+      <div class="lightboxBody">
+        <img id="lbImg" src="" alt="Femud ürün görseli">
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ✅ Repodaki gerçek video dosyaları (sen daha sonra isimleri değiştirirsin)
+    const VIDEOS = [
+      { title: "Mentollü Şampuan — Termal su ile üretim", file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4" },
+      { title: "Ürün Video 2", file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4" },
+      { title: "Ürün Video 3", file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4" },
+      { title: "Ürün Video 4", file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4" },
+      { title: "Ürün Video 5", file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4" },
+    ];
+
+    function go(pageId){
+      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+      const el = document.getElementById(pageId);
+      if(el) el.classList.add("active");
+      window.scrollTo({top: 0, behavior:"smooth"});
+    }
+
+    function setStatus(text){
+      document.getElementById("statusPill").textContent = text;
+    }
+
+    function createVideoCard(v){
+      const src = "videos/" + v.file; // ✅ klasör adı: videos (birebir)
+      const wrap = document.createElement("div");
+      wrap.className = "videoCard";
+
+      const top = document.createElement("div");
+      top.className = "videoTop";
+
+      const left = document.createElement("div");
+      const h = document.createElement("p");
+      h.className = "videoName";
+      h.textContent = v.title;
+
+      const hint = document.createElement("p");
+      hint.className = "videoHint";
+      hint.textContent = "Oynatmak için videoyu başlatın.";
+
+      left.appendChild(h);
+      left.appendChild(hint);
+
+      top.appendChild(left);
+      wrap.appendChild(top);
+
+      const video = document.createElement("video");
+      // iPhone uyumu:
+      video.setAttribute("playsinline", "");
+      video.setAttribute("webkit-playsinline", "");
+      video.controls = true;
+      video.preload = "metadata";
+      video.src = src;
+
+      // Hata olursa kullanıcıya net göster
+      video.addEventListener("error", () => {
+        hint.innerHTML = `<span class="err">Dosya bulunamadı veya desteklenmiyor:</span><br><span style="opacity:.9">${src}</span>`;
+      });
+
+      wrap.appendChild(video);
+      return wrap;
+    }
+
+    function renderVideos(){
+      const grid = document.getElementById("videoGrid");
+      grid.innerHTML = "";
+      VIDEOS.forEach(v => grid.appendChild(createVideoCard(v)));
+    }
+
+    /* ✅ EK: IMAGES (senin images klasöründeki dosyalar + açıklamalar) */
+    const IMAGES = [
+      {
+        title: "Femud Ürün Görseli 1",
+        file: "26b3226d-e411-4ec8-b6d5-84a830c3a547.jpeg",
+        desc: "Doğadan ilham alan bakım • Günlük kullanım için ideal • Etkili, sade, güven veren form yaklaşımı."
+      },
+      {
+        title: "Femud Ürün Görseli 2",
+        file: "875b9390-dec2-4305-a74a-16b47b8a2eb5.jpeg",
+        desc: "Yumuşak dokunuş hissi • Bakım rutinine uyumlu • Düzenli kullanımda daha canlı görünüm hedefi."
+      },
+      {
+        title: "Femud Ürün Görseli 3",
+        file: "b9df6859-e595-4570-95d0-852943543fd9.jpeg",
+        desc: "Gün boyu ferah his • Pratik kullanım • Dengeli ve modern bir bakım deneyimi sunmayı amaçlar."
+      },
+      {
+        title: "Femud Ürün Görseli 4",
+        file: "ba498f14-42b7-4812-b68d-3d3d046337c7.jpeg",
+        desc: "Cilt/saç bakım rutiniyle uyumlu • Şık görünüm • Hediye ve vitrin kullanımına uygun."
+      },
+      {
+        title: "Femud Ürün Görseli 5",
+        file: "d3ec26d3-c005-4e7d-98eb-e52cec3bd15f.jpeg",
+        desc: "Natürel marka duruşu • Güven veren tasarım • Günlük bakımda tamamlayıcı ürün algısı."
+      }
+    ];
+
+    function createPhotoCard(p){
+      const src = "images/" + p.file; // ✅ klasör adı: images (birebir)
+      const wrap = document.createElement("div");
+      wrap.className = "photoCard";
+      wrap.setAttribute("role","button");
+      wrap.setAttribute("tabindex","0");
+      wrap.setAttribute("aria-label", p.title);
+
+      const thumb = document.createElement("div");
+      thumb.className = "photoThumb";
+
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = p.title;
+
+      thumb.appendChild(img);
+
+      const meta = document.createElement("div");
+      meta.className = "photoMeta";
+
+      const h = document.createElement("p");
+      h.className = "photoName";
+      h.textContent = p.title;
+
+      const d = document.createElement("p");
+      d.className = "photoDesc";
+      d.textContent = p.desc;
+
+      const hint = document.createElement("p");
+      hint.className = "photoHint2";
+      hint.textContent = "Büyütmek için dokun";
+
+      meta.appendChild(h);
+      meta.appendChild(d);
+      meta.appendChild(hint);
+
+      wrap.appendChild(thumb);
+      wrap.appendChild(meta);
+
+      img.addEventListener("error", () => {
+        d.innerHTML = `<span class="err">Dosya bulunamadı:</span> images/${p.file}`;
+      });
+
+      // büyütme
+      const open = () => openLightbox(p);
+      wrap.addEventListener("click", open);
+      wrap.addEventListener("keydown", (e) => {
+        if(e.key === "Enter" || e.key === " "){
+          e.preventDefault();
+          open();
+        }
+      });
+
+      return wrap;
+    }
+
+    function renderPhotos(){
+      const grid = document.getElementById("photoGrid");
+      if(!grid) return;
+      grid.innerHTML = "";
+      IMAGES.forEach(p => grid.appendChild(createPhotoCard(p)));
+    }
+
+    /* ✅ EK: Lightbox kontrol */
+    const lb = document.getElementById("lightbox");
+    const lbImg = document.getElementById("lbImg");
+    const lbTitle = document.getElementById("lbTitle");
+    const lbDesc = document.getElementById("lbDesc");
+    const lbClose = document.getElementById("lbClose");
+
+    function openLightbox(p){
+      lbTitle.textContent = p.title;
+      lbDesc.textContent = p.desc;
+      lbImg.src = "images/" + p.file;
+      lb.classList.add("show");
+      lb.setAttribute("aria-hidden","false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox(){
+      lb.classList.remove("show");
+      lb.setAttribute("aria-hidden","true");
+      lbImg.src = "";
+      document.body.style.overflow = "";
+    }
+
+    lbClose.addEventListener("click", closeLightbox);
+    lb.addEventListener("click", (e) => {
+      if(e.target === lb) closeLightbox(); // dışa tıklayınca kapat
+    });
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape" && lb.classList.contains("show")) closeLightbox();
+    });
+
+    // İlk yükleme
+    renderVideos();
+    renderPhotos();
+    setStatus("Güven•Natürel•Sağlık");
+  </script>
 </body>
 </html>
