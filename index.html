@@ -25,484 +25,148 @@
     html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Helvetica Neue", "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial;
       color:var(--text);
       background:
         radial-gradient(1200px 700px at 20% 10%, rgba(183,156,255,.28), transparent 55%),
         radial-gradient(900px 650px at 80% 20%, rgba(123,75,183,.34), transparent 60%),
-        radial-gradient(900px 700px at 50% 90%, rgba(255,255,255,.08), transparent 55%),
         linear-gradient(160deg, var(--lav1), var(--lav2) 40%, #0b0616);
       overflow-x:hidden;
     }
 
-    .wrap{
-      max-width: 980px;
-      margin: 0 auto;
-      padding: 18px 16px 34px;
-    }
+    .wrap{max-width:980px;margin:0 auto;padding:18px 16px 34px}
 
-    /* Header */
-    .top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding: 10px 2px 14px;
-    }
+    .top{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 14px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .badge{width:58px;height:58px;border-radius:999px;display:grid;place-items:center;border:2px solid rgba(183,156,255,.55)}
+    .logoText{font-weight:900;letter-spacing:.1em}
+    .title{margin:0;font-size:18px}
+    .subtitle{margin:6px 0 0;font-size:12.5px;color:var(--muted)}
+    .pill{padding:10px 12px;border-radius:999px;border:1px solid var(--stroke)}
 
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      min-width: 0;
-    }
+    .grid{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
 
-    .badge{
-      width: 58px;
-      height: 58px;
-      border-radius: 999px;
-      position:relative;
+    .card{border-radius:var(--radius);background:var(--card);border:1px solid var(--stroke);box-shadow:var(--shadow)}
+    .cardInner{padding:16px}
+    .cardTitle{margin:0;font-size:16px}
+    .cardDesc{margin-top:8px;font-size:13px;color:var(--muted)}
+
+    .btn{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#fff;font-weight:700;cursor:pointer}
+    .btnPrimary{background:linear-gradient(135deg, rgba(183,156,255,.30), rgba(123,75,183,.18))}
+
+    .page{display:none;margin-top:12px}
+    .page.active{display:block}
+
+    .pageHeader{display:flex;justify-content:space-between;margin:10px 0 12px}
+    .backBtn{padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.05);color:#fff}
+
+    /* FOTO GALERİ */
+    .photos{
       display:grid;
-      place-items:center;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.20), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(183,156,255,.18), transparent 60%),
-        rgba(255,255,255,.04);
-      border: 2px solid rgba(183,156,255,.55);
-      box-shadow: 0 10px 25px rgba(0,0,0,.35);
-      flex:0 0 auto;
-    }
-
-    /* dış halka yuvarlak – içte yatay FEMUD */
-    .badge::before{
-      content:"";
-      position:absolute;
-      inset:-8px;
-      border-radius: 999px;
-      border: 2px solid rgba(123,75,183,.55);
-      box-shadow:
-        0 0 0 6px rgba(255,255,255,.03),
-        0 18px 40px rgba(0,0,0,.35);
-      background: radial-gradient(circle at 50% 50%, rgba(183,156,255,.08), transparent 65%);
-    }
-
-    .logoText{
-      font-weight: 900;
-      letter-spacing: .10em;
-      font-size: 15px;
-      color: rgba(255,255,255,.94);
-      text-shadow: 0 2px 18px rgba(183,156,255,.35);
-      transform: translateY(1px);
-      white-space:nowrap;
-    }
-
-    .titleBlock{
-      min-width:0;
-    }
-
-    .title{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.02em;
-      line-height:1.1;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .subtitle{
-      margin:6px 0 0;
-      font-size: 12.5px;
-      color: var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 10px 28px rgba(0,0,0,.22);
-      color: rgba(255,255,255,.86);
-      font-size: 12.5px;
-      user-select:none;
-    }
-
-    /* Home cards */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    @media (min-width: 760px){
-      .grid{ grid-template-columns: 1fr 1fr; }
-    }
-
-    .card{
-      border-radius: var(--radius);
-      background: var(--card);
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-    }
-
-    .card::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
-      background: radial-gradient(800px 260px at 20% 10%, rgba(183,156,255,.16), transparent 60%);
-      opacity:.9;
-    }
-
-    .cardInner{
-      position:relative;
-      z-index:2;
-      padding: 16px;
-    }
-
-    .cardTitle{
-      margin:0;
-      font-size: 16px;
-      letter-spacing:.01em;
-    }
-
-    .cardDesc{
-      margin:8px 0 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.45;
-    }
-
-    .btnRow{
-      margin-top: 14px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
-
-    .btn{
-      appearance:none;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.92);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-weight: 700;
-      font-size: 13px;
-      letter-spacing:.01em;
-      cursor:pointer;
-      transition: transform .10s ease, background .15s ease, border-color .15s ease;
-      user-select:none;
-    }
-    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.085); border-color: rgba(183,156,255,.35); }
-    .btn:active{ transform: translateY(0px) scale(.99); }
-
-    .btnPrimary{
-      background: linear-gradient(135deg, rgba(183,156,255,.30), rgba(123,75,183,.18));
-      border-color: rgba(183,156,255,.45);
-    }
-
-    /* Pages (single-file navigation) */
-    .page{
-      display:none;
-      margin-top: 12px;
-    }
-    .page.active{ display:block; }
-
-    .pageHeader{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      grid-template-columns:1fr 1fr;
       gap:12px;
-      margin: 10px 0 12px;
     }
-
-    .pageHeader h2{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:.01em;
+    @media(min-width:860px){
+      .photos{grid-template-columns:1fr 1fr 1fr}
     }
-
-    .backBtn{
-      appearance:none;
-      border: 1px solid rgba(255,255,255,.18);
-      background: rgba(255,255,255,.05);
-      color: rgba(255,255,255,.90);
-      padding: 10px 12px;
-      border-radius: 12px;
-      font-weight: 800;
-      font-size: 13px;
-      cursor:pointer;
-      user-select:none;
-    }
-
-    /* Video gallery */
-    .videos{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-    @media (min-width: 860px){
-      .videos{ grid-template-columns: 1fr 1fr; }
-    }
-
-    .videoCard{
-      border-radius: var(--radius);
-      background: rgba(0,0,0,.20);
-      border: 1px solid rgba(255,255,255,.14);
+    .photoCard{
+      border-radius:16px;
       overflow:hidden;
-      box-shadow: 0 16px 50px rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      box-shadow:0 12px 40px rgba(0,0,0,.4);
     }
-
-    .videoTop{
-      padding: 12px 12px 10px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-    }
-
-    .videoName{
-      margin:0;
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .videoHint{
-      margin:6px 0 0;
-      font-size: 12.5px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-
-    .err{
-      color: rgba(255,155,155,.95);
-      font-weight: 800;
-    }
-
-    video{
+    .photoCard img{
       width:100%;
-      height:auto;
+      height:100%;
+      object-fit:cover;
       display:block;
-      background: rgba(0,0,0,.35);
     }
 
-    .footer{
-      margin-top: 16px;
-      color: rgba(255,255,255,.55);
-      font-size: 12px;
-      text-align:center;
-    }
-
-    a.link{
-      color: rgba(183,156,255,.92);
-      text-decoration:none;
-      font-weight: 800;
-    }
-    a.link:hover{ text-decoration:underline; }
+    .footer{margin-top:16px;font-size:12px;color:rgba(255,255,255,.55);text-align:center}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <!-- Top -->
-    <div class="top">
-      <div class="brand">
-        <div class="badge" aria-label="FEMUD">
-          <div class="logoText">FEMUD</div>
-        </div>
-        <div class="titleBlock">
-          <h1 class="title">FEMUD</h1>
-          <p class="subtitle">Doğadan gelen güç</p>
-        </div>
+<div class="wrap">
+
+  <div class="top">
+    <div class="brand">
+      <div class="badge"><div class="logoText">FEMUD</div></div>
+      <div>
+        <h1 class="title">FEMUD</h1>
+        <p class="subtitle">Doğadan gelen güç</p>
       </div>
-      <div class="pill" id="statusPill">Hazır</div>
     </div>
-
-    <!-- HOME -->
-    <section class="page active" id="home">
-      <div class="grid">
-
-        <div class="card">
-          <div class="cardInner">
-            <h3 class="cardTitle">Femud Ürünleri</h3>
-            <p class="cardDesc">Ürün videolarını buradan izleyin.</p>
-            <div class="btnRow">
-              <button class="btn btnPrimary" type="button" onclick="go('products')">Videoları Aç</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="cardInner">
-            <h3 class="cardTitle">Femud Hediye Ürünleri Kazan</h3>
-            <p class="cardDesc">Hediye oyunlarına buradan geçin.</p>
-            <div class="btnRow">
-              <button class="btn btnPrimary" type="button" onclick="go('gifts')">Hediye Oyunları</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="cardInner">
-            <h3 class="cardTitle">Femud Instagram Sayfasına Git</h3>
-            <p class="cardDesc">Resmî Instagram hesabımıza ulaşın.</p>
-            <div class="btnRow">
-              <a class="btn btnPrimary link" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">Instagram</a>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="cardInner">
-            <h3 class="cardTitle">Femud Markasını Tanıyalım</h3>
-            <p class="cardDesc">Marka yaklaşımı ve ürün vizyonu.</p>
-            <div class="btnRow">
-              <button class="btn btnPrimary" type="button" onclick="go('about')">Tanıtım</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="footer">© FEMUD</div>
-    </section>
-
-    <!-- PRODUCTS -->
-    <section class="page" id="products">
-      <div class="pageHeader">
-        <h2>Femud Ürün Videoları</h2>
-        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
-      </div>
-
-      <div class="videos" id="videoGrid"></div>
-      <div class="footer">Videolar açılmıyorsa: dosya adı / klasör adı (videos) birebir aynı olmalı.</div>
-    </section>
-
-    <!-- GIFTS -->
-    <section class="page" id="gifts">
-      <div class="pageHeader">
-        <h2>Hediye Oyunları</h2>
-        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
-      </div>
-
-      <div class="card">
-        <div class="cardInner">
-          <h3 class="cardTitle">Oyun Merkezi</h3>
-          <p class="cardDesc">Mevcut oyun dosyalarına yönlendirme.</p>
-          <div class="btnRow">
-            <a class="btn btnPrimary link" href="OyunMerkezi.html">Oyun Merkezi</a>
-            <a class="btn link" href="carkifelek.html">Çarkıfelek</a>
-            <a class="btn link" href="kazikazan4x4.html">Kazı Kazan</a>
-            <a class="btn link" href="hediyemerkezi.html">Hediye Merkezi</a>
-          </div>
-          <p class="cardDesc" style="margin-top:12px">Not: Bu Oyunlar Tamamen yasal ve ücretsizdir.Amaç Kullanıcıya İndirim Fırsatı sunmaktır .</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ABOUT -->
-    <section class="page" id="about">
-      <div class="pageHeader">
-        <h2>FEMUD Hakkında</h2>
-        <button class="backBtn" type="button" onclick="go('home')">Ana sayfaya dön</button>
-      </div>
-
-      <div class="card">
-        <div class="cardInner">
-          <h3 class="cardTitle">Doğadan İlham Alan Bakım</h3>
-          <p class="cardDesc">
-            FEMUD; günlük bakım rutinini sade, güçlü ve güven veren bir deneyime dönüştürmek için tasarlanmış bir markadır.
-            Ürün anlatımı ve içerik sunumu bu sayfada video ve görsellerle desteklenir.
-          </p>
-          <p class="cardDesc" style="margin-top:10px">
-            Femud Markası %100 Yerli Üretimi destekler. 
-          </p>
-        </div>
-      </div>
-    </section>
-
+    <div class="pill" id="statusPill">Hazır</div>
   </div>
 
-  <script>
-    // ✅ Repodaki gerçek video dosyaları (sen daha sonra isimleri değiştirirsin)
-    const VIDEOS = [
-      { title: "Mentollü Şampuan — Termal su ile üretim", file: "985d5803-91d2-4b91-b1f4-a1243b4a7eef.mp4" },
-      { title: "Ürün Video 2", file: "b4b4e95d-f23c-4142-96a3-29e9ef7596a4.mp4" },
-      { title: "Ürün Video 3", file: "c8f3b922-c67d-40bb-b031-026c5a025cc7.mp4" },
-      { title: "Ürün Video 4", file: "da34194a-7d71-4bd8-8fda-951bad4db696.mp4" },
-      { title: "Ürün Video 5", file: "f9d61435-d18c-42ee-a379-e7a68e36cbb7.mp4" },
-    ];
+  <!-- HOME -->
+  <section class="page active" id="home">
+    <div class="grid">
 
-    function go(pageId){
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-      const el = document.getElementById(pageId);
-      if(el) el.classList.add("active");
-      window.scrollTo({top: 0, behavior:"smooth"});
-    }
+      <div class="card">
+        <div class="cardInner">
+          <h3 class="cardTitle">Femud Ürün Videoları</h3>
+          <p class="cardDesc">Ürün videolarını izleyin.</p>
+          <button class="btn btnPrimary" onclick="go('products')">Videolar</button>
+        </div>
+      </div>
 
-    function setStatus(text){
-      document.getElementById("statusPill").textContent = text;
-    }
+      <!-- 🔥 YENİ KART -->
+      <div class="card">
+        <div class="cardInner">
+          <h3 class="cardTitle">Femud Ürün Fotoğrafları</h3>
+          <p class="cardDesc">Ürün görsellerini inceleyin.</p>
+          <button class="btn btnPrimary" onclick="go('photos')">Fotoğrafları Aç</button>
+        </div>
+      </div>
 
-    function createVideoCard(v){
-      const src = "videos/" + v.file; // ✅ klasör adı: videos (birebir)
-      const wrap = document.createElement("div");
-      wrap.className = "videoCard";
+    </div>
+    <div class="footer">© FEMUD</div>
+  </section>
 
-      const top = document.createElement("div");
-      top.className = "videoTop";
+  <!-- FOTOĞRAFLAR -->
+  <section class="page" id="photos">
+    <div class="pageHeader">
+      <h2>Femud Ürün Fotoğrafları</h2>
+      <button class="backBtn" onclick="go('home')">Ana sayfa</button>
+    </div>
+    <div class="photos" id="photoGrid"></div>
+  </section>
 
-      const left = document.createElement("div");
-      const h = document.createElement("p");
-      h.className = "videoName";
-      h.textContent = v.title;
+</div>
 
-      const hint = document.createElement("p");
-      hint.className = "videoHint";
-      hint.textContent = "Oynatmak için videoyu başlatın.";
+<script>
+  const IMAGES = [
+    "urun1.jpg",
+    "urun2.jpg",
+    "urun3.jpg",
+    "urun4.jpg",
+    "urun5.jpg"
+  ];
 
-      left.appendChild(h);
-      left.appendChild(hint);
+  function go(id){
+    document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
 
-      top.appendChild(left);
-      wrap.appendChild(top);
+  function renderPhotos(){
+    const g=document.getElementById("photoGrid");
+    g.innerHTML="";
+    IMAGES.forEach(i=>{
+      const d=document.createElement("div");
+      d.className="photoCard";
+      d.innerHTML=`<img src="images/${i}" alt="Femud Ürün">`;
+      g.appendChild(d);
+    });
+  }
 
-      const video = document.createElement("video");
-      // iPhone uyumu:
-      video.setAttribute("playsinline", "");
-      video.setAttribute("webkit-playsinline", "");
-      video.controls = true;
-      video.preload = "metadata";
-      video.src = src;
+  renderPhotos();
+  document.getElementById("statusPill").textContent="Güven • Natürel • Sağlık";
+</script>
 
-      // Hata olursa kullanıcıya net göster
-      video.addEventListener("error", () => {
-        hint.innerHTML = `<span class="err">Dosya bulunamadı veya desteklenmiyor:</span><br><span style="opacity:.9">${src}</span>`;
-      });
-
-      wrap.appendChild(video);
-      return wrap;
-    }
-
-    function renderVideos(){
-      const grid = document.getElementById("videoGrid");
-      grid.innerHTML = "";
-      VIDEOS.forEach(v => grid.appendChild(createVideoCard(v)));
-    }
-
-    // İlk yükleme
-    renderVideos();
-    setStatus("Güven•Natürel•Sağlık");
-  </script>
 </body>
 </html>
