@@ -4,24 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>FEMUD</title>
-  <meta name="description" content="FEMUD — Doğadan gelen güç. Premium kişisel bakım ürünleri ve kampanya merkezi." />
   <meta name="theme-color" content="#7b4dff" />
   <style>
     :root{
       --bg0:#fbf9ff;
-      --bg1:#f2ebff;
-      --ink:#18142c;
-      --mut:rgba(24,20,44,.66);
-      --lav1:#c8b0ff;
+      --bg1:#f1eaff;
+      --ink:#1a1430;
+      --mut:rgba(26,20,48,.68);
+      --lav1:#cdb7ff;
       --lav2:#9a74ff;
       --lav3:#6a36ff;
-      --card:rgba(255,255,255,.78);
-      --stroke:rgba(24,20,44,.12);
+      --card:rgba(255,255,255,.82);
+      --stroke:rgba(26,20,48,.12);
       --stroke2:rgba(106,54,255,.18);
-      --shadow:0 18px 60px rgba(24,20,44,.12);
-      --shadow2:0 10px 26px rgba(24,20,44,.10);
+      --shadow:0 18px 60px rgba(26,20,48,.12);
+      --shadow2:0 10px 26px rgba(26,20,48,.10);
       --r18:18px;
-      --r22:22px;
+      --r24:24px;
       --r28:28px;
       --max:1120px;
     }
@@ -37,13 +36,14 @@
         linear-gradient(180deg,var(--bg0),var(--bg1));
       overflow-x:hidden;
     }
-    .wrap{max-width:var(--max); margin:0 auto; padding:14px 14px 46px;}
+    a{color:inherit;text-decoration:none}
+    .wrap{max-width:var(--max); margin:0 auto; padding:14px 14px 60px;}
 
-    /* ======= ONLY TICKER (TOP STRIP) ======= */
+    /* ===== TOP STRIP: ONLY TICKER ===== */
     .tickerBar{
       border-radius:22px;
       border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.70));
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
       box-shadow:var(--shadow);
       backdrop-filter: blur(12px);
       overflow:hidden;
@@ -52,43 +52,34 @@
     }
     @media (max-width:920px){ .tickerBar{position:relative; top:0} }
     .tvBox{border-radius:16px; overflow:hidden;}
-    .tvBox .tradingview-widget-container{margin:0}
 
-    /* ======= HEADER ======= */
+    /* ===== HEADER ===== */
     .top{
       margin-top:12px;
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       padding:12px 12px;
       border-radius:26px;
-      background:linear-gradient(180deg, rgba(255,255,255,.88), rgba(255,255,255,.64));
+      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.68));
       border:1px solid var(--stroke);
       box-shadow:var(--shadow);
       backdrop-filter: blur(12px);
     }
     @media(max-width:920px){ .top{flex-direction:column; align-items:stretch;} }
 
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      user-select:none;
-      min-width:0;
-    }
-
-    /* yuvarlak dış halka + yatay logo algısı */
+    .brand{display:flex; align-items:center; gap:12px; min-width:0; user-select:none;}
     .mark{
-      width:64px; height:64px; border-radius:50%;
+      width:70px; height:70px; border-radius:50%;
       border:2px solid rgba(106,54,255,.55);
-      box-shadow:0 0 0 8px rgba(106,54,255,.14);
-      background:rgba(255,255,255,.90);
+      box-shadow:0 0 0 9px rgba(106,54,255,.14);
+      background:rgba(255,255,255,.92);
       display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
-      flex:0 0 auto;
+      overflow:hidden; flex:0 0 auto;
     }
-    .mark img{width:95%; height:auto; display:block; object-fit:contain;}
-
+    .mark img{width:92%; height:auto; display:block; object-fit:contain;}
     .brandText{min-width:0}
     .brandText .name{
       margin:0;
-      font-weight:1000;
+      font-weight:1100;
       letter-spacing:.9px;
       font-size:20px;
       line-height:1.1;
@@ -97,8 +88,8 @@
       text-overflow:ellipsis;
     }
     .brandText .sub{
-      margin:5px 0 0 0;
-      font-weight:850;
+      margin:6px 0 0 0;
+      font-weight:900;
       color:var(--mut);
       font-size:12.5px;
       white-space:nowrap;
@@ -106,110 +97,118 @@
       text-overflow:ellipsis;
     }
 
-    .nav{
-      display:flex; flex-wrap:wrap; gap:8px;
-      justify-content:flex-end;
-    }
+    /* ===== NAV BUTTONS (PURE LINK) ===== */
+    .nav{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end;}
     .chip{
-      appearance:none;
       border:1px solid var(--stroke2);
-      background:rgba(255,255,255,.76);
-      color:var(--ink);
+      background:rgba(255,255,255,.82);
       padding:10px 12px;
       border-radius:14px;
-      font-weight:1000;
+      font-weight:1100;
       font-size:12px;
-      cursor:pointer;
+      box-shadow:var(--shadow2);
       transition:transform .12s ease, border-color .12s ease, filter .12s ease;
       white-space:nowrap;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
     }
-    .chip:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.32)}
+    .chip:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.35)}
     .chip:active{transform:translateY(0) scale(.99)}
+    .chip.primary{
+      color:#fff;
+      border-color:rgba(106,54,255,.18);
+      background:linear-gradient(135deg, var(--lav2), var(--lav3));
+    }
 
-    /* ======= HOME HERO ======= */
+    /* ===== HOME HERO ===== */
     .hero{
       margin-top:14px;
       border-radius:var(--r28);
       border:1px solid var(--stroke);
       background:
         radial-gradient(900px 460px at 25% 10%, rgba(106,54,255,.14), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
+        linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.70));
       box-shadow:var(--shadow);
       overflow:hidden;
+      padding:18px;
     }
-    .heroIn{
+    .heroGrid{
       display:grid;
       grid-template-columns: 1.25fr .75fr;
       gap:14px;
-      padding:18px;
       align-items:start;
     }
-    @media (max-width:920px){ .heroIn{grid-template-columns:1fr} }
+    @media (max-width:920px){ .heroGrid{grid-template-columns:1fr} }
     .hTitle{
       margin:0;
       font-size:34px;
       line-height:1.06;
-      font-weight:1100;
+      font-weight:1200;
       letter-spacing:.2px;
     }
     .hSub{
       margin:12px 0 0 0;
       color:var(--mut);
-      font-weight:850;
+      font-weight:900;
       font-size:14px;
       line-height:1.65;
-      max-width:70ch;
+      max-width:75ch;
     }
     .actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:14px;}
     .btn{
-      border:none;
+      border:1px solid var(--stroke2);
+      background:rgba(255,255,255,.84);
       border-radius:16px;
       padding:12px 14px;
-      font-weight:1050;
+      font-weight:1150;
       font-size:13px;
-      cursor:pointer;
       box-shadow:var(--shadow2);
-      transition:transform .12s ease, filter .12s ease, border-color .12s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
       white-space:nowrap;
+      transition:transform .12s ease, border-color .12s ease;
     }
-    .btn:active{transform:scale(.99)}
-    .btnPrimary{color:#fff; background:linear-gradient(135deg, var(--lav2), var(--lav3));}
-    .btnPrimary:hover{filter:brightness(1.05); transform:translateY(-1px)}
-    .btnGhost{background:rgba(255,255,255,.84); border:1px solid var(--stroke2); color:var(--ink);}
-    .btnGhost:hover{border-color:rgba(106,54,255,.34); transform:translateY(-1px)}
+    .btn:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.35)}
+    .btn:active{transform:translateY(0) scale(.99)}
+    .btnPrimary{
+      border:none;
+      color:#fff;
+      background:linear-gradient(135deg, var(--lav2), var(--lav3));
+    }
 
     .kpis{display:grid; gap:10px; align-content:start;}
     .kpi{
-      border:1px solid rgba(24,20,44,.10);
-      background:rgba(255,255,255,.84);
+      border:1px solid rgba(26,20,48,.10);
+      background:rgba(255,255,255,.86);
       border-radius:18px;
       padding:14px;
+      box-shadow:var(--shadow2);
     }
-    .kpi b{display:block; font-size:13px; font-weight:1050}
-    .kpi span{display:block; margin-top:6px; color:var(--mut); font-weight:850; font-size:12px; line-height:1.45}
+    .kpi b{display:block; font-size:13px; font-weight:1150}
+    .kpi span{display:block; margin-top:6px; color:var(--mut); font-weight:900; font-size:12px; line-height:1.45}
 
-    /* ======= PANELS (no ghost) ======= */
-    .panel{
+    /* ===== SECTION SYSTEM: PURE HTML (NO JS NEEDED) ===== */
+    section.block{
       margin-top:14px;
       border-radius:var(--r28);
       border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.66));
+      background:linear-gradient(180deg, rgba(255,255,255,.94), rgba(255,255,255,.70));
       box-shadow:var(--shadow);
       overflow:hidden;
-      display:none;
     }
-    .panel.active{display:block}
-    .pHead{
+    .head{
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       padding:12px 12px;
-      background:linear-gradient(135deg, rgba(200,176,255,.22), rgba(255,255,255,.70));
+      background:linear-gradient(135deg, rgba(205,183,255,.22), rgba(255,255,255,.76));
       border-bottom:1px solid var(--stroke);
     }
-    .pHead h2{
+    .head h2{
       margin:0;
       font-size:13px;
       letter-spacing:.55px;
-      font-weight:1100;
+      font-weight:1200;
       text-transform:uppercase;
     }
     .back{
@@ -217,21 +216,21 @@
       background:rgba(255,255,255,.86);
       border-radius:14px;
       padding:10px 12px;
-      font-weight:1050;
+      font-weight:1150;
       font-size:12px;
-      cursor:pointer;
-      transition:transform .12s ease, border-color .12s ease;
+      box-shadow:var(--shadow2);
       white-space:nowrap;
+      transition:transform .12s ease, border-color .12s ease;
     }
-    .back:hover{border-color:rgba(106,54,255,.34); transform:translateY(-1px)}
+    .back:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.35)}
     .back:active{transform:translateY(0) scale(.99)}
-    .pBody{padding:14px}
+    .body{padding:14px}
     .note{
       margin:0 0 12px 0;
       color:var(--mut);
-      font-weight:850;
+      font-weight:900;
       font-size:13px;
-      line-height:1.6;
+      line-height:1.65;
     }
 
     .tiles{
@@ -240,49 +239,48 @@
       gap:12px;
     }
     @media (max-width:920px){ .tiles{grid-template-columns:1fr} }
-
     .tile{
-      border:1px solid rgba(24,20,44,.10);
+      border:1px solid rgba(26,20,48,.10);
       background:rgba(255,255,255,.86);
       border-radius:18px;
       padding:14px;
-      cursor:pointer;
       box-shadow:var(--shadow2);
       transition:transform .12s ease, border-color .12s ease;
     }
     .tile:hover{transform:translateY(-1px); border-color:rgba(106,54,255,.28)}
     .tile:active{transform:translateY(0) scale(.99)}
-    .tile b{display:block; font-weight:1100; font-size:13.5px}
-    .tile span{display:block; margin-top:6px; color:var(--mut); font-weight:850; font-size:12px; line-height:1.45}
+    .tile b{display:block; font-weight:1200; font-size:13.5px}
+    .tile span{display:block; margin-top:6px; color:var(--mut); font-weight:900; font-size:12px; line-height:1.45}
 
-    /* ======= VIDEO GRID ======= */
+    /* ===== VIDEOS ===== */
     .vgrid{
       display:grid;
       grid-template-columns:repeat(2,minmax(0,1fr));
       gap:12px;
     }
     @media (max-width:920px){ .vgrid{grid-template-columns:1fr} }
-
     .vcard{
-      border:1px solid rgba(24,20,44,.10);
-      background:rgba(255,255,255,.86);
+      border:1px solid rgba(26,20,48,.10);
+      background:rgba(255,255,255,.88);
       border-radius:18px;
       padding:12px;
+      box-shadow:var(--shadow2);
       overflow:hidden;
     }
-    .vtitle{margin:0 0 8px 0; font-weight:1100; font-size:13px;}
+    .vtitle{margin:0 0 8px 0; font-weight:1200; font-size:13px;}
     video{
       width:100%;
       border-radius:14px;
       background:#000;
       outline:none;
     }
-    .vmeta{margin-top:8px; color:var(--mut); font-weight:850; font-size:12px; line-height:1.45}
+    .vmeta{margin-top:8px; color:var(--mut); font-weight:900; font-size:12px; line-height:1.45}
+    .vlink{margin-top:8px; display:inline-block; font-weight:1100; font-size:12px; color:rgba(106,54,255,.95)}
+    .vlink:hover{text-decoration:underline}
 
-    /* ======= QUICK CONTACT ======= */
+    /* ===== QUICK CONTACT ===== */
     .quick{
-      position:fixed;
-      right:14px; bottom:14px;
+      position:fixed; right:14px; bottom:14px;
       display:flex; flex-direction:column; gap:10px;
       z-index:80;
     }
@@ -292,8 +290,8 @@
       border-radius:18px;
       text-decoration:none;
       color:#fff;
-      font-weight:1050;
-      box-shadow:0 14px 34px rgba(24,20,44,.18);
+      font-weight:1200;
+      box-shadow:0 14px 34px rgba(26,20,48,.18);
       background:linear-gradient(135deg, rgba(106,54,255,.92), rgba(154,116,255,.92));
       border:1px solid rgba(255,255,255,.22);
       backdrop-filter: blur(10px);
@@ -305,16 +303,34 @@
       background:rgba(0,0,0,.18);
       border:1px solid rgba(255,255,255,.18);
     }
-    .qTxt small{display:block; font-weight:850; opacity:.92}
+    .qTxt small{display:block; font-weight:950; opacity:.92}
 
     .footer{
       margin-top:14px;
       text-align:center;
-      color:rgba(24,20,44,.55);
-      font-weight:900;
+      color:rgba(26,20,48,.55);
+      font-weight:950;
       font-size:12px;
       padding-bottom:6px;
     }
+
+    /* ===== hide/show via hash (no JS needed) ===== */
+    .onlyHome{display:block}
+    .onlySection{display:none}
+
+    /* if any section hash is active, hide home and show sections container */
+    :target ~ .sections .onlySection{display:block}
+    :target ~ .sections .onlyHome{display:none}
+
+    /* but default view: show home, hide all section blocks */
+    .sections .block{display:none}
+    #home:target ~ .sections .block{display:none}
+
+    /* show specific block when its id is targeted */
+    #urunler:target ~ .sections #secUrunler{display:block}
+    #hediye:target ~ .sections #secHediye{display:block}
+    #instagram:target ~ .sections #secInstagram{display:block}
+    #marka:target ~ .sections #secMarka{display:block}
   </style>
 </head>
 
@@ -346,10 +362,10 @@
     </div>
 
     <!-- HEADER -->
-    <div class="top">
+    <div class="top" id="home">
       <div class="brand">
         <div class="mark">
-          <!-- repoda logonun adı bu olsun -->
+          <!-- logo dosyan bu isimde olmalı -->
           <img src="femud_logo.png" alt="FEMUD Logo" />
         </div>
         <div class="brandText">
@@ -359,159 +375,218 @@
       </div>
 
       <div class="nav">
-        <button class="chip" type="button" onclick="openPanel('pProducts')">Femud Ürünleri</button>
-        <button class="chip" type="button" onclick="openPanel('pGifts')">Femud Hediye Ürünleri Kazan</button>
-        <button class="chip" type="button" onclick="openPanel('pInsta')">Femud Instagram sayfasına git</button>
-        <button class="chip" type="button" onclick="openPanel('pAbout')">Femud markasını tanıyalım</button>
+        <a class="chip primary" href="#urunler">Femud Ürünleri</a>
+        <a class="chip" href="#hediye">Femud Hediye Ürünleri Kazan</a>
+        <a class="chip" href="#instagram">Femud Instagram sayfasına git</a>
+        <a class="chip" href="#marka">Femud markasını tanıyalım</a>
       </div>
     </div>
 
-    <!-- HOME -->
-    <section class="hero" id="home">
-      <div class="heroIn">
-        <div>
-          <h1 class="hTitle">Sade. Premium. Güven veren.</h1>
-          <p class="hSub">
-            FEMUD, premium tasarım dili ile “doğal bakım” algısını birleştirir.
-            Ürün videolarını izleyin, kampanya merkezine geçin ve markayı yakından tanıyın.
+    <!-- HOME HERO -->
+    <div class="onlyHome">
+      <div class="hero">
+        <div class="heroGrid">
+          <div>
+            <h1 class="hTitle">Sade. Premium. Güven veren.</h1>
+            <p class="hSub">
+              FEMUD; premium görsel dil ile “doğal bakım” algısını birleştirir.
+              Ürün videolarını izleyin, kampanya merkezine geçin ve markayı yakından tanıyın.
+            </p>
+
+            <div class="actions">
+              <a class="btn btnPrimary" href="#urunler">Femud Ürünleri</a>
+              <a class="btn" href="#hediye">Femud Hediye Ürünleri Kazan</a>
+              <a class="btn" href="#instagram">Femud Instagram sayfasına git</a>
+              <a class="btn" href="#marka">Femud markasını tanıyalım</a>
+            </div>
+          </div>
+
+          <div class="kpis">
+            <div class="kpi">
+              <b>Premium Sunum</b>
+              <span>Kurumsal, sade ve güven veren görünüm.</span>
+            </div>
+            <div class="kpi">
+              <b>Doğal Algı</b>
+              <span>Temizlik, ferahlık ve bakım hissi.</span>
+            </div>
+            <div class="kpi">
+              <b>Etkileşim</b>
+              <span>Kampanya merkezi ile hızlı geri dönüş.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">© FEMUD</div>
+    </div>
+
+    <!-- ANCHOR TARGETS (hash system) -->
+    <div id="urunler"></div>
+    <div id="hediye"></div>
+    <div id="instagram"></div>
+    <div id="marka"></div>
+
+    <!-- SECTIONS -->
+    <div class="sections onlySection">
+
+      <!-- PRODUCTS -->
+      <section class="block" id="secUrunler">
+        <div class="head">
+          <h2>FEMUD ÜRÜNLERİ</h2>
+          <a class="back" href="#home">← Ana Sayfa</a>
+        </div>
+        <div class="body">
+          <p class="note">
+            Videolar <b>videos</b> klasöründen oynar. Oynatmıyorsa dosya adın farklıdır.
+            Aşağıda 5 video tanımlı.
           </p>
 
-          <div class="actions">
-            <button class="btn btnPrimary" type="button" onclick="openPanel('pProducts')">Femud Ürünleri</button>
-            <button class="btn btnGhost" type="button" onclick="openPanel('pGifts')">Femud Hediye Ürünleri Kazan</button>
-            <button class="btn btnGhost" type="button" onclick="openPanel('pInsta')">Femud Instagram sayfasına git</button>
-            <button class="btn btnGhost" type="button" onclick="openPanel('pAbout')">Femud markasını tanıyalım</button>
+          <div class="vgrid">
+            <div class="vcard">
+              <p class="vtitle">Video 1</p>
+              <video controls playsinline preload="metadata">
+                <source src="videos/video1.mp4" type="video/mp4" />
+              </video>
+              <div class="vmeta">Ürün videosu.</div>
+              <a class="vlink" href="videos/video1.mp4" target="_blank" rel="noopener">Video açılmazsa buradan aç</a>
+            </div>
+
+            <div class="vcard">
+              <p class="vtitle">Video 2</p>
+              <video controls playsinline preload="metadata">
+                <source src="videos/video2.mp4" type="video/mp4" />
+              </video>
+              <div class="vmeta">Ürün videosu.</div>
+              <a class="vlink" href="videos/video2.mp4" target="_blank" rel="noopener">Video açılmazsa buradan aç</a>
+            </div>
+
+            <div class="vcard">
+              <p class="vtitle">Video 3</p>
+              <video controls playsinline preload="metadata">
+                <source src="videos/video3.mp4" type="video/mp4" />
+              </video>
+              <div class="vmeta">Ürün videosu.</div>
+              <a class="vlink" href="videos/video3.mp4" target="_blank" rel="noopener">Video açılmazsa buradan aç</a>
+            </div>
+
+            <div class="vcard">
+              <p class="vtitle">Video 4</p>
+              <video controls playsinline preload="metadata">
+                <source src="videos/video4.mp4" type="video/mp4" />
+              </video>
+              <div class="vmeta">Ürün videosu.</div>
+              <a class="vlink" href="videos/video4.mp4" target="_blank" rel="noopener">Video açılmazsa buradan aç</a>
+            </div>
+
+            <div class="vcard">
+              <p class="vtitle">Video 5</p>
+              <video controls playsinline preload="metadata">
+                <source src="videos/video5.mp4" type="video/mp4" />
+              </video>
+              <div class="vmeta">Ürün videosu.</div>
+              <a class="vlink" href="videos/video5.mp4" target="_blank" rel="noopener">Video açılmazsa buradan aç</a>
+            </div>
           </div>
+
+          <div class="footer">FEMUD • Doğadan gelen güç</div>
         </div>
+      </section>
 
-        <div class="kpis">
-          <div class="kpi">
-            <b>Premium Sunum</b>
-            <span>Kurumsal, sade ve güven veren görünüm.</span>
-          </div>
-          <div class="kpi">
-            <b>Doğal Algı</b>
-            <span>Temizlik, ferahlık ve bakım hissi.</span>
-          </div>
-          <div class="kpi">
-            <b>Etkileşim</b>
-            <span>Oyun/hediye kurgusu ile geri dönüş.</span>
-          </div>
+      <!-- GIFTS -->
+      <section class="block" id="secHediye">
+        <div class="head">
+          <h2>FEMUD HEDİYE ÜRÜNLERİ KAZAN</h2>
+          <a class="back" href="#home">← Ana Sayfa</a>
         </div>
-      </div>
-    </section>
+        <div class="body">
+          <p class="note">Aşağıdaki seçeneklerden birini seçerek devam edebilirsin.</p>
 
-    <!-- PRODUCTS PANEL -->
-    <section class="panel" id="pProducts">
-      <div class="pHead">
-        <h2>FEMUD ÜRÜNLERİ</h2>
-        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
-      </div>
-      <div class="pBody">
-        <p class="note">
-          Buradaki videolar <b>videos/</b> klasöründen oynar.  
-          Eğer video açılmıyorsa, en sık sebep: <b>dosya adı / uzantı</b> farklıdır.
-        </p>
-        <div class="vgrid" id="videoGrid"></div>
-        <div class="footer">FEMUD • Doğadan gelen güç</div>
-      </div>
-    </section>
+          <div class="tiles">
+            <a class="tile" href="carkifelek.html">
+              <b>Çarkıfelek</b>
+              <span>Tek dokunuşla katılım, anlık ödül kurgusu.</span>
+            </a>
 
-    <!-- GIFTS PANEL -->
-    <section class="panel" id="pGifts">
-      <div class="pHead">
-        <h2>FEMUD HEDİYE ÜRÜNLERİ KAZAN</h2>
-        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
-      </div>
-      <div class="pBody">
-        <p class="note">Aşağıdaki seçeneklerden birini seçerek devam edebilirsin.</p>
-
-        <div class="tiles">
-          <div class="tile" onclick="goFile('carkifelek.html')">
-            <b>Çarkıfelek</b>
-            <span>Tek dokunuşla katılım, anlık ödül senaryosu.</span>
+            <a class="tile" href="kazikazan4x4.html">
+              <b>Kazı Kazan</b>
+              <span>Hızlı etkileşim ve kampanya akışı.</span>
+            </a>
           </div>
 
-          <div class="tile" onclick="goFile('kazikazan4x4.html')">
-            <b>Kazı Kazan</b>
-            <span>Hızlı etkileşim ve kampanya kurgusu için uygundur.</span>
-          </div>
+          <div class="footer">FEMUD • Kampanya Merkezi</div>
         </div>
+      </section>
 
-        <div class="footer">FEMUD • Kampanya Merkezi</div>
-      </div>
-    </section>
-
-    <!-- INSTAGRAM PANEL -->
-    <section class="panel" id="pInsta">
-      <div class="pHead">
-        <h2>FEMUD INSTAGRAM</h2>
-        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
-      </div>
-      <div class="pBody">
-        <p class="note">Sosyal medya sayfasına tek dokunuşla geçiş.</p>
-
-        <div class="tiles">
-          <div class="tile" onclick="window.open('https://instagram.com/femud_tr','_blank','noopener')">
-            <b>Instagram’a Git</b>
-            <span>@femud_tr</span>
-          </div>
-          <div class="tile" onclick="openPanel('pProducts')">
-            <b>Ürün Videolarına Dön</b>
-            <span>Ürün içeriklerini izlemeye devam et.</span>
-          </div>
+      <!-- INSTAGRAM -->
+      <section class="block" id="secInstagram">
+        <div class="head">
+          <h2>FEMUD INSTAGRAM</h2>
+          <a class="back" href="#home">← Ana Sayfa</a>
         </div>
+        <div class="body">
+          <p class="note">Sosyal medya sayfasına tek dokunuşla geçiş.</p>
 
-        <div class="footer">FEMUD • Sosyal</div>
-      </div>
-    </section>
+          <div class="tiles">
+            <a class="tile" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">
+              <b>Instagram’a Git</b>
+              <span>@femud_tr</span>
+            </a>
+            <a class="tile" href="#urunler">
+              <b>Ürün Videolarına Dön</b>
+              <span>Ürün içeriklerini izlemeye devam et.</span>
+            </a>
+          </div>
 
-    <!-- ABOUT PANEL -->
-    <section class="panel" id="pAbout">
-      <div class="pHead">
-        <h2>FEMUD MARKASINI TANIYALIM</h2>
-        <button class="back" type="button" onclick="goHome()">← Ana Sayfa</button>
-      </div>
-      <div class="pBody">
-        <p class="note">
-          FEMUD, premium görsel dil ile “doğal bakım” algısını birleştirir.
-          Sunum dili: <b>net fayda</b>, <b>şeffaf iletişim</b>, <b>güven veren tasarım</b>.
-        </p>
-
-        <div class="tiles">
-          <div class="tile">
-            <b>Vizyon</b>
-            <span>Premium kaliteyi, güçlü ve sade bir sunumla erişilebilir kılmak.</span>
-          </div>
-          <div class="tile">
-            <b>Misyon</b>
-            <span>Ürünleri anlaşılır fayda diliyle sunmak; kullanıcı deneyimini güçlendirmek.</span>
-          </div>
-          <div class="tile">
-            <b>Kalite Yaklaşımı</b>
-            <span>İstikrar, güven, düzenli iletişim ve yüksek algı.</span>
-          </div>
-          <div class="tile" onclick="openPanel('pGifts')">
-            <b>Kampanya Merkezine Geç</b>
-            <span>Oyun/hediye kurgusunu aç.</span>
-          </div>
+          <div class="footer">FEMUD • Sosyal</div>
         </div>
+      </section>
 
-        <div class="footer">FEMUD • Doğadan gelen güç</div>
-      </div>
-    </section>
+      <!-- ABOUT -->
+      <section class="block" id="secMarka">
+        <div class="head">
+          <h2>FEMUD MARKASINI TANIYALIM</h2>
+          <a class="back" href="#home">← Ana Sayfa</a>
+        </div>
+        <div class="body">
+          <p class="note">
+            FEMUD; premium tasarım diliyle “doğal bakım” algısını birleştirir.
+            Sunum dili: net fayda, şeffaf iletişim, yüksek güven.
+          </p>
 
-    <div class="footer">© FEMUD</div>
+          <div class="tiles">
+            <div class="tile">
+              <b>Vizyon</b>
+              <span>Premium kaliteyi güçlü ve sade bir sunumla erişilebilir kılmak.</span>
+            </div>
+            <div class="tile">
+              <b>Misyon</b>
+              <span>Ürünleri anlaşılır fayda diliyle sunmak; kullanıcı deneyimini güçlendirmek.</span>
+            </div>
+            <div class="tile">
+              <b>Kalite Yaklaşımı</b>
+              <span>İstikrar, güven, düzenli iletişim ve yüksek algı.</span>
+            </div>
+            <a class="tile" href="#hediye">
+              <b>Kampanya Merkezine Geç</b>
+              <span>Oyun/hediye kurgusunu aç.</span>
+            </a>
+          </div>
+
+          <div class="footer">FEMUD • Doğadan gelen güç</div>
+        </div>
+      </section>
+
+    </div>
   </div>
 
-  <!-- Quick Contact (Instagram + WhatsApp) -->
+  <!-- QUICK CONTACT -->
   <div class="quick" aria-label="Hızlı iletişim">
     <a class="qBtn" href="https://instagram.com/femud_tr" target="_blank" rel="noopener">
       <span class="qIco">📩</span>
       <span class="qTxt"><b>Instagram</b><small>@femud_tr</small></span>
     </a>
 
-    <!-- WhatsApp: numaranı buraya yaz -->
     <a class="qBtn wa" id="waBtn" href="javascript:void(0)">
       <span class="qIco">💬</span>
       <span class="qTxt"><b>WhatsApp</b><small>Numara eklenince aktif</small></span>
@@ -519,74 +594,7 @@
   </div>
 
   <script>
-    /* ========= 1) VIDEO LİSTESİ (BURASI KRİTİK) =========
-       videos klasöründe BU DOSYA ADLARI birebir olmalı.
-       Eğer senin dosya adların farklıysa sadece aşağıyı değiştir.
-    */
-    const VIDEOS = [
-      { title: "Video 1", file: "videos/video1.mp4", desc: "Ürün videosu." },
-      { title: "Video 2", file: "videos/video2.mp4", desc: "Ürün videosu." },
-      { title: "Video 3", file: "videos/video3.mp4", desc: "Ürün videosu." },
-      { title: "Video 4", file: "videos/video4.mp4", desc: "Ürün videosu." },
-      { title: "Video 5", file: "videos/video5.mp4", desc: "Ürün videosu." }
-    ];
-
-    function renderVideos(){
-      const grid = document.getElementById("videoGrid");
-      if(!grid) return;
-      grid.innerHTML = "";
-
-      VIDEOS.forEach(v=>{
-        const card = document.createElement("div");
-        card.className = "vcard";
-        card.innerHTML = `
-          <p class="vtitle">${escapeHtml(v.title)}</p>
-          <video controls playsinline preload="metadata">
-            <source src="${v.file}" type="video/mp4" />
-            Tarayıcınız video oynatmayı desteklemiyor.
-          </video>
-          <div class="vmeta">${escapeHtml(v.desc || "")}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-
-    function escapeHtml(s){
-      return String(s||"")
-        .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;").replaceAll("'","&#39;");
-    }
-
-    /* ========= 2) PANEL SİSTEMİ (HAYALET BOŞLUK YOK) ========= */
-    const panels = ["pProducts","pGifts","pInsta","pAbout"].map(id=>document.getElementById(id));
-
-    function hideAll(){
-      panels.forEach(p=>p && p.classList.remove("active"));
-      document.getElementById("home")?.scrollIntoView({behavior:"smooth"});
-    }
-
-    window.openPanel = function(id){
-      panels.forEach(p=>p && p.classList.remove("active"));
-      const el = document.getElementById(id);
-      if(el){
-        el.classList.add("active");
-        el.scrollIntoView({behavior:"smooth"});
-      }
-      if(id==="pProducts"){ renderVideos(); }
-    }
-
-    window.goHome = function(){
-      panels.forEach(p=>p && p.classList.remove("active"));
-      document.getElementById("home")?.scrollIntoView({behavior:"smooth"});
-    }
-
-    /* ========= 3) OYUN DOSYASINA GİT ========= */
-    window.goFile = function(file){
-      // aynı repoda varsa açar
-      window.location.href = file;
-    }
-
-    /* ========= 4) WHATSAPP ========= */
+    // WhatsApp numaranı girince aktif olur
     const WHATSAPP_NUMBER = ""; // örn: 905551112233
     const waBtn = document.getElementById("waBtn");
     if(waBtn){
@@ -600,9 +608,6 @@
         waBtn.addEventListener("click", ()=> alert("WhatsApp numarası eklenmedi. Kodda WHATSAPP_NUMBER alanına numara yaz."));
       }
     }
-
-    // İlk yükleme
-    renderVideos();
   </script>
 </body>
 </html>
